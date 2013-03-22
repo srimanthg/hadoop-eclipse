@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<plugin>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.apache.hadoop.eclipse.ui.internal.HadoopPerspectiveFactory"
+            icon="icons/hadoop-logo-16x16.png"
+            id="org.apache.hadoop.eclipse.ui.perspective"
+            name="Hadoop">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.decorators">
+      <decorator
+            adaptable="true"
+            class="org.apache.hadoop.eclipse.ui.internal.HDFSLightweightLabelDecorator"
+            id="org.apache.hadoop.eclipse.ui.decorator"
+            label="HDFS Resource Decorator"
+            lightweight="true"
+            location="BOTTOM_RIGHT"
+            state="true">
+         <enablement>
+            <and>
+               <objectClass
+                     name="org.eclipse.core.resources.IResource">
+               </objectClass>
+            </and>
+         </enablement>
+      </decorator>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent
+            contentProvider="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSCommonContentProvider"
+            icon="icons/hadoop-logo-16x16.png"
+            id="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs"
+            name="HDFS Content Provider">
+         <enablement>
+            <or>
+               <instanceof
+                     value="org.eclipse.core.resources.IResource">
+               </instanceof>
+            </or>
+         </enablement>
+      </navigatorContent>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="org.apache.hadoop.eclipse.ui.internal.hdfs.NewHDFSWizard"
+            finalPerspective="org.apache.hadoop.eclipse.ui.perspective"
+            icon="icons/hadoop-logo-16x16.png"
+            id="org.apache.hadoop.eclipse.ui.wizard.newHdfsServer"
+            name="New HDFS Server">
+      </wizard>
+   </extension>
+
+</plugin>

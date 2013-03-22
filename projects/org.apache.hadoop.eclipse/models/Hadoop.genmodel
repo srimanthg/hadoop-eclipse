@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Licensed to the Apache Software Foundation (ASF) under one&#xA;or more contributor license agreements.  See the NOTICE file&#xA;distributed with this work for additional information&#xA;regarding copyright ownership.  The ASF licenses this file&#xA;to you under the Apache License, Version 2.0 (the&#xA;&quot;License&quot;); you may not use this file except in compliance&#xA;with the License.  You may obtain a copy of the License at&#xA;&#xA;    http://www.apache.org/licenses/LICENSE-2.0&#xA;&#xA;Unless required by applicable law or agreed to in writing, software&#xA;distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#xA;WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#xA;See the License for the specific language governing permissions and&#xA;limitations under the License.&#xA; "
+    modelDirectory="/org.apache.hadoop.eclipse/src" modelPluginID="org.apache.hadoop.eclipse"
+    modelName="Hadoop" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
+    copyrightFields="false">
+  <foreignModel>Hadoop.ecore</foreignModel>
+  <genPackages prefix="Hadoop" basePackage="org.apache.hadoop.eclipse.internal" disposableProviderFactory="true"
+      ecorePackage="Hadoop.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="Hadoop.ecore#//ServerStatus">
+      <genEnumLiterals ecoreEnumLiteral="Hadoop.ecore#//ServerStatus/NO_PROJECT"/>
+    </genEnums>
+    <genClasses image="false" ecoreClass="Hadoop.ecore#//HDFSServer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Hadoop.ecore#//HDFSServer/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Hadoop.ecore#//HDFSServer/uri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Hadoop.ecore#//HDFSServer/statusCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Hadoop.ecore#//HDFSServer/statusMessage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Hadoop.ecore#//HDFSServer/lastAccessed"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Hadoop.ecore#//HDFSServer/loaded"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Hadoop.ecore#//HDFSServer/workspaceProjectName"/>
+    </genClasses>
+    <genClasses ecoreClass="Hadoop.ecore#//Servers">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Hadoop.ecore#//Servers/hdfsServers"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Hadoop.ecore#//Servers/version"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

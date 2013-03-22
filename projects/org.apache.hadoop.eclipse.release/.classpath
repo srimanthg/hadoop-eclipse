@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/commons-configuration-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/commons-lang-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/commons-logging-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/commons-logging-api-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/hadoop-ant-1.1.2.21.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/hadoop-client-1.1.2.21.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/hadoop-core-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/hadoop-core-1.1.2.21.jar" sourcepath="/release-1.1.2-rc5/src"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/hadoop-examples-1.1.2.21.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/hadoop-minicluster-1.1.2.21.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/hadoop-test-1.1.2.21.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/hadoop-1.1.2.21/hadoop-tools-1.1.2.21.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

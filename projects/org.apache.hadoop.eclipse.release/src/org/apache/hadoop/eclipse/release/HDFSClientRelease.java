@@ -1,0 +1,105 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.hadoop.eclipse.release;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.eclipse.hdfs.ResourceInformation;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.eclipse.core.runtime.IProgressMonitor;
+
+public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient {
+
+	private Configuration config;
+
+	public HDFSClientRelease() {
+		config = new Configuration();
+	}
+	
+	private ResourceInformation getResourceInformation(FileStatus fileStatus){
+		ResourceInformation fi = new ResourceInformation();
+		fi.setFolder(fileStatus.isDir());
+		fi.setGroup(fileStatus.getGroup());
+		fi.setLastAccessedTime(fileStatus.getAccessTime());
+		fi.setLastModifiedTime(fileStatus.getAccessTime());
+		fi.setName(fileStatus.getPath().getName());
+		fi.setOwner(fileStatus.getOwner());
+		fi.setPath(fileStatus.getPath().getParent()==null ? "/" : fileStatus.getPath().getParent().toString());
+		fi.setReplicationFactor(fileStatus.getReplication());
+		fi.setSize(fileStatus.getLen());
+		return fi;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#getResource(java.net.URI)
+	 */
+	@Override
+	public ResourceInformation getResource(URI uri) throws IOException {
+		FileSystem fs = FileSystem.get(uri, config);
+		Path path = new Path(uri.getPath());
+		FileStatus fileStatus = null;
+		ResourceInformation fi = null;
+		try{
+			fileStatus = fs.getFileStatus(path);
+			fi = getResourceInformation(fileStatus);
+		}catch(FileNotFoundException fne){
+			fne.printStackTrace();
+		}
+		return fi;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#listResources(java.net.URI)
+	 */
+	@Override
+	public List<ResourceInformation> listResources(URI uri) throws IOException {
+		List<ResourceInformation> ris = null;
+		FileSystem fs = FileSystem.get(uri, config);
+		Path path = new Path(uri.getPath());
+		FileStatus[] listStatus = fs.listStatus(path);
+		if(listStatus!=null){
+			ris = new ArrayList<ResourceInformation>();
+			for(FileStatus ls: listStatus){
+				ris.add(getResourceInformation(ls));
+			}
+		}
+		return ris;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#openInputStream(java.net.URI, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	public InputStream openInputStream(URI uri, IProgressMonitor monitor)
+			throws IOException {
+		FileSystem fs = FileSystem.get(uri, config);
+		Path path = new Path(uri.getPath());
+		FSDataInputStream open = fs.open(path);
+		return open;
+	}
+
+}
