@@ -34,6 +34,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -58,6 +59,7 @@ public class HDFSManager {
 
 	private Servers servers = null;
 	private Map<HDFSServer, IProject> serverToProjectMap = new HashMap<HDFSServer, IProject>();
+	private Map<IProject, HDFSServer> projectToServerMap = new HashMap<IProject, HDFSServer>();
 	private Map<String, HDFSServer> uriToServerMap = new HashMap<String, HDFSServer>();
 
 	/**
@@ -75,19 +77,37 @@ public class HDFSManager {
 	}
 
 	public void loadServers() {
+		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		Bundle bundle = Platform.getBundle(Activator.BUNDLE_ID);
 		File serversFile = bundle.getBundleContext().getDataFile(MODEL_FILE);
 		if (serversFile.exists()) {
 			ResourceSet resSet = new ResourceSetImpl();
-			Resource resource = resSet.getResource(URI.createFileURI(serversFile.toURI().toString()), true);
+			Resource resource = resSet.getResource(URI.createFileURI(serversFile.getPath()), true);
 			servers = (Servers) resource.getContents().get(0);
 			for (HDFSServer server : servers.getHdfsServers()) {
 				uriToServerMap.put(server.getUri(), server);
-				final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(server.getName());
+				final IProject project = workspaceRoot.getProject(server.getName());
 				if (!project.exists()) {
 					server.setStatusCode(ServerStatus.NO_PROJECT_VALUE);
 				}
 				serverToProjectMap.put(server, project);
+				projectToServerMap.put(project, server);
+			}
+		}
+		IProject[] projects = workspaceRoot.getProjects();
+		if (projects != null) {
+			for (IProject p : projects) {
+				if (p.getLocationURI() != null && HDFSFileSystem.SCHEME.equals(p.getLocationURI().getScheme())) {
+					if(!projectToServerMap.keySet().contains(p)){
+						logger.error("HDFS project with no server associated being closed:"+p.getName());
+						try {
+							p.close(new NullProgressMonitor());
+							logger.error("HDFS project with no server associated closed:"+p.getName());
+						} catch (CoreException e) {
+							logger.error("HDFS project with no server associated cannot be closed:"+p.getName(), e);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -96,7 +116,7 @@ public class HDFSManager {
 		Bundle bundle = Platform.getBundle(Activator.BUNDLE_ID);
 		File serversFile = bundle.getBundleContext().getDataFile(MODEL_FILE);
 		ResourceSet resSet = new ResourceSetImpl();
-		Resource resource = resSet.createResource(URI.createFileURI(serversFile.toURI().toString()));
+		Resource resource = resSet.createResource(URI.createFileURI(serversFile.getPath()));
 		resource.getContents().add(getServers());
 		try {
 			resource.save(Collections.EMPTY_MAP);
@@ -129,6 +149,7 @@ public class HDFSManager {
 		hdfsServer.setWorkspaceProjectName(name);
 
 		serverToProjectMap.put(hdfsServer, project);
+		projectToServerMap.put(project, hdfsServer);
 		uriToServerMap.put(hdfsServer.getUri(), hdfsServer);
 		return hdfsServer;
 	}
