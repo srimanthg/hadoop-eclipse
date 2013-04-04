@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,12 +32,14 @@ import java.util.List;
 import org.apache.hadoop.eclipse.Activator;
 import org.apache.hadoop.eclipse.hdfs.HDFSClient;
 import org.apache.hadoop.eclipse.hdfs.ResourceInformation;
+import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.filesystem.provider.FileInfo;
 import org.eclipse.core.filesystem.provider.FileStore;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -58,6 +61,8 @@ public class HDFSFileStore extends FileStore {
 	private final HDFSURI uri;
 	private File localFile = null;
 	private String DOT_PROJECT_CONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><projectDescription><name>HDFS</name><comment></comment><projects></projects></projectDescription>";
+	private static HDFSManager manager = HDFSManager.INSTANCE;
+	private IFileInfo serverFileInfo = null;
 
 	public HDFSFileStore(HDFSURI uri) {
 		this.uri = uri;
@@ -80,25 +85,40 @@ public class HDFSFileStore extends FileStore {
 
 	@Override
 	public IFileInfo fetchInfo(int options, IProgressMonitor monitor) throws CoreException {
-		FileInfo fi = new FileInfo(getName());
-		try {
-			if (".project".equals(getName())) {
-				fi.setExists(true);
-				fi.setLength(DOT_PROJECT_CONTENT.length());
-			} else {
-				ResourceInformation fileInformation = getClient().getResource(uri.getURI());
-				if (fileInformation != null) {
-					fi.setDirectory(fileInformation.isFolder());
+		manager.startServerOperation(uri.getURI().toString());
+		if (serverFileInfo == null) {
+			FileInfo fi = new FileInfo(getName());
+			try {
+				if (".project".equals(getName())) {
 					fi.setExists(true);
-					fi.setLastModified(fileInformation.getLastModifiedTime());
-					fi.setLength(fileInformation.getSize());
-					fi.setName(fileInformation.getName());
+					fi.setLength(DOT_PROJECT_CONTENT.length());
+				} else {
+					ResourceInformation fileInformation = getClient().getResource(uri.getURI());
+					if (fileInformation != null) {
+						fi.setDirectory(fileInformation.isFolder());
+						fi.setExists(true);
+						fi.setLastModified(fileInformation.getLastModifiedTime());
+						fi.setLength(fileInformation.getSize());
+						fi.setName(fileInformation.getName());
+					}
 				}
+			} catch (IOException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+			} finally {
+				manager.stopServerOperation(uri.getURI().toString());
 			}
-		} catch (IOException e) {
-			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+			serverFileInfo = fi;
 		}
-		return fi;
+		return serverFileInfo;
+	}
+	
+	/**
+	 * When this file store makes changes which 
+	 * obsolete the server information, it should
+	 * clear the server information.
+	 */
+	protected void clearServerFileInfo() {
+		this.serverFileInfo = null;
 	}
 
 	@Override
@@ -151,9 +171,29 @@ public class HDFSFileStore extends FileStore {
 		try {
 			return (HDFSClient) elementsFor[0].createExecutableExtension("class");
 		} catch (CoreException t) {
-			System.err.println(t.getMessage());
 			throw t;
 		}
+	}
+
+	/**
+	 * @return the localFile
+	 */
+	public File getLocalFile() {
+		if (localFile == null) {
+			final HDFSManager hdfsManager = HDFSManager.INSTANCE;
+			HDFSServer server = hdfsManager.getServer(uri.getURI().toString());
+			if (server != null) {
+				IProject project = hdfsManager.getProject(server);
+				if (project != null) {
+					File projectFolder = project.getLocation().toFile();
+					String relativePath = uri.toString().substring(server.getUri().length());
+					localFile = new File(projectFolder, relativePath);
+				} else
+					logger.error("No project associated with uri: " + uri);
+			} else
+				logger.error("No server associated with uri: " + uri);
+		}
+		return localFile;
 	}
 
 	/*
@@ -164,11 +204,56 @@ public class HDFSFileStore extends FileStore {
 	 */
 	@Override
 	public IFileStore mkdir(int options, IProgressMonitor monitor) throws CoreException {
-		// TODO Auto-generated method stub
-		return super.mkdir(options, monitor);
+		try {
+			clearServerFileInfo();
+			if (getClient().mkdirs(uri.getURI(), monitor)) {
+				return this;
+			} else {
+				return null;
+			}
+		} catch (IOException e) {
+			logger.error("Unable to mkdir: " + uri);
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage()));
+		}
 	}
 
 	public boolean isLocalFile() {
+		File localFile = getLocalFile();
 		return localFile != null && localFile.exists();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.filesystem.provider.FileStore#openOutputStream(int,
+	 * org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	public OutputStream openOutputStream(int options, IProgressMonitor monitor) throws CoreException {
+		try {
+			if (fetchInfo().exists()) {
+				clearServerFileInfo();
+				return getClient().openOutputStream(uri.getURI(), monitor);
+			} else {
+				clearServerFileInfo();
+				return getClient().createOutputStream(uri.getURI(), monitor);
+			}
+		} catch (IOException e) {
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.filesystem.provider.FileStore#delete(int, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	public void delete(int options, IProgressMonitor monitor) throws CoreException {
+		try {
+			clearServerFileInfo();
+			getClient().delete(uri.getURI(), monitor);
+		} catch (IOException e) {
+			logger.error("Unable to delete: " + uri);
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage()));
+		}
 	}
 }

@@ -19,12 +19,13 @@ package org.apache.hadoop.eclipse.ui.internal.hdfs;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSManager;
 import org.apache.hadoop.eclipse.ui.Activator;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -70,14 +71,20 @@ public class NewHDFSWizard extends Wizard implements INewWizard {
 					ps.setValue(Activator.PREFERENCE_HDFS_URLS, currentUrls);
 				}
 
-				try {
-					HDFSManager.INSTANCE.createServer(serverLocationWizardPage.getHdfsServerName(), new URI(serverLocationWizardPage.getHdfsServerLocation()));
-					return true;
-				} catch (CoreException e) {
-					logger.error(e.getMessage(), e);
-				} catch (URISyntaxException e) {
-					logger.error(e.getMessage(), e);
-				}
+				Job j = new Job("Creating HDFS project ["+serverLocationWizardPage.getHdfsServerName()+"]"){
+					protected org.eclipse.core.runtime.IStatus run(org.eclipse.core.runtime.IProgressMonitor monitor) {
+						try {
+							HDFSManager.INSTANCE.createServer(serverLocationWizardPage.getHdfsServerName(), new URI(serverLocationWizardPage.getHdfsServerLocation()));
+						} catch (CoreException e) {
+							logger.error(e.getMessage(), e);
+						} catch (URISyntaxException e) {
+							logger.error(e.getMessage(), e);
+						}
+						return Status.OK_STATUS;
+					};
+				};
+				j.schedule();
+				return true;
 			}
 		}
 		return false;

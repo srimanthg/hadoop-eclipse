@@ -20,6 +20,7 @@ package org.apache.hadoop.eclipse.ui.internal;
 import java.net.URI;
 
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore;
+import org.apache.hadoop.eclipse.internal.hdfs.HDFSManager;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSURI;
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
@@ -88,10 +89,14 @@ public class HDFSLightweightLabelDecorator implements ILightweightLabelDecorator
 	
 	protected void decorate(HDFSFileStore store, IDecoration decoration){
 		if(store!=null){
-			if(store.isLocalFile()){
-				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_LOCAL_OVR);		
+			if(HDFSManager.INSTANCE.isServerOperationRunning(store.toURI().toString())){
+				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_OUTGOING_OVR);
 			}else{
-				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_REMOTE_OVR);		
+				if(store.isLocalFile()){
+					decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_LOCAL_OVR);		
+				}else{
+					decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_REMOTE_OVR);		
+				}
 			}
 		}
 	}

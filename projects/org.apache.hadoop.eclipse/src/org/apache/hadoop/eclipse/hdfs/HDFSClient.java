@@ -20,6 +20,7 @@ package org.apache.hadoop.eclipse.hdfs;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.util.List;
 
@@ -30,7 +31,19 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * @author Srimanth Gunturi
  */
 public abstract class HDFSClient {
+	/**
+	 * 
+	 * @param uri
+	 * @return
+	 * @throws IOException
+	 */
 	public abstract ResourceInformation getResource(URI uri) throws IOException;
+	/**
+	 * 
+	 * @param uri
+	 * @return
+	 * @throws IOException
+	 */
 	public abstract List<ResourceInformation> listResources(URI uri) throws IOException;
 	
 	/**
@@ -39,4 +52,31 @@ public abstract class HDFSClient {
 	 * @return
 	 */
 	public abstract InputStream openInputStream(URI uri, IProgressMonitor monitor) throws IOException;
+	/**
+	 * 
+	 * @param uri
+	 * @param monitor
+	 * @return
+	 * @throws IOException
+	 */
+	public abstract boolean mkdirs(URI uri, IProgressMonitor monitor) throws IOException;
+	/**
+	 * @param uri
+	 * @param monitor
+	 * @return
+	 * @throws IOException
+	 */
+	public abstract OutputStream openOutputStream(URI uri, IProgressMonitor monitor) throws IOException;
+	/**
+	 * @param uri
+	 * @param monitor
+	 * @return
+	 * @throws IOException
+	 */
+	public abstract OutputStream createOutputStream(URI uri, IProgressMonitor monitor) throws IOException;
+	/**
+	 * @param uri
+	 * @param monitor
+	 */
+	public abstract void delete(URI uri, IProgressMonitor monitor) throws IOException;
 }

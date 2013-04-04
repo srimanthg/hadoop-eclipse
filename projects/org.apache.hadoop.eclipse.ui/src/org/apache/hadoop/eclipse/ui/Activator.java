@@ -40,6 +40,7 @@ public class Activator extends AbstractUIPlugin {
 	public static ImageDescriptor IMAGE_LOCAL_OVR;
 	public static ImageDescriptor IMAGE_INCOMING_OVR;
 	public static ImageDescriptor IMAGE_OUTGOING_OVR;
+	public static ImageDescriptor IMAGE_SYNC_OVR;
 
 	// The shared instance
 	private static Activator plugin;
@@ -84,9 +85,11 @@ public class Activator extends AbstractUIPlugin {
 		URL localFileUrl = FileLocator.find(bundle, new Path("/icons/ovr/local_resource.gif"), null);
 		URL incomingUrl = FileLocator.find(bundle, new Path("/icons/ovr/overlay-incoming.gif"), null);
 		URL outgoingUrl = FileLocator.find(bundle, new Path("/icons/ovr/overlay-outgoing.gif"), null);
+		URL waitingUrl = FileLocator.find(bundle, new Path("/icons/ovr/waiting_ovr.gif"), null);
 		IMAGE_REMOTE_OVR = ImageDescriptor.createFromURL(remoteFileUrl);
 		IMAGE_LOCAL_OVR = ImageDescriptor.createFromURL(localFileUrl);
 		IMAGE_INCOMING_OVR = ImageDescriptor.createFromURL(incomingUrl);
 		IMAGE_OUTGOING_OVR = ImageDescriptor.createFromURL(outgoingUrl);
+		IMAGE_SYNC_OVR = ImageDescriptor.createFromURL(waitingUrl);
 	}
 }

@@ -22,11 +22,6 @@ import java.net.URI;
 
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.filesystem.provider.FileSystem;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.NullProgressMonitor;
 
 /**
  * 
@@ -36,31 +31,25 @@ public class HDFSFileSystem extends FileSystem {
 	
 	public static final String SCHEME = "hdfs";
 
-	public static void loadFileSystems() throws Exception {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IProject[] projects = workspace.getRoot().getProjects();
-		boolean anyHDFSProjects = false;
-		if(projects!=null){
-			for(int pc=0; pc<projects.length; pc++){
-				if(projects[pc].getDescription().getLocationURI().getScheme()==SCHEME){
-					anyHDFSProjects = true;
-					break;
-				}
-			}
-		}
-		if(!anyHDFSProjects){
-			String projectName = "HDFS";
-			IProject project = workspace.getRoot().getProject(projectName);
-			IProjectDescription pd = workspace.newProjectDescription(projectName);
-			pd.setLocationURI(new URI("hdfs://dev.hortonworks.com:8020/"));
-			project.create(pd, new NullProgressMonitor());
-			project.open(new NullProgressMonitor());
-		}
-	}
-
 	@Override
 	public IFileStore getStore(URI uri) {
 		return new HDFSFileStore(new HDFSURI(uri));
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.filesystem.provider.FileSystem#canDelete()
+	 */
+	@Override
+	public boolean canDelete() {
+		return true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.filesystem.provider.FileSystem#canWrite()
+	 */
+	@Override
+	public boolean canWrite() {
+		return true;
 	}
 
 }

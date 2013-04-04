@@ -20,6 +20,7 @@ package org.apache.hadoop.eclipse.release;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,17 @@ import java.util.List;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.eclipse.hdfs.ResourceInformation;
 import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.eclipse.core.runtime.IProgressMonitor;
 
+/**
+ * HDFS Client for HDFS version 1.1.2.21.
+ * 
+ * @author Srimanth Gunturi
+ */
 public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient {
 
 	private Configuration config;
@@ -94,12 +101,53 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#openInputStream(java.net.URI, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public InputStream openInputStream(URI uri, IProgressMonitor monitor)
-			throws IOException {
+	public InputStream openInputStream(URI uri, IProgressMonitor monitor) throws IOException {
 		FileSystem fs = FileSystem.get(uri, config);
 		Path path = new Path(uri.getPath());
 		FSDataInputStream open = fs.open(path);
 		return open;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#openInputStream(java.net.URI, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	public OutputStream createOutputStream(URI uri, IProgressMonitor monitor) throws IOException {
+		FileSystem fs = FileSystem.get(uri, config);
+		Path path = new Path(uri.getPath());
+		FSDataOutputStream outputStream = fs.create(path);
+		return outputStream;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#openInputStream(java.net.URI, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	public OutputStream openOutputStream(URI uri, IProgressMonitor monitor) throws IOException {
+		FileSystem fs = FileSystem.get(uri, config);
+		Path path = new Path(uri.getPath());
+		FSDataOutputStream outputStream = fs.append(path);
+		return outputStream;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#mkdirs(java.net.URI, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	public boolean mkdirs(URI uri, IProgressMonitor monitor) throws IOException {
+		FileSystem fs = FileSystem.get(uri, config);
+		Path path = new Path(uri.getPath());
+		return fs.mkdirs(path);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#delete(java.net.URI, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	public void delete(URI uri, IProgressMonitor monitor) throws IOException {
+		FileSystem fs = FileSystem.get(uri, config);
+		Path path = new Path(uri.getPath());
+		fs.delete(path, true);
 	}
 
 }

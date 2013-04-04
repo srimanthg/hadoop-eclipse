@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.hadoop.eclipse.Activator;
@@ -61,6 +63,16 @@ public class HDFSManager {
 	private Map<HDFSServer, IProject> serverToProjectMap = new HashMap<HDFSServer, IProject>();
 	private Map<IProject, HDFSServer> projectToServerMap = new HashMap<IProject, HDFSServer>();
 	private Map<String, HDFSServer> uriToServerMap = new HashMap<String, HDFSServer>();
+	private HashSet<String> serverOperationURIs = new HashSet<String>();
+
+	private Map<String, String> uriToServerUriMap = new LinkedHashMap<String, String>() {
+		private static final long serialVersionUID = 1L;
+		private int MAX_ENTRIES = 1 << 10;
+
+		protected boolean removeEldestEntry(Map.Entry<String, String> eldest) {
+			return size() > MAX_ENTRIES;
+		};
+	};
 
 	/**
 	 * Singleton
@@ -98,13 +110,13 @@ public class HDFSManager {
 		if (projects != null) {
 			for (IProject p : projects) {
 				if (p.getLocationURI() != null && HDFSFileSystem.SCHEME.equals(p.getLocationURI().getScheme())) {
-					if(!projectToServerMap.keySet().contains(p)){
-						logger.error("HDFS project with no server associated being closed:"+p.getName());
+					if (!projectToServerMap.keySet().contains(p)) {
+						logger.error("HDFS project with no server associated being closed:" + p.getName());
 						try {
 							p.close(new NullProgressMonitor());
-							logger.error("HDFS project with no server associated closed:"+p.getName());
+							logger.error("HDFS project with no server associated closed:" + p.getName());
 						} catch (CoreException e) {
-							logger.error("HDFS project with no server associated cannot be closed:"+p.getName(), e);
+							logger.error("HDFS project with no server associated cannot be closed:" + p.getName(), e);
 						}
 					}
 				}
@@ -171,10 +183,41 @@ public class HDFSManager {
 	}
 
 	public HDFSServer getServer(String uri) {
-		return uriToServerMap.get(uri);
+		String serverUri;
+		if (!uriToServerUriMap.containsKey(uri)) {
+			serverUri = uri;
+			for (String serverU : uriToServerMap.keySet()) {
+				if (uri.startsWith(serverU)) {
+					serverUri = serverU;
+					break;
+				}
+			}
+			uriToServerUriMap.put(uri, serverUri);
+		} else {
+			serverUri = uriToServerUriMap.get(uri);
+		}
+		return uriToServerMap.get(serverUri);
 	}
 
 	public IProject getProject(HDFSServer server) {
 		return serverToProjectMap.get(server);
+	}
+
+	/**
+	 * @param string
+	 */
+	public void startServerOperation(String uri) {
+		serverOperationURIs.add(uri);
+	}
+
+	/**
+	 * @param string
+	 */
+	public void stopServerOperation(String uri) {
+		serverOperationURIs.remove(uri);
+	}
+
+	public boolean isServerOperationRunning(String uri) {
+		return serverOperationURIs.contains(uri);
 	}
 }
