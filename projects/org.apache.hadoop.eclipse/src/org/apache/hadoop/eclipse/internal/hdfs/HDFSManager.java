@@ -65,11 +65,11 @@ public class HDFSManager {
 	private Map<String, HDFSServer> uriToServerMap = new HashMap<String, HDFSServer>();
 	private HashSet<String> serverOperationURIs = new HashSet<String>();
 
-	private Map<String, String> uriToServerUriMap = new LinkedHashMap<String, String>() {
+	private Map<String, HDFSServer> uriToServerCacheMap = new LinkedHashMap<String, HDFSServer>() {
 		private static final long serialVersionUID = 1L;
 		private int MAX_ENTRIES = 1 << 10;
 
-		protected boolean removeEldestEntry(Map.Entry<String, String> eldest) {
+		protected boolean removeEldestEntry(Map.Entry<String, HDFSServer> eldest) {
 			return size() > MAX_ENTRIES;
 		};
 	};
@@ -183,20 +183,21 @@ public class HDFSManager {
 	}
 
 	public HDFSServer getServer(String uri) {
-		String serverUri;
-		if (!uriToServerUriMap.containsKey(uri)) {
-			serverUri = uri;
-			for (String serverU : uriToServerMap.keySet()) {
-				if (uri.startsWith(serverU)) {
-					serverUri = serverU;
+		if (!uriToServerCacheMap.containsKey(uri)) {
+			String tmpUri = uri;
+			HDFSServer serverU = uriToServerMap.get(tmpUri);
+			while (serverU == null) {
+				int lastSlashIndex = tmpUri.lastIndexOf('/');
+				tmpUri = lastSlashIndex < 0 ? null : tmpUri.substring(0, lastSlashIndex);
+				if (tmpUri != null)
+					serverU = uriToServerMap.get(tmpUri);
+				else
 					break;
-				}
 			}
-			uriToServerUriMap.put(uri, serverUri);
-		} else {
-			serverUri = uriToServerUriMap.get(uri);
+			if (serverU != null)
+				uriToServerCacheMap.put(uri, serverU);
 		}
-		return uriToServerMap.get(serverUri);
+		return uriToServerCacheMap.get(uri);
 	}
 
 	public IProject getProject(HDFSServer server) {

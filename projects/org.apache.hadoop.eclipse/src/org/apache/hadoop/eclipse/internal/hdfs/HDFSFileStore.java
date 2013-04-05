@@ -63,22 +63,32 @@ public class HDFSFileStore extends FileStore {
 	private String DOT_PROJECT_CONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><projectDescription><name>HDFS</name><comment></comment><projects></projects></projectDescription>";
 	private static HDFSManager manager = HDFSManager.INSTANCE;
 	private IFileInfo serverFileInfo = null;
+	private HDFSServer hdfsServer;
 
 	public HDFSFileStore(HDFSURI uri) {
 		this.uri = uri;
 	}
 
+	protected HDFSServer getServer() {
+		if (hdfsServer == null) {
+			hdfsServer = HDFSManager.INSTANCE.getServer(this.uri.getURI().toString());
+		}
+		return hdfsServer;
+	}
+
 	@Override
 	public String[] childNames(int options, IProgressMonitor monitor) throws CoreException {
 		List<String> childNamesList = new ArrayList<String>();
-		try {
-			List<ResourceInformation> listResources = getClient().listResources(uri.getURI());
-			for (ResourceInformation lr : listResources) {
-				if (lr != null)
-					childNamesList.add(lr.getName());
+		if (getServer() != null) {
+			try {
+				List<ResourceInformation> listResources = getClient().listResources(uri.getURI());
+				for (ResourceInformation lr : listResources) {
+					if (lr != null)
+						childNamesList.add(lr.getName());
+				}
+			} catch (IOException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
-		} catch (IOException e) {
-			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
 		return childNamesList.toArray(new String[childNamesList.size()]);
 	}
@@ -88,34 +98,38 @@ public class HDFSFileStore extends FileStore {
 		manager.startServerOperation(uri.getURI().toString());
 		if (serverFileInfo == null) {
 			FileInfo fi = new FileInfo(getName());
-			try {
-				if (".project".equals(getName())) {
-					fi.setExists(true);
-					fi.setLength(DOT_PROJECT_CONTENT.length());
-				} else {
-					ResourceInformation fileInformation = getClient().getResource(uri.getURI());
-					if (fileInformation != null) {
-						fi.setDirectory(fileInformation.isFolder());
+			if (getServer() != null) {
+				try {
+					if (".project".equals(getName())) {
 						fi.setExists(true);
-						fi.setLastModified(fileInformation.getLastModifiedTime());
-						fi.setLength(fileInformation.getSize());
-						fi.setName(fileInformation.getName());
+						fi.setLength(DOT_PROJECT_CONTENT.length());
+					} else {
+						ResourceInformation fileInformation = getClient().getResource(uri.getURI());
+						if (fileInformation != null) {
+							fi.setDirectory(fileInformation.isFolder());
+							fi.setExists(true);
+							fi.setLastModified(fileInformation.getLastModifiedTime());
+							fi.setLength(fileInformation.getSize());
+							fi.setName(fileInformation.getName());
+						}
 					}
+				} catch (IOException e) {
+					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+				} finally {
+					manager.stopServerOperation(uri.getURI().toString());
 				}
-			} catch (IOException e) {
-				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
-			} finally {
-				manager.stopServerOperation(uri.getURI().toString());
+			} else {
+				// No server definition
+				fi.setExists(false);
 			}
 			serverFileInfo = fi;
 		}
 		return serverFileInfo;
 	}
-	
+
 	/**
-	 * When this file store makes changes which 
-	 * obsolete the server information, it should
-	 * clear the server information.
+	 * When this file store makes changes which obsolete the server information,
+	 * it should clear the server information.
 	 */
 	protected void clearServerFileInfo() {
 		this.serverFileInfo = null;
@@ -181,7 +195,8 @@ public class HDFSFileStore extends FileStore {
 	public File getLocalFile() {
 		if (localFile == null) {
 			final HDFSManager hdfsManager = HDFSManager.INSTANCE;
-			HDFSServer server = hdfsManager.getServer(uri.getURI().toString());
+			final String uriString = uri.getURI().toString();
+			HDFSServer server = hdfsManager.getServer(uriString);
 			if (server != null) {
 				IProject project = hdfsManager.getProject(server);
 				if (project != null) {
@@ -189,9 +204,9 @@ public class HDFSFileStore extends FileStore {
 					String relativePath = uri.toString().substring(server.getUri().length());
 					localFile = new File(projectFolder, relativePath);
 				} else
-					logger.error("No project associated with uri: " + uri);
+					logger.error("No project associated with uri: " + uriString);
 			} else
-				logger.error("No server associated with uri: " + uri);
+				logger.error("No server associated with uri: " + uriString);
 		}
 		return localFile;
 	}
@@ -242,9 +257,12 @@ public class HDFSFileStore extends FileStore {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.filesystem.provider.FileStore#delete(int, org.eclipse.core.runtime.IProgressMonitor)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.filesystem.provider.FileStore#delete(int,
+	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
 	public void delete(int options, IProgressMonitor monitor) throws CoreException {

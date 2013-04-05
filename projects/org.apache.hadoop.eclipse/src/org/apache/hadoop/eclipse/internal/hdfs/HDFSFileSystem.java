@@ -33,7 +33,9 @@ public class HDFSFileSystem extends FileSystem {
 
 	@Override
 	public IFileStore getStore(URI uri) {
-		return new HDFSFileStore(new HDFSURI(uri));
+		if(SCHEME.equals(uri.getScheme()))
+			return new HDFSFileStore(new HDFSURI(uri));
+		return null;
 	}
 	
 	/* (non-Javadoc)
