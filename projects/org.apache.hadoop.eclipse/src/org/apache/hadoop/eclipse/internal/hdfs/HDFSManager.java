@@ -57,11 +57,14 @@ public class HDFSManager {
 
 	public static HDFSManager INSTANCE = new HDFSManager();
 	private static final Logger logger = Logger.getLogger(HDFSManager.class);
-	private static final String MODEL_FILE = "servers.xmi";
+	private static final String MODEL_FILE_NAME = "servers.xmi";
 
 	private Servers servers = null;
-	private Map<HDFSServer, IProject> serverToProjectMap = new HashMap<HDFSServer, IProject>();
-	private Map<IProject, HDFSServer> projectToServerMap = new HashMap<IProject, HDFSServer>();
+	private Map<HDFSServer, String> serverToProjectMap = new HashMap<HDFSServer, String>();
+	private Map<String, HDFSServer> projectToServerMap = new HashMap<String, HDFSServer>();
+	/**
+	 * URI should always end with a '/'
+	 */
 	private Map<String, HDFSServer> uriToServerMap = new HashMap<String, HDFSServer>();
 	private HashSet<String> serverOperationURIs = new HashSet<String>();
 
@@ -91,7 +94,7 @@ public class HDFSManager {
 	public void loadServers() {
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		Bundle bundle = Platform.getBundle(Activator.BUNDLE_ID);
-		File serversFile = bundle.getBundleContext().getDataFile(MODEL_FILE);
+		File serversFile = bundle.getBundleContext().getDataFile(MODEL_FILE_NAME);
 		if (serversFile.exists()) {
 			ResourceSet resSet = new ResourceSetImpl();
 			Resource resource = resSet.getResource(URI.createFileURI(serversFile.getPath()), true);
@@ -102,8 +105,8 @@ public class HDFSManager {
 				if (!project.exists()) {
 					server.setStatusCode(ServerStatus.NO_PROJECT_VALUE);
 				}
-				serverToProjectMap.put(server, project);
-				projectToServerMap.put(project, server);
+				serverToProjectMap.put(server, server.getName());
+				projectToServerMap.put(server.getName(), server);
 			}
 		}
 		IProject[] projects = workspaceRoot.getProjects();
@@ -126,7 +129,7 @@ public class HDFSManager {
 
 	public void saveServers() {
 		Bundle bundle = Platform.getBundle(Activator.BUNDLE_ID);
-		File serversFile = bundle.getBundleContext().getDataFile(MODEL_FILE);
+		File serversFile = bundle.getBundleContext().getDataFile(MODEL_FILE_NAME);
 		ResourceSet resSet = new ResourceSetImpl();
 		Resource resource = resSet.createResource(URI.createFileURI(serversFile.getPath()));
 		resource.getContents().add(getServers());
@@ -152,17 +155,18 @@ public class HDFSManager {
 			} catch (URISyntaxException e) {
 			}
 		}
-		IProject project = createIProject(name, hdfsURI);
 
 		HDFSServer hdfsServer = HadoopFactory.eINSTANCE.createHDFSServer();
 		hdfsServer.setName(name);
 		hdfsServer.setUri(hdfsURI.toString());
 		hdfsServer.setLoaded(true);
 		hdfsServer.setWorkspaceProjectName(name);
-
-		serverToProjectMap.put(hdfsServer, project);
-		projectToServerMap.put(project, hdfsServer);
+		getServers().getHdfsServers().add(hdfsServer);
+		saveServers();
 		uriToServerMap.put(hdfsServer.getUri(), hdfsServer);
+		serverToProjectMap.put(hdfsServer, name);
+		projectToServerMap.put(name, hdfsServer);
+		createIProject(name, hdfsURI);
 		return hdfsServer;
 	}
 
@@ -190,7 +194,7 @@ public class HDFSManager {
 				int lastSlashIndex = tmpUri.lastIndexOf('/');
 				tmpUri = lastSlashIndex < 0 ? null : tmpUri.substring(0, lastSlashIndex);
 				if (tmpUri != null)
-					serverU = uriToServerMap.get(tmpUri);
+					serverU = uriToServerMap.get(tmpUri + "/");
 				else
 					break;
 			}
@@ -200,7 +204,7 @@ public class HDFSManager {
 		return uriToServerCacheMap.get(uri);
 	}
 
-	public IProject getProject(HDFSServer server) {
+	public String getProjectName(HDFSServer server) {
 		return serverToProjectMap.get(server);
 	}
 
@@ -220,5 +224,16 @@ public class HDFSManager {
 
 	public boolean isServerOperationRunning(String uri) {
 		return serverOperationURIs.contains(uri);
+	}
+
+	/**
+	 * @param server
+	 */
+	public void deleteServer(HDFSServer server) {
+		getServers().getHdfsServers().remove(server);
+		String projectName = this.serverToProjectMap.remove(server);
+		this.projectToServerMap.remove(projectName);
+		this.uriToServerMap.remove(server.getUri());
+		saveServers();
 	}
 }

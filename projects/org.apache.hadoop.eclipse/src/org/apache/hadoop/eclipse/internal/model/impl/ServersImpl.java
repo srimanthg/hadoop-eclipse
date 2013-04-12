@@ -26,13 +26,17 @@ import org.apache.hadoop.eclipse.internal.model.Servers;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
@@ -51,7 +55,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  */
 public class ServersImpl extends EObjectImpl implements Servers {
 	/**
-	 * The cached value of the '{@link #getHdfsServers() <em>Hdfs Servers</em>}' reference list.
+	 * The cached value of the '{@link #getHdfsServers() <em>Hdfs Servers</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getHdfsServers()
@@ -106,7 +110,7 @@ public class ServersImpl extends EObjectImpl implements Servers {
 	 */
 	public EList<HDFSServer> getHdfsServers() {
 		if (hdfsServers == null) {
-			hdfsServers = new EObjectResolvingEList<HDFSServer>(HDFSServer.class, this, HadoopPackage.SERVERS__HDFS_SERVERS);
+			hdfsServers = new EObjectContainmentEList<HDFSServer>(HDFSServer.class, this, HadoopPackage.SERVERS__HDFS_SERVERS);
 		}
 		return hdfsServers;
 	}
@@ -130,6 +134,20 @@ public class ServersImpl extends EObjectImpl implements Servers {
 		version = newVersion;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, HadoopPackage.SERVERS__VERSION, oldVersion, version));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case HadoopPackage.SERVERS__HDFS_SERVERS:
+				return ((InternalEList<?>)getHdfsServers()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

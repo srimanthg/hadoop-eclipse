@@ -18,12 +18,13 @@
 
 package org.apache.hadoop.eclipse.internal.hdfs;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -39,13 +40,14 @@ import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.filesystem.provider.FileInfo;
 import org.eclipse.core.filesystem.provider.FileStore;
-import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.URIUtil;
 
 /**
  * Represents a file or folder in the Hadoop Distributed File System. This
@@ -60,7 +62,6 @@ public class HDFSFileStore extends FileStore {
 	private static final Logger logger = Logger.getLogger(HDFSFileStore.class);
 	private final HDFSURI uri;
 	private File localFile = null;
-	private String DOT_PROJECT_CONTENT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><projectDescription><name>HDFS</name><comment></comment><projects></projects></projectDescription>";
 	private static HDFSManager manager = HDFSManager.INSTANCE;
 	private IFileInfo serverFileInfo = null;
 	private HDFSServer hdfsServer;
@@ -101,8 +102,8 @@ public class HDFSFileStore extends FileStore {
 			if (getServer() != null) {
 				try {
 					if (".project".equals(getName())) {
-						fi.setExists(true);
-						fi.setLength(DOT_PROJECT_CONTENT.length());
+						fi.setExists(getLocalFile().exists());
+						fi.setLength(getLocalFile().length());
 					} else {
 						ResourceInformation fileInformation = getClient().getResource(uri.getURI());
 						if (fileInformation != null) {
@@ -162,8 +163,13 @@ public class HDFSFileStore extends FileStore {
 	public InputStream openInputStream(int options, IProgressMonitor monitor) throws CoreException {
 		if (".project".equals(getName())) {
 			try {
-				return new ByteArrayInputStream(DOT_PROJECT_CONTENT.getBytes("UTF-8"));
-			} catch (UnsupportedEncodingException e) {
+				final File localFile = getLocalFile();
+				if(!localFile.exists())
+					localFile.createNewFile();
+				return new FileInputStream(localFile);
+			} catch (FileNotFoundException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+			} catch (IOException e) {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
 		} else {
@@ -191,20 +197,22 @@ public class HDFSFileStore extends FileStore {
 
 	/**
 	 * @return the localFile
+	 * @throws CoreException 
 	 */
-	public File getLocalFile() {
+	public File getLocalFile() throws CoreException {
 		if (localFile == null) {
 			final HDFSManager hdfsManager = HDFSManager.INSTANCE;
 			final String uriString = uri.getURI().toString();
 			HDFSServer server = hdfsManager.getServer(uriString);
 			if (server != null) {
-				IProject project = hdfsManager.getProject(server);
-				if (project != null) {
-					File projectFolder = project.getLocation().toFile();
-					String relativePath = uri.toString().substring(server.getUri().length());
-					localFile = new File(projectFolder, relativePath);
-				} else
-					logger.error("No project associated with uri: " + uriString);
+				File workspaceFolder = ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile();
+				try {
+					URI relativeURI = URIUtil.makeRelative(uri.getURI(), new URI(server.getUri()));
+					String relativePath = hdfsManager.getProjectName(server) + "/" + relativeURI.toString();
+					localFile = new File(workspaceFolder, relativePath);
+				} catch (URISyntaxException e) {
+					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+				}
 			} else
 				logger.error("No server associated with uri: " + uriString);
 		}
@@ -228,13 +236,18 @@ public class HDFSFileStore extends FileStore {
 			}
 		} catch (IOException e) {
 			logger.error("Unable to mkdir: " + uri);
-			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage()));
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
 	}
 
 	public boolean isLocalFile() {
-		File localFile = getLocalFile();
-		return localFile != null && localFile.exists();
+		try {
+			File localFile = getLocalFile();
+			return localFile != null && localFile.exists();
+		} catch (CoreException e) {
+			logger.warn("Unable to determine if file is local", e);
+		}
+		return false;
 	}
 
 	/*
@@ -245,16 +258,31 @@ public class HDFSFileStore extends FileStore {
 	 */
 	@Override
 	public OutputStream openOutputStream(int options, IProgressMonitor monitor) throws CoreException {
-		try {
-			if (fetchInfo().exists()) {
-				clearServerFileInfo();
-				return getClient().openOutputStream(uri.getURI(), monitor);
-			} else {
-				clearServerFileInfo();
-				return getClient().createOutputStream(uri.getURI(), monitor);
+		if (".project".equals(getName())) {
+			try {
+				File dotProjectFile = getLocalFile();
+				if(!dotProjectFile.exists()){
+					dotProjectFile.getParentFile().mkdirs();
+					dotProjectFile.createNewFile();
+				}
+				return new FileOutputStream(dotProjectFile);
+			} catch (FileNotFoundException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+			} catch (IOException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
-		} catch (IOException e) {
-			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+		}else{
+			try {
+				if (fetchInfo().exists()) {
+					clearServerFileInfo();
+					return getClient().openOutputStream(uri.getURI(), monitor);
+				} else {
+					clearServerFileInfo();
+					return getClient().createOutputStream(uri.getURI(), monitor);
+				}
+			} catch (IOException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+			}
 		}
 	}
 
@@ -267,11 +295,22 @@ public class HDFSFileStore extends FileStore {
 	@Override
 	public void delete(int options, IProgressMonitor monitor) throws CoreException {
 		try {
-			clearServerFileInfo();
-			getClient().delete(uri.getURI(), monitor);
+			final HDFSServer server = getServer();
+			if (server != null) {
+				if(server.getUri().equals(uri.getURI().toString())){
+					// Server location is the same as the project - so we just
+					// disconnect instead of actually deleting the root folder
+					// on HDFS.
+				}else{
+					clearServerFileInfo();
+					getClient().delete(uri.getURI(), monitor);
+				}
+			} else {
+				// Not associated with any server, we just disconnect.
+			}
 		} catch (IOException e) {
 			logger.error("Unable to delete: " + uri);
-			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage()));
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
 	}
 }

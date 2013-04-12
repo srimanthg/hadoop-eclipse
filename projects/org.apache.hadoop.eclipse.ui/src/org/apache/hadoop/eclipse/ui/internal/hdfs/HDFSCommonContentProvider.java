@@ -22,9 +22,6 @@ import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IMemento;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.navigator.CommonNavigator;
-import org.eclipse.ui.navigator.CommonViewer;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentProvider;
 import org.eclipse.ui.navigator.INavigatorContentService;
@@ -32,8 +29,7 @@ import org.eclipse.ui.navigator.INavigatorContentService;
 public class HDFSCommonContentProvider implements ICommonContentProvider {
 
 	private HDFSManager hdfsManager;
-	private CommonViewer viewer;
-	private CommonNavigator projectExplorer;
+	private String viewerId;
 
 	@Override
 	public Object[] getElements(Object inputElement) {
@@ -86,7 +82,6 @@ public class HDFSCommonContentProvider implements ICommonContentProvider {
 	public void init(ICommonContentExtensionSite aConfig) {
 		hdfsManager = HDFSManager.INSTANCE;
 		INavigatorContentService cs = (INavigatorContentService) aConfig.getService();
-		viewer = (CommonViewer) PlatformUI.getWorkbench().getViewRegistry().find(cs.getViewerId());
-		projectExplorer = viewer.getCommonNavigator();
+		viewerId = cs.getViewerId();
 	}
 }

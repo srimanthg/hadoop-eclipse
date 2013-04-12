@@ -41,7 +41,7 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Servers extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Hdfs Servers</b></em>' reference list.
+	 * Returns the value of the '<em><b>Hdfs Servers</b></em>' containment reference list.
 	 * The list contents are of type {@link org.apache.hadoop.eclipse.internal.model.HDFSServer}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -49,9 +49,9 @@ public interface Servers extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Hdfs Servers</em>' reference list.
+	 * @return the value of the '<em>Hdfs Servers</em>' containment reference list.
 	 * @see org.apache.hadoop.eclipse.internal.model.HadoopPackage#getServers_HdfsServers()
-	 * @model
+	 * @model containment="true"
 	 * @generated
 	 */
 	EList<HDFSServer> getHdfsServers();

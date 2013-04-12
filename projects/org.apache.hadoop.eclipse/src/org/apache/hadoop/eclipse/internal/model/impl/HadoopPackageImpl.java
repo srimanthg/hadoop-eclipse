@@ -314,7 +314,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		initEAttribute(getHDFSServer_WorkspaceProjectName(), ecorePackage.getEString(), "workspaceProjectName", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serversEClass, Servers.class, "Servers", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getServers_HdfsServers(), this.getHDFSServer(), null, "hdfsServers", null, 0, -1, Servers.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServers_HdfsServers(), this.getHDFSServer(), null, "hdfsServers", null, 0, -1, Servers.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServers_Version(), ecorePackage.getEString(), "version", "1.0.0.0", 0, 1, Servers.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals

@@ -165,7 +165,7 @@ public interface HadoopPackage extends EPackage {
 	int SERVERS = 1;
 
 	/**
-	 * The feature id for the '<em><b>Hdfs Servers</b></em>' reference list.
+	 * The feature id for the '<em><b>Hdfs Servers</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -300,10 +300,10 @@ public interface HadoopPackage extends EPackage {
 	EClass getServers();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.apache.hadoop.eclipse.internal.model.Servers#getHdfsServers <em>Hdfs Servers</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.apache.hadoop.eclipse.internal.model.Servers#getHdfsServers <em>Hdfs Servers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Hdfs Servers</em>'.
+	 * @return the meta object for the containment reference list '<em>Hdfs Servers</em>'.
 	 * @see org.apache.hadoop.eclipse.internal.model.Servers#getHdfsServers()
 	 * @see #getServers()
 	 * @generated
@@ -430,7 +430,7 @@ public interface HadoopPackage extends EPackage {
 		EClass SERVERS = eINSTANCE.getServers();
 
 		/**
-		 * The meta object literal for the '<em><b>Hdfs Servers</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Hdfs Servers</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
