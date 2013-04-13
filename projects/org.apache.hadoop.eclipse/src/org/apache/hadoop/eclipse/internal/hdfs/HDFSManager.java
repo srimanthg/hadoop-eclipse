@@ -45,6 +45,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.team.core.RepositoryProvider;
 import org.osgi.framework.Bundle;
 
 /**
@@ -183,6 +184,7 @@ public class HDFSManager {
 		pd.setLocationURI(hdfsURI);
 		project.create(pd, new NullProgressMonitor());
 		project.open(new NullProgressMonitor());
+		RepositoryProvider.map(project, HDFSTeamRepositoryProvider.ID);
 		return project;
 	}
 

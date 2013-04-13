@@ -51,8 +51,7 @@
             viewerId="org.eclipse.ui.navigator.ProjectExplorer">
          <includes>
             <contentExtension
-                  isRoot="true"
-                  pattern="org.apache.hadoop.eclipse.ui.navigatorContent.hdfsREMOVEMME">
+                  pattern="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs">
             </contentExtension>
          </includes>
       </viewerContentBinding>
@@ -60,18 +59,18 @@
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent
-            activeByDefault="true"
             contentProvider="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSCommonContentProvider"
             icon="icons/hadoop-logo-16x16.png"
             id="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs"
+            labelProvider="org.eclipse.ui.model.WorkbenchLabelProvider"
             name="Navigator HDFS Content Provider">
          <triggerPoints>
             <or>
                <instanceof
-                     value="org.eclipse.core.resources.IWorkspaceRoot">
+                     value="org.eclipse.core.resources.IWorkspaceRoot_REMOVEME">
                </instanceof>
                <instanceof
-                     value="org.eclipse.core.resources.IProject">
+                     value="org.eclipse.core.resources.IProject_REMOVEME">
                </instanceof>
             </or>
          </triggerPoints>

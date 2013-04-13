@@ -29,5 +29,14 @@
          </run>
       </filesystem>
    </extension>
+   <extension
+         point="org.eclipse.team.core.repository">
+      <repository
+            canImportId="org.apache.hadoop.hdfs"
+            class="org.apache.hadoop.eclipse.internal.hdfs.HDFSTeamRepositoryProvider"
+            fileSystemScheme="hdfs"
+            id="org.apache.hadoop.hdfs">
+      </repository>
+   </extension>
 
 </plugin>
