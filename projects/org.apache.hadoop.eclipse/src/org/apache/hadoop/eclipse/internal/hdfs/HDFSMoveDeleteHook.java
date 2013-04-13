@@ -43,7 +43,6 @@ public class HDFSMoveDeleteHook implements IMoveDeleteHook {
 	 */
 	@Override
 	public boolean deleteFile(IResourceTree tree, IFile file, int updateFlags, IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -57,7 +56,6 @@ public class HDFSMoveDeleteHook implements IMoveDeleteHook {
 	 */
 	@Override
 	public boolean deleteFolder(IResourceTree tree, IFolder folder, int updateFlags, IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -72,12 +70,12 @@ public class HDFSMoveDeleteHook implements IMoveDeleteHook {
 	@Override
 	public boolean deleteProject(IResourceTree tree, IProject project, int updateFlags, IProgressMonitor monitor) {
 		if (HDFSFileSystem.SCHEME.equals(project.getLocationURI().getScheme())) {
-			// Deleting a HDFS project. When asking to delete project
-			// with contents, we do it ourselves.
+			// Deleting a HDFS project root folder *and* its contents is not
+			// supported.
+			// Caller has to uncheck the 'Delete project contents' checkbox.
 			if ((IResource.ALWAYS_DELETE_PROJECT_CONTENT & updateFlags) > 0) {
 				throw new RuntimeException(
-						"Deletion of HDFS project root folder is not supported. To remove project uncheck the \'Delete project contains on disk\' checkbox");
-				// return true;
+						"Deletion of HDFS project root folder is not supported. To remove project uncheck the \'Delete project contents on disk\' checkbox");
 			}
 		}
 		return false;
@@ -94,7 +92,6 @@ public class HDFSMoveDeleteHook implements IMoveDeleteHook {
 	 */
 	@Override
 	public boolean moveFile(IResourceTree tree, IFile source, IFile destination, int updateFlags, IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -109,7 +106,6 @@ public class HDFSMoveDeleteHook implements IMoveDeleteHook {
 	 */
 	@Override
 	public boolean moveFolder(IResourceTree tree, IFolder source, IFolder destination, int updateFlags, IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -124,7 +120,10 @@ public class HDFSMoveDeleteHook implements IMoveDeleteHook {
 	 */
 	@Override
 	public boolean moveProject(IResourceTree tree, IProject source, IProjectDescription description, int updateFlags, IProgressMonitor monitor) {
-		// TODO Auto-generated method stub
+		if (HDFSFileSystem.SCHEME.equals(source.getLocationURI().getScheme())) {
+			// Moving a HDFS project is not supported.
+			throw new RuntimeException("Moving a HDFS project root folder is not supported.");
+		}
 		return false;
 	}
 
