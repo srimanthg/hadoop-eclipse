@@ -126,7 +126,8 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	public OutputStream openOutputStream(URI uri, IProgressMonitor monitor) throws IOException {
 		FileSystem fs = FileSystem.get(uri, config);
 		Path path = new Path(uri.getPath());
-		FSDataOutputStream outputStream = fs.append(path);
+		// TODO. Temporary fix till Issue#3 is fixed.
+		FSDataOutputStream outputStream = fs.create(path);
 		return outputStream;
 	}
 	
