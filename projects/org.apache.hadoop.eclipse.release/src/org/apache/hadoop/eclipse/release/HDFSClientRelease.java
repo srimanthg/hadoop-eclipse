@@ -32,6 +32,7 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
@@ -41,6 +42,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
  */
 public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient {
 
+	private static Logger logger = Logger.getLogger(HDFSClientRelease.class);
 	private Configuration config;
 
 	public HDFSClientRelease() {
@@ -65,7 +67,7 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#getResource(java.net.URI)
 	 */
 	@Override
-	public ResourceInformation getResource(URI uri) throws IOException {
+	public ResourceInformation getResourceInformation(URI uri) throws IOException {
 		FileSystem fs = FileSystem.get(uri, config);
 		Path path = new Path(uri.getPath());
 		FileStatus fileStatus = null;
@@ -74,9 +76,22 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 			fileStatus = fs.getFileStatus(path);
 			fi = getResourceInformation(fileStatus);
 		}catch(FileNotFoundException fne){
-			fne.printStackTrace();
+			logger.info(fne.getMessage());
+			logger.debug(fne.getMessage(), fne);
 		}
 		return fi;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#setResource(java.net.URI, org.apache.hadoop.eclipse.hdfs.ResourceInformation)
+	 */
+	@Override
+	public void setResourceInformation(URI uri, ResourceInformation information) throws IOException {
+		FileSystem fs = FileSystem.get(uri, config);
+		Path path = new Path(uri.getPath());
+		fs.setTimes(path, information.getLastModifiedTime(), information.getLastAccessedTime());
+		if(information.getOwner()!=null || information.getGroup()!=null)
+			fs.setOwner(path, information.getOwner(), information.getGroup());
 	}
 
 	/* (non-Javadoc)

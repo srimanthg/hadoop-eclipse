@@ -49,7 +49,7 @@ public class HDFSURI {
 	}
 
 	public HDFSURI removeLastSegment() throws URISyntaxException {
-		if(path.segmentCount()>0){
+		if (path.segmentCount() > 0) {
 			String parentPath = path.removeLastSegments(1).toString();
 			URI parentURI = new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(), parentPath, uri.getQuery(), uri.getFragment());
 			return new HDFSURI(parentURI);
@@ -59,5 +59,15 @@ public class HDFSURI {
 
 	public URI getURI() {
 		return uri;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return uri == null ? "null" : uri.toString();
 	}
 }

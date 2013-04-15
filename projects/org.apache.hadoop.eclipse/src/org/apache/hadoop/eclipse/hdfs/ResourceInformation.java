@@ -21,8 +21,8 @@ package org.apache.hadoop.eclipse.hdfs;
 public class ResourceInformation{
 	private String name;
 	private String path;
-	private long lastModifiedTime;
-	private long lastAccessedTime;
+	private long lastModifiedTime = -1;
+	private long lastAccessedTime = -1;
 	private boolean isFolder;
 	private long size;
 	private short replicationFactor;

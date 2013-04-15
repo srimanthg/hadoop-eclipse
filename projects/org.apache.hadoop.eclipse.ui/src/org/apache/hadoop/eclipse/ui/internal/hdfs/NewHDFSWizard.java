@@ -76,9 +76,9 @@ public class NewHDFSWizard extends Wizard implements INewWizard {
 						try {
 							HDFSManager.INSTANCE.createServer(serverLocationWizardPage.getHdfsServerName(), new URI(serverLocationWizardPage.getHdfsServerLocation()));
 						} catch (CoreException e) {
-							logger.error(e.getMessage(), e);
+							logger.warn(e.getMessage(), e);
 						} catch (URISyntaxException e) {
-							logger.error(e.getMessage(), e);
+							logger.warn(e.getMessage(), e);
 						}
 						return Status.OK_STATUS;
 					};

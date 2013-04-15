@@ -80,7 +80,7 @@ public class HDFSLightweightLabelDecorator implements ILightweightLabelDecorator
 					}
 					decorate(store, decoration);
 				} catch (CoreException e) {
-					logger.error(e.getMessage(), e);
+					logger.debug(e.getMessage(), e);
 				}
 				
 			}

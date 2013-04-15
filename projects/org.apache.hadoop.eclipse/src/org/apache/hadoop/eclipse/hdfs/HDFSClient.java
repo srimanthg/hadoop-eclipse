@@ -37,7 +37,16 @@ public abstract class HDFSClient {
 	 * @return
 	 * @throws IOException
 	 */
-	public abstract ResourceInformation getResource(URI uri) throws IOException;
+	public abstract ResourceInformation getResourceInformation(URI uri) throws IOException;
+	
+	/**
+	 * 
+	 * @param uri
+	 * @param information
+	 * @throws IOException
+	 */
+	public abstract void setResourceInformation(URI uri, ResourceInformation information) throws IOException;
+	
 	/**
 	 * 
 	 * @param uri
