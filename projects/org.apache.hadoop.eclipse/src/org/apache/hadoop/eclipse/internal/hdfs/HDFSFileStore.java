@@ -139,6 +139,7 @@ public class HDFSFileStore extends FileStore {
 	public void putInfo(IFileInfo info, int options, IProgressMonitor monitor) throws CoreException {
 		try {
 			ResourceInformation ri = new ResourceInformation();
+			ri.setFolder(info.isDirectory());
 			ri.setLastModifiedTime(info.getLastModified());
 			getClient().setResourceInformation(uri.getURI(), ri);
 		} catch (IOException e) {
