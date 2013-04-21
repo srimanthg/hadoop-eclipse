@@ -23,15 +23,16 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.hadoop.eclipse.Activator;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.hadoop.eclipse.internal.model.HadoopFactory;
+import org.apache.hadoop.eclipse.internal.model.HadoopPackage;
 import org.apache.hadoop.eclipse.internal.model.ServerStatus;
 import org.apache.hadoop.eclipse.internal.model.Servers;
+import org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -45,6 +46,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.team.core.RepositoryProvider;
 import org.osgi.framework.Bundle;
 
@@ -63,11 +65,11 @@ public class HDFSManager {
 	private Servers servers = null;
 	private Map<HDFSServer, String> serverToProjectMap = new HashMap<HDFSServer, String>();
 	private Map<String, HDFSServer> projectToServerMap = new HashMap<String, HDFSServer>();
+	private EContentAdapter serversListener = null;
 	/**
 	 * URI should always end with a '/'
 	 */
 	private Map<String, HDFSServer> uriToServerMap = new HashMap<String, HDFSServer>();
-	private HashSet<String> serverOperationURIs = new HashSet<String>();
 
 	private Map<String, HDFSServer> uriToServerCacheMap = new LinkedHashMap<String, HDFSServer>() {
 		private static final long serialVersionUID = 1L;
@@ -85,14 +87,15 @@ public class HDFSManager {
 	}
 
 	public Servers getServers() {
-		if (servers == null)
+		if (servers == null) {
 			loadServers();
-		if (servers == null)
-			servers = HadoopFactory.eINSTANCE.createServers();
+			if (servers == null)
+				servers = HadoopFactory.eINSTANCE.createServers();
+		}
 		return servers;
 	}
 
-	public void loadServers() {
+	private void loadServers() {
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		Bundle bundle = Platform.getBundle(Activator.BUNDLE_ID);
 		File serversFile = bundle.getBundleContext().getDataFile(MODEL_FILE_NAME);
@@ -214,18 +217,28 @@ public class HDFSManager {
 	 * @param string
 	 */
 	public void startServerOperation(String uri) {
-		serverOperationURIs.add(uri);
+		HDFSServer server = getServer(uri);
+		if (server != null && !server.getOperationURIs().contains(uri)) {
+			server.getOperationURIs().add(uri);
+		}
 	}
 
 	/**
 	 * @param string
 	 */
 	public void stopServerOperation(String uri) {
-		serverOperationURIs.remove(uri);
+		HDFSServer server = getServer(uri);
+		if (server != null) {
+			server.getOperationURIs().remove(uri);
+		}
 	}
 
 	public boolean isServerOperationRunning(String uri) {
-		return serverOperationURIs.contains(uri);
+		HDFSServer server = getServer(uri);
+		if (server != null) {
+			return server.getOperationURIs().contains(uri);
+		}
+		return false;
 	}
 
 	/**

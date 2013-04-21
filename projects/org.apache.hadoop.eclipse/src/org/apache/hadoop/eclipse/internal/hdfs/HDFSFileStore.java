@@ -91,14 +91,13 @@ public class HDFSFileStore extends FileStore {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
 		}
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: childNames():"+childNamesList);
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: childNames():" + childNamesList);
 		return childNamesList.toArray(new String[childNamesList.size()]);
 	}
 
 	@Override
 	public IFileInfo fetchInfo(int options, IProgressMonitor monitor) throws CoreException {
-		manager.startServerOperation(uri.getURI().toString());
 		if (serverFileInfo == null) {
 			FileInfo fi = new FileInfo(getName());
 			if (getServer() != null) {
@@ -119,7 +118,6 @@ public class HDFSFileStore extends FileStore {
 				} catch (IOException e) {
 					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 				} finally {
-					manager.stopServerOperation(uri.getURI().toString());
 				}
 			} else {
 				// No server definition
@@ -127,13 +125,17 @@ public class HDFSFileStore extends FileStore {
 			}
 			serverFileInfo = fi;
 		}
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: fetchInfo(): "+HDFSUtilites.getDebugMessage(serverFileInfo));
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: fetchInfo(): " + HDFSUtilites.getDebugMessage(serverFileInfo));
 		return serverFileInfo;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.filesystem.provider.FileStore#putInfo(org.eclipse.core.filesystem.IFileInfo, int, org.eclipse.core.runtime.IProgressMonitor)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.filesystem.provider.FileStore#putInfo(org.eclipse.core
+	 * .filesystem.IFileInfo, int, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
 	public void putInfo(IFileInfo info, int options, IProgressMonitor monitor) throws CoreException {
@@ -146,21 +148,21 @@ public class HDFSFileStore extends FileStore {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
 	}
-	
+
 	/**
 	 * When this file store makes changes which obsolete the server information,
 	 * it should clear the server information.
 	 */
 	protected void clearServerFileInfo() {
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: clearServerFileInfo()");
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: clearServerFileInfo()");
 		this.serverFileInfo = null;
 	}
 
 	@Override
 	public IFileStore getChild(String name) {
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: getChild():"+name);
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: getChild():" + name);
 		return new HDFSFileStore(uri.append(name));
 	}
 
@@ -169,15 +171,15 @@ public class HDFSFileStore extends FileStore {
 		String lastSegment = uri.lastSegment();
 		if (lastSegment == null)
 			lastSegment = "/";
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: getName():"+lastSegment);
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: getName():" + lastSegment);
 		return lastSegment;
 	}
 
 	@Override
 	public IFileStore getParent() {
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: getParent()");
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: getParent()");
 		try {
 			return new HDFSFileStore(uri.removeLastSegment());
 		} catch (URISyntaxException e) {
@@ -188,12 +190,12 @@ public class HDFSFileStore extends FileStore {
 
 	@Override
 	public InputStream openInputStream(int options, IProgressMonitor monitor) throws CoreException {
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: openInputStream()");
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: openInputStream()");
 		if (".project".equals(getName())) {
 			try {
 				final File localFile = getLocalFile();
-				if(!localFile.exists())
+				if (!localFile.exists())
 					localFile.createNewFile();
 				return new FileInputStream(localFile);
 			} catch (FileNotFoundException e) {
@@ -202,8 +204,27 @@ public class HDFSFileStore extends FileStore {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
 		} else {
+			File lFile = getLocalFile();
+			if (lFile.exists()) {
+				try {
+					return new FileInputStream(lFile);
+				} catch (FileNotFoundException e) {
+					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+				}
+			} else {
+				return openRemoteInputStream(options, monitor);
+			}
+		}
+	}
+
+	public InputStream openRemoteInputStream(int options, IProgressMonitor monitor) throws CoreException {
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: openRemoteInputStream()");
+		if (".project".equals(getName())) {
+			return null;
+		} else {
 			try {
-				return getClient().openInputStream(uri.getURI(), monitor);
+				return getClient().openInputStream(uri.getURI());
 			} catch (IOException e) {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
@@ -226,7 +247,7 @@ public class HDFSFileStore extends FileStore {
 
 	/**
 	 * @return the localFile
-	 * @throws CoreException 
+	 * @throws CoreException
 	 */
 	public File getLocalFile() throws CoreException {
 		if (localFile == null) {
@@ -245,8 +266,8 @@ public class HDFSFileStore extends FileStore {
 			} else
 				logger.error("No server associated with uri: " + uriString);
 		}
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: getLocalFile():"+localFile);
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: getLocalFile():" + localFile);
 		return localFile;
 	}
 
@@ -258,8 +279,8 @@ public class HDFSFileStore extends FileStore {
 	 */
 	@Override
 	public IFileStore mkdir(int options, IProgressMonitor monitor) throws CoreException {
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: mkdir()");
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: mkdir()");
 		try {
 			clearServerFileInfo();
 			if (getClient().mkdirs(uri.getURI(), monitor)) {
@@ -291,12 +312,12 @@ public class HDFSFileStore extends FileStore {
 	 */
 	@Override
 	public OutputStream openOutputStream(int options, IProgressMonitor monitor) throws CoreException {
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: openOutputStream()");
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: openOutputStream()");
 		if (".project".equals(getName())) {
 			try {
 				File dotProjectFile = getLocalFile();
-				if(!dotProjectFile.exists()){
+				if (!dotProjectFile.exists()) {
 					dotProjectFile.getParentFile().mkdirs();
 					dotProjectFile.createNewFile();
 				}
@@ -306,18 +327,33 @@ public class HDFSFileStore extends FileStore {
 			} catch (IOException e) {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
-		}else{
-			try {
-				if (fetchInfo().exists()) {
-					clearServerFileInfo();
-					return getClient().openOutputStream(uri.getURI(), monitor);
-				} else {
-					clearServerFileInfo();
-					return getClient().createOutputStream(uri.getURI(), monitor);
+		} else {
+			File lFile = getLocalFile();
+			if (lFile.exists()) {
+				try {
+					return new FileOutputStream(lFile);
+				} catch (FileNotFoundException e) {
+					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 				}
-			} catch (IOException e) {
-				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+			} else {
+				return openRemoteOutputStream(options, monitor);
 			}
+		}
+	}
+
+	public OutputStream openRemoteOutputStream(int options, IProgressMonitor monitor) throws CoreException {
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: openRemoteOutputStream()");
+		try {
+			if (fetchInfo().exists()) {
+				clearServerFileInfo();
+				return getClient().openOutputStream(uri.getURI());
+			} else {
+				clearServerFileInfo();
+				return getClient().createOutputStream(uri.getURI());
+			}
+		} catch (IOException e) {
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
 	}
 
@@ -329,16 +365,16 @@ public class HDFSFileStore extends FileStore {
 	 */
 	@Override
 	public void delete(int options, IProgressMonitor monitor) throws CoreException {
-		if(logger.isDebugEnabled())
-			logger.debug("["+uri+"]: delete()");
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: delete()");
 		try {
 			final HDFSServer server = getServer();
 			if (server != null) {
-				if(server.getUri().equals(uri.getURI().toString())){
+				if (server.getUri().equals(uri.getURI().toString())) {
 					// Server location is the same as the project - so we just
 					// disconnect instead of actually deleting the root folder
 					// on HDFS.
-				}else{
+				} else {
 					clearServerFileInfo();
 					getClient().delete(uri.getURI(), monitor);
 				}

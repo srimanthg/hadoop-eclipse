@@ -30,7 +30,7 @@
          point="org.eclipse.ui.decorators">
       <decorator
             adaptable="true"
-            class="org.apache.hadoop.eclipse.ui.internal.HDFSLightweightLabelDecorator"
+            class="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSLightweightLabelDecorator"
             id="org.apache.hadoop.eclipse.ui.decorator"
             label="HDFS Resource Decorator"
             lightweight="true"
@@ -60,19 +60,15 @@
          point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent
             contentProvider="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSCommonContentProvider"
-            icon="icons/hadoop-logo-16x16.png"
+            icon="icons/hadoop-hdfs-16x16.gif"
             id="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs"
-            labelProvider="org.eclipse.ui.model.WorkbenchLabelProvider"
-            name="Navigator HDFS Content Provider">
+            labelProvider="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSLabelProvider"
+            name="Navigator HDFS Content Provider"
+            priority="higher">
          <triggerPoints>
-            <or>
-               <instanceof
-                     value="org.eclipse.core.resources.IWorkspaceRoot_REMOVEME">
-               </instanceof>
-               <instanceof
-                     value="org.eclipse.core.resources.IProject_REMOVEME">
-               </instanceof>
-            </or>
+            <instanceof
+                  value="org.eclipse.core.resources.IProject">
+            </instanceof>
          </triggerPoints>
       </navigatorContent>
    </extension>
@@ -81,10 +77,68 @@
       <wizard
             class="org.apache.hadoop.eclipse.ui.internal.hdfs.NewHDFSWizard"
             finalPerspective="org.apache.hadoop.eclipse.ui.perspective"
-            icon="icons/hadoop-logo-16x16.png"
+            icon="icons/hadoop-hdfs-16x16.gif"
             id="org.apache.hadoop.eclipse.ui.wizard.newHdfsServer"
             name="New HDFS Server">
       </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.apache.hadoop.eclipse.ui.team.fileContribution"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.DownloadResourceAction"
+               icon="icons/download.gif"
+               id="org.apache.hadoop.eclipse.ui.team.FileDownloadAction"
+               label="Download"
+               menubarPath="additions">
+         </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.UploadResourceAction"
+               icon="icons/upload.gif"
+               id="org.apache.hadoop.eclipse.ui.team.FileUploadAction"
+               label="Upload"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="true"
+            id="org.apache.hadoop.eclipse.ui.team.folderContribution"
+            objectClass="org.eclipse.core.resources.IFolder">
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.DownloadResourceAction"
+               icon="icons/download.gif"
+               id="org.apache.hadoop.eclipse.ui.team.folderDownloadContribution"
+               label="Download"
+               menubarPath="additions">
+         </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.UploadResourceAction"
+               icon="icons/upload.gif"
+               id="org.apache.hadoop.eclipse.ui.team.folderUploadContribution"
+               label="Upload"
+               menubarPath="additions">
+         </action>
+      </objectContribution>
+   </extension>
+   <extension
+         point="org.eclipse.team.ui.teamDecorators">
+      <teamDecorator
+            decoratorId="org.apache.hadoop.eclipse.ui.decorator"
+            repositoryId="org.apache.hadoop.hdfs">
+      </teamDecorator>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.core.resources.IProject"
+            class="org.apache.hadoop.eclipse.ui.AdapterFactory2">
+         <adapter
+               type="org.eclipse.ui.model.IWorkbenchAdapter">
+         </adapter>
+      </factory>
    </extension>
 
 </plugin>

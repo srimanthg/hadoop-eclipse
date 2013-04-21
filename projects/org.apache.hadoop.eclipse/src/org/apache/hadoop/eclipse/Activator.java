@@ -46,7 +46,7 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		HadoopPackageImpl.init();
-		HDFSManager.INSTANCE.loadServers();
+		HDFSManager.INSTANCE.getServers();
 	}
 
 	/*

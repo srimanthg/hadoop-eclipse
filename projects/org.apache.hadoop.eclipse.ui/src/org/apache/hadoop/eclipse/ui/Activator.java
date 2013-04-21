@@ -22,6 +22,7 @@ import java.net.URL;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -33,18 +34,23 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
+	// private static final Logger logger = Logger.getLogger(Activator.class);
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.apache.hadoop.eclipse.ui"; //$NON-NLS-1$
 	public static final String PREFERENCE_HDFS_URLS = "HDFS_SERVER_URLS";
+	// ImageDescriptors
 	public static ImageDescriptor IMAGE_REMOTE_OVR;
 	public static ImageDescriptor IMAGE_LOCAL_OVR;
 	public static ImageDescriptor IMAGE_INCOMING_OVR;
 	public static ImageDescriptor IMAGE_OUTGOING_OVR;
 	public static ImageDescriptor IMAGE_SYNC_OVR;
+	public static ImageDescriptor IMAGE_HADOOP;
+	// Images
+	public static Image IMAGE_HDFS;
 
 	// The shared instance
 	private static Activator plugin;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -53,7 +59,10 @@ public class Activator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
@@ -61,9 +70,16 @@ public class Activator extends AbstractUIPlugin {
 		loadImages();
 	}
 
+	/**
+	 * 
+	 */
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
@@ -72,24 +88,28 @@ public class Activator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 *
+	 * 
 	 * @return the shared instance
 	 */
 	public static Activator getDefault() {
 		return plugin;
 	}
-	
-	private void loadImages(){
+
+	private void loadImages() {
 		Bundle bundle = getDefault().getBundle();
 		URL remoteFileUrl = FileLocator.find(bundle, new Path("/icons/ovr/remote_resource.gif"), null);
 		URL localFileUrl = FileLocator.find(bundle, new Path("/icons/ovr/local_resource.gif"), null);
 		URL incomingUrl = FileLocator.find(bundle, new Path("/icons/ovr/overlay-incoming.gif"), null);
 		URL outgoingUrl = FileLocator.find(bundle, new Path("/icons/ovr/overlay-outgoing.gif"), null);
 		URL waitingUrl = FileLocator.find(bundle, new Path("/icons/ovr/waiting_ovr.gif"), null);
+		URL hdfsUrl = FileLocator.find(bundle, new Path("/icons/hadoop-hdfs-16x16.gif"), null);
+		URL hadoopUrl = FileLocator.find(bundle, new Path("/icons/hadoop-logo-16x16.png"), null);
 		IMAGE_REMOTE_OVR = ImageDescriptor.createFromURL(remoteFileUrl);
 		IMAGE_LOCAL_OVR = ImageDescriptor.createFromURL(localFileUrl);
 		IMAGE_INCOMING_OVR = ImageDescriptor.createFromURL(incomingUrl);
 		IMAGE_OUTGOING_OVR = ImageDescriptor.createFromURL(outgoingUrl);
 		IMAGE_SYNC_OVR = ImageDescriptor.createFromURL(waitingUrl);
+		IMAGE_HDFS = ImageDescriptor.createFromURL(hdfsUrl).createImage();
+		IMAGE_HADOOP = ImageDescriptor.createFromURL(hadoopUrl);
 	}
 }

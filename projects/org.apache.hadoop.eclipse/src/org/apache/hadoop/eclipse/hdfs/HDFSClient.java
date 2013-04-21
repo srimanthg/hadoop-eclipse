@@ -60,7 +60,7 @@ public abstract class HDFSClient {
 	 * @param monitor
 	 * @return
 	 */
-	public abstract InputStream openInputStream(URI uri, IProgressMonitor monitor) throws IOException;
+	public abstract InputStream openInputStream(URI uri) throws IOException;
 	/**
 	 * 
 	 * @param uri
@@ -75,14 +75,14 @@ public abstract class HDFSClient {
 	 * @return
 	 * @throws IOException
 	 */
-	public abstract OutputStream openOutputStream(URI uri, IProgressMonitor monitor) throws IOException;
+	public abstract OutputStream openOutputStream(URI uri) throws IOException;
 	/**
 	 * @param uri
 	 * @param monitor
 	 * @return
 	 * @throws IOException
 	 */
-	public abstract OutputStream createOutputStream(URI uri, IProgressMonitor monitor) throws IOException;
+	public abstract OutputStream createOutputStream(URI uri) throws IOException;
 	/**
 	 * @param uri
 	 * @param monitor

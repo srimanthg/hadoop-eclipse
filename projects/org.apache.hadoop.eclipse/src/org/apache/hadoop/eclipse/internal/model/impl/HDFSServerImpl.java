@@ -18,15 +18,18 @@
  */
 package org.apache.hadoop.eclipse.internal.model.impl;
 
+import java.util.Collection;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.hadoop.eclipse.internal.model.HadoopPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,6 +45,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl#getLastAccessed <em>Last Accessed</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl#isLoaded <em>Loaded</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl#getWorkspaceProjectName <em>Workspace Project Name</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl#getOperationURIs <em>Operation UR Is</em>}</li>
  * </ul>
  * </p>
  *
@@ -187,6 +191,16 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 	 * @ordered
 	 */
 	protected String workspaceProjectName = WORKSPACE_PROJECT_NAME_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getOperationURIs() <em>Operation UR Is</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOperationURIs()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> operationURIs;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -359,6 +373,18 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<String> getOperationURIs() {
+		if (operationURIs == null) {
+			operationURIs = new EDataTypeUniqueEList<String>(String.class, this, HadoopPackage.HDFS_SERVER__OPERATION_UR_IS);
+		}
+		return operationURIs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -376,6 +402,8 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 				return isLoaded();
 			case HadoopPackage.HDFS_SERVER__WORKSPACE_PROJECT_NAME:
 				return getWorkspaceProjectName();
+			case HadoopPackage.HDFS_SERVER__OPERATION_UR_IS:
+				return getOperationURIs();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -385,6 +413,7 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -408,6 +437,10 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 				return;
 			case HadoopPackage.HDFS_SERVER__WORKSPACE_PROJECT_NAME:
 				setWorkspaceProjectName((String)newValue);
+				return;
+			case HadoopPackage.HDFS_SERVER__OPERATION_UR_IS:
+				getOperationURIs().clear();
+				getOperationURIs().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -442,6 +475,9 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 			case HadoopPackage.HDFS_SERVER__WORKSPACE_PROJECT_NAME:
 				setWorkspaceProjectName(WORKSPACE_PROJECT_NAME_EDEFAULT);
 				return;
+			case HadoopPackage.HDFS_SERVER__OPERATION_UR_IS:
+				getOperationURIs().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -468,6 +504,8 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 				return loaded != LOADED_EDEFAULT;
 			case HadoopPackage.HDFS_SERVER__WORKSPACE_PROJECT_NAME:
 				return WORKSPACE_PROJECT_NAME_EDEFAULT == null ? workspaceProjectName != null : !WORKSPACE_PROJECT_NAME_EDEFAULT.equals(workspaceProjectName);
+			case HadoopPackage.HDFS_SERVER__OPERATION_UR_IS:
+				return operationURIs != null && !operationURIs.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -496,6 +534,8 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 		result.append(loaded);
 		result.append(", workspaceProjectName: ");
 		result.append(workspaceProjectName);
+		result.append(", operationURIs: ");
+		result.append(operationURIs);
 		result.append(')');
 		return result.toString();
 	}

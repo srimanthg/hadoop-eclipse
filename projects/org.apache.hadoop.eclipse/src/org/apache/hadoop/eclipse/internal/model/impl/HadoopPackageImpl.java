@@ -198,6 +198,15 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getHDFSServer_OperationURIs() {
+		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getServers() {
 		return serversEClass;
 	}
@@ -265,6 +274,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		createEAttribute(hdfsServerEClass, HDFS_SERVER__LAST_ACCESSED);
 		createEAttribute(hdfsServerEClass, HDFS_SERVER__LOADED);
 		createEAttribute(hdfsServerEClass, HDFS_SERVER__WORKSPACE_PROJECT_NAME);
+		createEAttribute(hdfsServerEClass, HDFS_SERVER__OPERATION_UR_IS);
 
 		serversEClass = createEClass(SERVERS);
 		createEReference(serversEClass, SERVERS__HDFS_SERVERS);
@@ -312,6 +322,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		initEAttribute(getHDFSServer_LastAccessed(), ecorePackage.getELong(), "lastAccessed", "-1", 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_Loaded(), ecorePackage.getEBoolean(), "loaded", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_WorkspaceProjectName(), ecorePackage.getEString(), "workspaceProjectName", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getHDFSServer_OperationURIs(), ecorePackage.getEString(), "operationURIs", null, 0, -1, HDFSServer.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(serversEClass, Servers.class, "Servers", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getServers_HdfsServers(), this.getHDFSServer(), null, "hdfsServers", null, 0, -1, Servers.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

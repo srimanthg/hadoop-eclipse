@@ -146,13 +146,22 @@ public interface HadoopPackage extends EPackage {
 	int HDFS_SERVER__WORKSPACE_PROJECT_NAME = 6;
 
 	/**
+	 * The feature id for the '<em><b>Operation UR Is</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HDFS_SERVER__OPERATION_UR_IS = 7;
+
+	/**
 	 * The number of structural features of the '<em>HDFS Server</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER_FEATURE_COUNT = 7;
+	int HDFS_SERVER_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ServersImpl <em>Servers</em>}' class.
@@ -290,6 +299,17 @@ public interface HadoopPackage extends EPackage {
 	EAttribute getHDFSServer_WorkspaceProjectName();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getOperationURIs <em>Operation UR Is</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Operation UR Is</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.HDFSServer#getOperationURIs()
+	 * @see #getHDFSServer()
+	 * @generated
+	 */
+	EAttribute getHDFSServer_OperationURIs();
+
+	/**
 	 * Returns the meta object for class '{@link org.apache.hadoop.eclipse.internal.model.Servers <em>Servers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -418,6 +438,14 @@ public interface HadoopPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute HDFS_SERVER__WORKSPACE_PROJECT_NAME = eINSTANCE.getHDFSServer_WorkspaceProjectName();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation UR Is</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute HDFS_SERVER__OPERATION_UR_IS = eINSTANCE.getHDFSServer_OperationURIs();
 
 		/**
 		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ServersImpl <em>Servers</em>}' class.

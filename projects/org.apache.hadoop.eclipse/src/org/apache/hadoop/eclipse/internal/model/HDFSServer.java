@@ -18,6 +18,7 @@
  */
 package org.apache.hadoop.eclipse.internal.model;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -35,6 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getLastAccessed <em>Last Accessed</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#isLoaded <em>Loaded</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getWorkspaceProjectName <em>Workspace Project Name</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getOperationURIs <em>Operation UR Is</em>}</li>
  * </ul>
  * </p>
  *
@@ -225,5 +227,20 @@ public interface HDFSServer extends EObject {
 	 * @generated
 	 */
 	void setWorkspaceProjectName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Operation UR Is</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * List of HDFS uris where operations are being performed.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Operation UR Is</em>' attribute list.
+	 * @see org.apache.hadoop.eclipse.internal.model.HadoopPackage#getHDFSServer_OperationURIs()
+	 * @model transient="true"
+	 * @generated
+	 */
+	EList<String> getOperationURIs();
 
 } // HDFSServer

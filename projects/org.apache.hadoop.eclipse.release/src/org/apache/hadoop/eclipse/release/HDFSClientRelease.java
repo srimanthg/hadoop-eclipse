@@ -130,7 +130,7 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public InputStream openInputStream(URI uri, IProgressMonitor monitor) throws IOException {
+	public InputStream openInputStream(URI uri) throws IOException {
 		FileSystem fs = FileSystem.get(uri, config);
 		Path path = new Path(uri.getPath());
 		FSDataInputStream open = fs.open(path);
@@ -145,7 +145,7 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public OutputStream createOutputStream(URI uri, IProgressMonitor monitor) throws IOException {
+	public OutputStream createOutputStream(URI uri) throws IOException {
 		FileSystem fs = FileSystem.get(uri, config);
 		Path path = new Path(uri.getPath());
 		FSDataOutputStream outputStream = fs.create(path);
@@ -160,7 +160,7 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public OutputStream openOutputStream(URI uri, IProgressMonitor monitor) throws IOException {
+	public OutputStream openOutputStream(URI uri) throws IOException {
 		FileSystem fs = FileSystem.get(uri, config);
 		Path path = new Path(uri.getPath());
 		// TODO. Temporary fix till Issue#3 is fixed.
