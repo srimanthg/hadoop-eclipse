@@ -22,19 +22,14 @@ import java.net.URI;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSManager;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSURI;
-import org.apache.hadoop.eclipse.ui.Activator;
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 public class HDFSLightweightLabelDecorator implements ILightweightLabelDecorator {
 	private static final Logger logger = Logger.getLogger(HDFSLightweightLabelDecorator.class);

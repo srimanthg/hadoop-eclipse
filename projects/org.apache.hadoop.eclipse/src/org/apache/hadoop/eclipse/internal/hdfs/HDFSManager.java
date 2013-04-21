@@ -29,10 +29,8 @@ import java.util.Map;
 import org.apache.hadoop.eclipse.Activator;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.hadoop.eclipse.internal.model.HadoopFactory;
-import org.apache.hadoop.eclipse.internal.model.HadoopPackage;
 import org.apache.hadoop.eclipse.internal.model.ServerStatus;
 import org.apache.hadoop.eclipse.internal.model.Servers;
-import org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -46,7 +44,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.team.core.RepositoryProvider;
 import org.osgi.framework.Bundle;
 
@@ -65,7 +62,6 @@ public class HDFSManager {
 	private Servers servers = null;
 	private Map<HDFSServer, String> serverToProjectMap = new HashMap<HDFSServer, String>();
 	private Map<String, HDFSServer> projectToServerMap = new HashMap<String, HDFSServer>();
-	private EContentAdapter serversListener = null;
 	/**
 	 * URI should always end with a '/'
 	 */

@@ -62,7 +62,6 @@ public class HDFSFileStore extends FileStore {
 	private static final Logger logger = Logger.getLogger(HDFSFileStore.class);
 	private final HDFSURI uri;
 	private File localFile = null;
-	private static HDFSManager manager = HDFSManager.INSTANCE;
 	private IFileInfo serverFileInfo = null;
 	private HDFSServer hdfsServer;
 

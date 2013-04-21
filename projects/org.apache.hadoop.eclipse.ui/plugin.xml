@@ -37,11 +37,9 @@
             location="BOTTOM_RIGHT"
             state="true">
          <enablement>
-            <and>
-               <objectClass
-                     name="org.eclipse.core.resources.IResource">
-               </objectClass>
-            </and>
+            <objectClass
+                  name="org.eclipse.core.resources.IResource">
+            </objectClass>
          </enablement>
       </decorator>
    </extension>
@@ -122,23 +120,6 @@
                menubarPath="additions">
          </action>
       </objectContribution>
-   </extension>
-   <extension
-         point="org.eclipse.team.ui.teamDecorators">
-      <teamDecorator
-            decoratorId="org.apache.hadoop.eclipse.ui.decorator"
-            repositoryId="org.apache.hadoop.hdfs">
-      </teamDecorator>
-   </extension>
-   <extension
-         point="org.eclipse.core.runtime.adapters">
-      <factory
-            adaptableType="org.eclipse.core.resources.IProject"
-            class="org.apache.hadoop.eclipse.ui.AdapterFactory2">
-         <adapter
-               type="org.eclipse.ui.model.IWorkbenchAdapter">
-         </adapter>
-      </factory>
    </extension>
 
 </plugin>
