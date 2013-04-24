@@ -24,68 +24,90 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.List;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-
 /**
  * 
  * @author Srimanth Gunturi
  */
 public abstract class HDFSClient {
 	/**
+	 * Provides the default userId and groupIds.
 	 * 
-	 * @param uri
-	 * @return
+	 * @return List of ids. First ID has to be of the user. Group IDs are
+	 *         optional.
 	 * @throws IOException
 	 */
-	public abstract ResourceInformation getResourceInformation(URI uri) throws IOException;
-	
+	public abstract List<String> getDefaultUserAndGroupIds() throws IOException;
+
+	/**
+	 * 
+	 * @param uri
+	 * @param user
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public abstract ResourceInformation getResourceInformation(URI uri, String user) throws IOException, InterruptedException;
+
 	/**
 	 * 
 	 * @param uri
 	 * @param information
+	 * @param user
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
-	public abstract void setResourceInformation(URI uri, ResourceInformation information) throws IOException;
-	
+	public abstract void setResourceInformation(URI uri, ResourceInformation information, String user) throws IOException, InterruptedException;
+
 	/**
 	 * 
 	 * @param uri
+	 * @param user
 	 * @return
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
-	public abstract List<ResourceInformation> listResources(URI uri) throws IOException;
-	
+	public abstract List<ResourceInformation> listResources(URI uri, String user) throws IOException, InterruptedException;
+
 	/**
 	 * @param uri
-	 * @param monitor
+	 * @param user
 	 * @return
+	 * @throws InterruptedException 
 	 */
-	public abstract InputStream openInputStream(URI uri) throws IOException;
+	public abstract InputStream openInputStream(URI uri, String user) throws IOException, InterruptedException;
+
 	/**
 	 * 
 	 * @param uri
-	 * @param monitor
+	 * @param user
 	 * @return
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
-	public abstract boolean mkdirs(URI uri, IProgressMonitor monitor) throws IOException;
+	public abstract boolean mkdirs(URI uri, String user) throws IOException, InterruptedException;
+
+	/**
+	 * @param uri
+	 * @param user
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException 
+	 */
+	public abstract OutputStream openOutputStream(URI uri, String user) throws IOException, InterruptedException;
+
 	/**
 	 * @param uri
 	 * @param monitor
 	 * @return
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
-	public abstract OutputStream openOutputStream(URI uri) throws IOException;
+	public abstract OutputStream createOutputStream(URI uri, String user) throws IOException, InterruptedException;
+
 	/**
 	 * @param uri
-	 * @param monitor
-	 * @return
-	 * @throws IOException
+	 * @param user
+	 * @throws InterruptedException 
 	 */
-	public abstract OutputStream createOutputStream(URI uri) throws IOException;
-	/**
-	 * @param uri
-	 * @param monitor
-	 */
-	public abstract void delete(URI uri, IProgressMonitor monitor) throws IOException;
+	public abstract void delete(URI uri, String user) throws IOException, InterruptedException;
 }

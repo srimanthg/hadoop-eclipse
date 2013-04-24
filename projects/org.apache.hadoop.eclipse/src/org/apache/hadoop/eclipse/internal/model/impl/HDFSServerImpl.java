@@ -46,6 +46,8 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl#isLoaded <em>Loaded</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl#getWorkspaceProjectName <em>Workspace Project Name</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl#getOperationURIs <em>Operation UR Is</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl#getUserId <em>User Id</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl#getGroupIds <em>Group Ids</em>}</li>
  * </ul>
  * </p>
  *
@@ -201,6 +203,36 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 	 * @ordered
 	 */
 	protected EList<String> operationURIs;
+
+	/**
+	 * The default value of the '{@link #getUserId() <em>User Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUserId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String USER_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getUserId() <em>User Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getUserId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String userId = USER_ID_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getGroupIds() <em>Group Ids</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getGroupIds()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> groupIds;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -385,6 +417,39 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getUserId() {
+		return userId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setUserId(String newUserId) {
+		String oldUserId = userId;
+		userId = newUserId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HadoopPackage.HDFS_SERVER__USER_ID, oldUserId, userId));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<String> getGroupIds() {
+		if (groupIds == null) {
+			groupIds = new EDataTypeUniqueEList<String>(String.class, this, HadoopPackage.HDFS_SERVER__GROUP_IDS);
+		}
+		return groupIds;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -404,6 +469,10 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 				return getWorkspaceProjectName();
 			case HadoopPackage.HDFS_SERVER__OPERATION_UR_IS:
 				return getOperationURIs();
+			case HadoopPackage.HDFS_SERVER__USER_ID:
+				return getUserId();
+			case HadoopPackage.HDFS_SERVER__GROUP_IDS:
+				return getGroupIds();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -442,6 +511,13 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 				getOperationURIs().clear();
 				getOperationURIs().addAll((Collection<? extends String>)newValue);
 				return;
+			case HadoopPackage.HDFS_SERVER__USER_ID:
+				setUserId((String)newValue);
+				return;
+			case HadoopPackage.HDFS_SERVER__GROUP_IDS:
+				getGroupIds().clear();
+				getGroupIds().addAll((Collection<? extends String>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -478,6 +554,12 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 			case HadoopPackage.HDFS_SERVER__OPERATION_UR_IS:
 				getOperationURIs().clear();
 				return;
+			case HadoopPackage.HDFS_SERVER__USER_ID:
+				setUserId(USER_ID_EDEFAULT);
+				return;
+			case HadoopPackage.HDFS_SERVER__GROUP_IDS:
+				getGroupIds().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -506,6 +588,10 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 				return WORKSPACE_PROJECT_NAME_EDEFAULT == null ? workspaceProjectName != null : !WORKSPACE_PROJECT_NAME_EDEFAULT.equals(workspaceProjectName);
 			case HadoopPackage.HDFS_SERVER__OPERATION_UR_IS:
 				return operationURIs != null && !operationURIs.isEmpty();
+			case HadoopPackage.HDFS_SERVER__USER_ID:
+				return USER_ID_EDEFAULT == null ? userId != null : !USER_ID_EDEFAULT.equals(userId);
+			case HadoopPackage.HDFS_SERVER__GROUP_IDS:
+				return groupIds != null && !groupIds.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -536,6 +622,10 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 		result.append(workspaceProjectName);
 		result.append(", operationURIs: ");
 		result.append(operationURIs);
+		result.append(", userId: ");
+		result.append(userId);
+		result.append(", groupIds: ");
+		result.append(groupIds);
 		result.append(')');
 		return result.toString();
 	}

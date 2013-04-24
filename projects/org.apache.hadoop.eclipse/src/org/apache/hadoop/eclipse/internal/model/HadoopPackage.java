@@ -155,13 +155,31 @@ public interface HadoopPackage extends EPackage {
 	int HDFS_SERVER__OPERATION_UR_IS = 7;
 
 	/**
+	 * The feature id for the '<em><b>User Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HDFS_SERVER__USER_ID = 8;
+
+	/**
+	 * The feature id for the '<em><b>Group Ids</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int HDFS_SERVER__GROUP_IDS = 9;
+
+	/**
 	 * The number of structural features of the '<em>HDFS Server</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER_FEATURE_COUNT = 8;
+	int HDFS_SERVER_FEATURE_COUNT = 10;
 
 	/**
 	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ServersImpl <em>Servers</em>}' class.
@@ -310,6 +328,28 @@ public interface HadoopPackage extends EPackage {
 	EAttribute getHDFSServer_OperationURIs();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getUserId <em>User Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>User Id</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.HDFSServer#getUserId()
+	 * @see #getHDFSServer()
+	 * @generated
+	 */
+	EAttribute getHDFSServer_UserId();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getGroupIds <em>Group Ids</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Group Ids</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.HDFSServer#getGroupIds()
+	 * @see #getHDFSServer()
+	 * @generated
+	 */
+	EAttribute getHDFSServer_GroupIds();
+
+	/**
 	 * Returns the meta object for class '{@link org.apache.hadoop.eclipse.internal.model.Servers <em>Servers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -446,6 +486,22 @@ public interface HadoopPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute HDFS_SERVER__OPERATION_UR_IS = eINSTANCE.getHDFSServer_OperationURIs();
+
+		/**
+		 * The meta object literal for the '<em><b>User Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute HDFS_SERVER__USER_ID = eINSTANCE.getHDFSServer_UserId();
+
+		/**
+		 * The meta object literal for the '<em><b>Group Ids</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute HDFS_SERVER__GROUP_IDS = eINSTANCE.getHDFSServer_GroupIds();
 
 		/**
 		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ServersImpl <em>Servers</em>}' class.

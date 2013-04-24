@@ -17,30 +17,44 @@
  */
 package org.apache.hadoop.eclipse.ui.internal.hdfs;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore;
 import org.apache.hadoop.eclipse.ui.Activator;
+import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public class NewHDFSServerWizardPage extends WizardPage {
 
+	private static final Logger logger = Logger.getLogger(NewHDFSServerWizardPage.class);
 	private Combo serverCombo;
 	private Text serverNameText;
 
 	private String hdfsServerLocation = null;
 	private String hdfsServerName = null;
+	private boolean overrideDefaultSecurity = false;
+	private String userId = null;
+	private List<String> groupIds = new ArrayList<String>();
 
 	protected NewHDFSServerWizardPage() {
 		super("HDFS Server Location");
@@ -100,7 +114,69 @@ public class NewHDFSServerWizardPage extends WizardPage {
 		Label exampleLabel = new Label(c, SWT.NONE);
 		exampleLabel.setText("Example: hdfs://hdfs.server.hostname:8020");
 		exampleLabel.setForeground(Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY));
-		
+		// Security
+		Group securityGroup = new Group(c, SWT.SHADOW_ETCHED_IN);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 2;
+		securityGroup.setLayoutData(gd);
+		securityGroup.setText("Security");
+		securityGroup.setLayout(new GridLayout(2, false));
+		// Override security checkbox
+		List<String> userAndGroupIds = getUserAndGroupIds();
+		final Button overrideSecurityCheckbox = new Button(securityGroup, SWT.CHECK);
+		gd = new GridData();
+		gd.horizontalSpan = 2;
+		overrideSecurityCheckbox.setText("Override default security");
+		overrideSecurityCheckbox.setLayoutData(gd);
+		overrideSecurityCheckbox.setSelection(overrideDefaultSecurity);
+		// User ID
+		new Label(securityGroup, SWT.NONE).setText("User ID:");
+		final Text userIdText = new Text(securityGroup, SWT.BORDER | SWT.SINGLE);
+		userIdText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		userIdText.setEnabled(overrideDefaultSecurity);
+		userIdText.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				userId = userIdText.getText();
+				if(userId!=null && userId.trim().length()<1)
+					userId = null;
+				validate();
+			}
+		});
+		if (userAndGroupIds != null && userAndGroupIds.size() > 0)
+			userIdText.setText(userAndGroupIds.get(0));
+		// Group IDs
+		Label groupIdsLabel = new Label(securityGroup, SWT.NONE);
+		groupIdsLabel.setText("Group IDs:");
+		groupIdsLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+		final org.eclipse.swt.widgets.List groupsList = new org.eclipse.swt.widgets.List(securityGroup, SWT.BORDER);
+		groupsList.setLayoutData(new GridData(GridData.FILL_BOTH));
+		groupsList.setEnabled(overrideDefaultSecurity);
+		if (userAndGroupIds != null && userAndGroupIds.size() > 1)
+			for (String groupId : userAndGroupIds.subList(1, userAndGroupIds.size()))
+				groupsList.add(groupId);
+		overrideSecurityCheckbox.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				overrideDefaultSecurity = overrideSecurityCheckbox.getSelection();
+				if (overrideDefaultSecurity) {
+					userId = userIdText.getText();
+					String[] gids = groupsList.getItems();
+					if (gids != null) {
+						for (String gid : gids) {
+							groupIds.add(gid);
+						}
+					}
+				} else {
+					userId = null;
+					groupIds.clear();
+				}
+				userIdText.setEnabled(overrideDefaultSecurity);
+				//We do not support selection/add/remove of groups
+				// groupsList.setEnabled(overrideDefaultSecurity);
+			}
+		});
+
 		// Populate
 		String currentUrls = Activator.getDefault().getPreferenceStore().getString(Activator.PREFERENCE_HDFS_URLS);
 		StringTokenizer st = new StringTokenizer(currentUrls, "\r\n", false);
@@ -111,11 +187,22 @@ public class NewHDFSServerWizardPage extends WizardPage {
 		this.setControl(c);
 	}
 
+	private List<String> getUserAndGroupIds() {
+		try {
+			return HDFSFileStore.getClient().getDefaultUserAndGroupIds();
+		} catch (IOException e) {
+			logger.warn(e.getMessage(), e);
+		} catch (CoreException e) {
+			logger.warn(e.getMessage(), e);
+		}
+		return null;
+	}
+
 	/**
 	 * 
 	 */
 	protected void validate() {
-		setPageComplete(getHdfsServerName() != null && getHdfsServerLocation() != null);
+		setPageComplete(getHdfsServerName() != null && getHdfsServerLocation() != null && (!overrideDefaultSecurity || userId != null));
 	}
 
 	public String getHdfsServerLocation() {
@@ -132,5 +219,17 @@ public class NewHDFSServerWizardPage extends WizardPage {
 
 	public String getHdfsServerName() {
 		return hdfsServerName;
+	}
+
+	public boolean isOverrideDefaultSecurity() {
+		return overrideDefaultSecurity;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public List<String> getGroupIds() {
+		return groupIds;
 	}
 }

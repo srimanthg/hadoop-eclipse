@@ -17,11 +17,16 @@
  */
 package org.apache.hadoop.eclipse.ui.internal.hdfs;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
+import org.apache.hadoop.eclipse.hdfs.ResourceInformation.Permissions;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSManager;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSURI;
+import org.apache.hadoop.eclipse.internal.model.HDFSServer;
+import org.apache.hadoop.eclipse.ui.Activator;
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.resources.IProject;
@@ -100,11 +105,36 @@ public class HDFSLightweightLabelDecorator implements ILightweightLabelDecorator
 			URI locationURI = r.getLocationURI();
 			if (HDFSURI.SCHEME.equals(locationURI.getScheme())) {
 				try {
-					HDFSFileStore store = (HDFSFileStore) EFS.getStore(locationURI);
-					if (r instanceof IProject)
-						decoration.addSuffix(" " + locationURI.toString());
-					else
-						decorate(store, decoration);
+					if (r instanceof IProject) {
+						HDFSServer server = HDFSManager.INSTANCE.getServer(locationURI.toString());
+						if (server != null) {
+							String serverUrl = server.getUri();
+							String userId = server.getUserId();
+							if (userId == null) {
+								try {
+									userId = HDFSFileStore.getClient().getDefaultUserAndGroupIds().get(0);
+								} catch (Throwable e) {
+									userId = null;
+								}
+							}
+							if (userId == null)
+								userId = "";
+							else
+								userId = userId + "@";
+							if(serverUrl!=null){
+								try {
+									URI uri = new URI(serverUrl);
+									serverUrl = serverUrl.substring(uri.getScheme().length()+3);
+								} catch (Throwable e) {
+								}
+							}
+							if(serverUrl.endsWith("/"))
+								serverUrl = serverUrl.substring(0, serverUrl.length()-1);
+							decoration.addSuffix(" " + userId+serverUrl);
+						} else
+							decoration.addSuffix(" [Unknown server]");
+					} else
+						decorate((HDFSFileStore) EFS.getStore(locationURI), decoration);
 				} catch (CoreException e) {
 					logger.debug(e.getMessage(), e);
 				}
@@ -120,7 +150,14 @@ public class HDFSLightweightLabelDecorator implements ILightweightLabelDecorator
 				if (store.isLocalFile()) {
 					decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_LOCAL_OVR);
 				} else {
-					decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_REMOTE_OVR);
+					Permissions effectivePermissions = store.getEffectivePermissions();
+					if (effectivePermissions != null) {
+						if (!effectivePermissions.read && !effectivePermissions.write)
+							decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_READONLY_OVR);
+						else
+							decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_REMOTE_OVR);
+					} else
+						decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_REMOTE_OVR);
 				}
 			}
 		}

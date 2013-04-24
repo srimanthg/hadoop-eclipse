@@ -71,10 +71,12 @@ public class NewHDFSWizard extends Wizard implements INewWizard {
 					ps.setValue(Activator.PREFERENCE_HDFS_URLS, currentUrls);
 				}
 
-				Job j = new Job("Creating HDFS project ["+serverLocationWizardPage.getHdfsServerName()+"]"){
+				Job j = new Job("Creating HDFS project [" + serverLocationWizardPage.getHdfsServerName() + "]") {
 					protected org.eclipse.core.runtime.IStatus run(org.eclipse.core.runtime.IProgressMonitor monitor) {
 						try {
-							HDFSManager.INSTANCE.createServer(serverLocationWizardPage.getHdfsServerName(), new URI(serverLocationWizardPage.getHdfsServerLocation()));
+							HDFSManager.INSTANCE.createServer(serverLocationWizardPage.getHdfsServerName(), new URI(serverLocationWizardPage
+									.getHdfsServerLocation()), serverLocationWizardPage.isOverrideDefaultSecurity() ? serverLocationWizardPage.getUserId()
+									: null, serverLocationWizardPage.isOverrideDefaultSecurity() ? serverLocationWizardPage.getGroupIds() : null);
 						} catch (CoreException e) {
 							logger.warn(e.getMessage(), e);
 						} catch (URISyntaxException e) {

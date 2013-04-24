@@ -32,8 +32,10 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.permission.FsAction;
+import org.apache.hadoop.fs.permission.FsPermission;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
  * HDFS Client for HDFS version 1.1.2.21.
@@ -60,7 +62,23 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 		fi.setPath(fileStatus.getPath().getParent() == null ? "/" : fileStatus.getPath().getParent().toString());
 		fi.setReplicationFactor(fileStatus.getReplication());
 		fi.setSize(fileStatus.getLen());
+		FsPermission fsPermission = fileStatus.getPermission();
+		updatePermissions(fi.getUserPermissions(), fsPermission.getUserAction());
+		updatePermissions(fi.getGroupPermissions(), fsPermission.getGroupAction());
+		updatePermissions(fi.getOtherPermissions(), fsPermission.getOtherAction());
 		return fi;
+	}
+
+	private void updatePermissions(ResourceInformation.Permissions permissions, FsAction action) {
+		permissions.read = action.implies(FsAction.READ);
+		permissions.write = action.implies(FsAction.WRITE);
+		permissions.execute = action.implies(FsAction.EXECUTE);
+	}
+	
+	protected FileSystem createFS(URI uri, String user) throws IOException, InterruptedException{
+		if(user==null)
+			return FileSystem.get(uri, config);
+		return FileSystem.get(uri, config, user);
 	}
 
 	/*
@@ -69,8 +87,8 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * @see org.apache.hadoop.eclipse.hdfs.HDFSClient#getResource(java.net.URI)
 	 */
 	@Override
-	public ResourceInformation getResourceInformation(URI uri) throws IOException {
-		FileSystem fs = FileSystem.get(uri, config);
+	public ResourceInformation getResourceInformation(URI uri, String user) throws IOException, InterruptedException {
+		FileSystem fs = createFS(uri, user);
 		Path path = new Path(uri.getPath());
 		FileStatus fileStatus = null;
 		ResourceInformation fi = null;
@@ -91,8 +109,8 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.apache.hadoop.eclipse.hdfs.ResourceInformation)
 	 */
 	@Override
-	public void setResourceInformation(URI uri, ResourceInformation information) throws IOException {
-		FileSystem fs = FileSystem.get(uri, config);
+	public void setResourceInformation(URI uri, ResourceInformation information, String user) throws IOException, InterruptedException {
+		FileSystem fs = createFS(uri, user);
 		Path path = new Path(uri.getPath());
 		if (!information.isFolder()) {
 			fs.setTimes(path, information.getLastModifiedTime(), information.getLastAccessedTime());
@@ -108,9 +126,9 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.apache.hadoop.eclipse.hdfs.HDFSClient#listResources(java.net.URI)
 	 */
 	@Override
-	public List<ResourceInformation> listResources(URI uri) throws IOException {
+	public List<ResourceInformation> listResources(URI uri, String user) throws IOException, InterruptedException {
 		List<ResourceInformation> ris = null;
-		FileSystem fs = FileSystem.get(uri, config);
+		FileSystem fs = createFS(uri, user);
 		Path path = new Path(uri.getPath());
 		FileStatus[] listStatus = fs.listStatus(path);
 		if (listStatus != null) {
@@ -130,8 +148,8 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public InputStream openInputStream(URI uri) throws IOException {
-		FileSystem fs = FileSystem.get(uri, config);
+	public InputStream openInputStream(URI uri, String user) throws IOException, InterruptedException {
+		FileSystem fs = createFS(uri, user);
 		Path path = new Path(uri.getPath());
 		FSDataInputStream open = fs.open(path);
 		return open;
@@ -145,8 +163,8 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public OutputStream createOutputStream(URI uri) throws IOException {
-		FileSystem fs = FileSystem.get(uri, config);
+	public OutputStream createOutputStream(URI uri, String user) throws IOException, InterruptedException {
+		FileSystem fs = createFS(uri, user);
 		Path path = new Path(uri.getPath());
 		FSDataOutputStream outputStream = fs.create(path);
 		return outputStream;
@@ -160,8 +178,8 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public OutputStream openOutputStream(URI uri) throws IOException {
-		FileSystem fs = FileSystem.get(uri, config);
+	public OutputStream openOutputStream(URI uri, String user) throws IOException, InterruptedException {
+		FileSystem fs = createFS(uri, user);
 		Path path = new Path(uri.getPath());
 		// TODO. Temporary fix till Issue#3 is fixed.
 		FSDataOutputStream outputStream = fs.create(path);
@@ -175,8 +193,8 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public boolean mkdirs(URI uri, IProgressMonitor monitor) throws IOException {
-		FileSystem fs = FileSystem.get(uri, config);
+	public boolean mkdirs(URI uri, String user) throws IOException, InterruptedException {
+		FileSystem fs = createFS(uri, user);
 		Path path = new Path(uri.getPath());
 		return fs.mkdirs(path);
 	}
@@ -188,10 +206,30 @@ public class HDFSClientRelease extends org.apache.hadoop.eclipse.hdfs.HDFSClient
 	 * org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
-	public void delete(URI uri, IProgressMonitor monitor) throws IOException {
-		FileSystem fs = FileSystem.get(uri, config);
+	public void delete(URI uri, String user) throws IOException, InterruptedException {
+		FileSystem fs = createFS(uri, user);
 		Path path = new Path(uri.getPath());
 		fs.delete(path, true);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.hadoop.eclipse.hdfs.HDFSClient#getDefaultUserAndGroupIds()
+	 */
+	@Override
+	public List<String> getDefaultUserAndGroupIds() throws IOException {
+		List<String> idList = new ArrayList<String>();
+		UserGroupInformation currentUser = UserGroupInformation.getCurrentUser();
+		idList.add(currentUser.getShortUserName());
+		String[] groupIds = currentUser.getGroupNames();
+		if (groupIds != null) {
+			for (String groupId : groupIds) {
+				idList.add(groupId);
+			}
+		}
+		return idList;
 	}
 
 }

@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.hadoop.eclipse.Activator;
@@ -148,19 +149,23 @@ public class HDFSManager {
 	 * @return
 	 * @throws CoreException
 	 */
-	public HDFSServer createServer(String name, java.net.URI hdfsURI) throws CoreException {
+	public HDFSServer createServer(String name, java.net.URI hdfsURI, String userId, List<String> groupIds) throws CoreException {
 		if (hdfsURI.getPath().length() < 1) {
 			try {
 				hdfsURI = new java.net.URI(hdfsURI.toString() + "/");
 			} catch (URISyntaxException e) {
 			}
 		}
-
 		HDFSServer hdfsServer = HadoopFactory.eINSTANCE.createHDFSServer();
 		hdfsServer.setName(name);
 		hdfsServer.setUri(hdfsURI.toString());
 		hdfsServer.setLoaded(true);
 		hdfsServer.setWorkspaceProjectName(name);
+		if(userId!=null)
+			hdfsServer.setUserId(userId);
+		if (groupIds != null)
+			for (String groupId : groupIds)
+				hdfsServer.getGroupIds().add(groupId);
 		getServers().getHdfsServers().add(hdfsServer);
 		saveServers();
 		uriToServerMap.put(hdfsServer.getUri(), hdfsServer);

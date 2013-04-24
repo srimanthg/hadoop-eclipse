@@ -36,6 +36,7 @@ import org.apache.hadoop.eclipse.hdfs.ResourceInformation;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.filesystem.provider.FileInfo;
@@ -64,6 +65,7 @@ public class HDFSFileStore extends FileStore {
 	private File localFile = null;
 	private IFileInfo serverFileInfo = null;
 	private HDFSServer hdfsServer;
+	private ResourceInformation.Permissions effectivePermissions = null;
 
 	public HDFSFileStore(HDFSURI uri) {
 		this.uri = uri;
@@ -81,12 +83,14 @@ public class HDFSFileStore extends FileStore {
 		List<String> childNamesList = new ArrayList<String>();
 		if (getServer() != null) {
 			try {
-				List<ResourceInformation> listResources = getClient().listResources(uri.getURI());
+				List<ResourceInformation> listResources = getClient().listResources(uri.getURI(), getServer().getUserId());
 				for (ResourceInformation lr : listResources) {
 					if (lr != null)
 						childNamesList.add(lr.getName());
 				}
 			} catch (IOException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+			} catch (InterruptedException e) {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
 		}
@@ -98,23 +102,38 @@ public class HDFSFileStore extends FileStore {
 	@Override
 	public IFileInfo fetchInfo(int options, IProgressMonitor monitor) throws CoreException {
 		if (serverFileInfo == null) {
+			this.effectivePermissions = new ResourceInformation.Permissions();
 			FileInfo fi = new FileInfo(getName());
-			if (getServer() != null) {
+			HDFSServer server = getServer();
+			if (server != null) {
 				try {
 					if (".project".equals(getName())) {
 						fi.setExists(getLocalFile().exists());
 						fi.setLength(getLocalFile().length());
 					} else {
-						ResourceInformation fileInformation = getClient().getResourceInformation(uri.getURI());
+						ResourceInformation fileInformation = getClient().getResourceInformation(uri.getURI(), server.getUserId());
 						if (fileInformation != null) {
 							fi.setDirectory(fileInformation.isFolder());
 							fi.setExists(true);
 							fi.setLastModified(fileInformation.getLastModifiedTime());
 							fi.setLength(fileInformation.getSize());
 							fi.setName(fileInformation.getName());
+							fileInformation.updateEffectivePermissions(server.getUserId(), server.getGroupIds());
+							this.effectivePermissions.copy(fileInformation.getEffectivePermissions());
+							fi.setAttribute(EFS.ATTRIBUTE_OWNER_READ, fileInformation.getUserPermissions().read);
+							fi.setAttribute(EFS.ATTRIBUTE_OWNER_WRITE, fileInformation.getUserPermissions().write);
+							fi.setAttribute(EFS.ATTRIBUTE_OWNER_EXECUTE, fileInformation.getUserPermissions().execute);
+							fi.setAttribute(EFS.ATTRIBUTE_GROUP_READ, fileInformation.getGroupPermissions().read);
+							fi.setAttribute(EFS.ATTRIBUTE_GROUP_WRITE, fileInformation.getGroupPermissions().write);
+							fi.setAttribute(EFS.ATTRIBUTE_GROUP_EXECUTE, fileInformation.getGroupPermissions().execute);
+							fi.setAttribute(EFS.ATTRIBUTE_OTHER_READ, fileInformation.getOtherPermissions().read);
+							fi.setAttribute(EFS.ATTRIBUTE_OTHER_WRITE, fileInformation.getOtherPermissions().write);
+							fi.setAttribute(EFS.ATTRIBUTE_OTHER_EXECUTE, fileInformation.getOtherPermissions().execute);
 						}
 					}
 				} catch (IOException e) {
+					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+				} catch (InterruptedException e) {
 					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 				} finally {
 				}
@@ -142,8 +161,11 @@ public class HDFSFileStore extends FileStore {
 			ResourceInformation ri = new ResourceInformation();
 			ri.setFolder(info.isDirectory());
 			ri.setLastModifiedTime(info.getLastModified());
-			getClient().setResourceInformation(uri.getURI(), ri);
+			HDFSServer server = getServer();
+			getClient().setResourceInformation(uri.getURI(), ri, server == null ? null : server.getUserId());
 		} catch (IOException e) {
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+		} catch (InterruptedException e) {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
 	}
@@ -211,6 +233,7 @@ public class HDFSFileStore extends FileStore {
 					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 				}
 			} else {
+				HDFSServer server = getServer();
 				return openRemoteInputStream(options, monitor);
 			}
 		}
@@ -223,8 +246,11 @@ public class HDFSFileStore extends FileStore {
 			return null;
 		} else {
 			try {
-				return getClient().openInputStream(uri.getURI());
+				HDFSServer server = getServer();
+				return getClient().openInputStream(uri.getURI(), server == null ? null : server.getUserId());
 			} catch (IOException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+			} catch (InterruptedException e) {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
 		}
@@ -235,7 +261,7 @@ public class HDFSFileStore extends FileStore {
 		return uri.getURI();
 	}
 
-	protected HDFSClient getClient() throws CoreException {
+	public static HDFSClient getClient() throws CoreException {
 		IConfigurationElement[] elementsFor = Platform.getExtensionRegistry().getConfigurationElementsFor("org.apache.hadoop.eclipse.hdfsclient");
 		try {
 			return (HDFSClient) elementsFor[0].createExecutableExtension("class");
@@ -282,12 +308,16 @@ public class HDFSFileStore extends FileStore {
 			logger.debug("[" + uri + "]: mkdir()");
 		try {
 			clearServerFileInfo();
-			if (getClient().mkdirs(uri.getURI(), monitor)) {
+			HDFSServer server = getServer();
+			if (getClient().mkdirs(uri.getURI(), server == null ? null : server.getUserId())) {
 				return this;
 			} else {
 				return null;
 			}
 		} catch (IOException e) {
+			logger.error("Unable to mkdir: " + uri);
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+		} catch (InterruptedException e) {
 			logger.error("Unable to mkdir: " + uri);
 			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
@@ -344,14 +374,17 @@ public class HDFSFileStore extends FileStore {
 		if (logger.isDebugEnabled())
 			logger.debug("[" + uri + "]: openRemoteOutputStream()");
 		try {
+			HDFSServer server = getServer();
 			if (fetchInfo().exists()) {
 				clearServerFileInfo();
-				return getClient().openOutputStream(uri.getURI());
+				return getClient().openOutputStream(uri.getURI(), server == null ? null : server.getUserId());
 			} else {
 				clearServerFileInfo();
-				return getClient().createOutputStream(uri.getURI());
+				return getClient().createOutputStream(uri.getURI(), server == null ? null : server.getUserId());
 			}
 		} catch (IOException e) {
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+		} catch (InterruptedException e) {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
 	}
@@ -375,7 +408,7 @@ public class HDFSFileStore extends FileStore {
 					// on HDFS.
 				} else {
 					clearServerFileInfo();
-					getClient().delete(uri.getURI(), monitor);
+					getClient().delete(uri.getURI(), server == null ? null : server.getUserId());
 				}
 			} else {
 				// Not associated with any server, we just disconnect.
@@ -383,6 +416,21 @@ public class HDFSFileStore extends FileStore {
 		} catch (IOException e) {
 			logger.error("Unable to delete: " + uri);
 			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
+		} catch (InterruptedException e) {
+			logger.error("Unable to delete: " + uri);
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		}
+	}
+
+	/**
+	 * @return the effectivePermissions
+	 */
+	public ResourceInformation.Permissions getEffectivePermissions() {
+		if (effectivePermissions == null) {
+			fetchInfo();
+			if (effectivePermissions == null)
+				effectivePermissions = new ResourceInformation.Permissions();
+		}
+		return effectivePermissions;
 	}
 }

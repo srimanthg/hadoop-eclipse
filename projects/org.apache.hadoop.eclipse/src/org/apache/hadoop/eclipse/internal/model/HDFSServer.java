@@ -37,6 +37,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#isLoaded <em>Loaded</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getWorkspaceProjectName <em>Workspace Project Name</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getOperationURIs <em>Operation UR Is</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getUserId <em>User Id</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getGroupIds <em>Group Ids</em>}</li>
  * </ul>
  * </p>
  *
@@ -242,5 +244,47 @@ public interface HDFSServer extends EObject {
 	 * @generated
 	 */
 	EList<String> getOperationURIs();
+
+	/**
+	 * Returns the value of the '<em><b>User Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>User Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>User Id</em>' attribute.
+	 * @see #setUserId(String)
+	 * @see org.apache.hadoop.eclipse.internal.model.HadoopPackage#getHDFSServer_UserId()
+	 * @model
+	 * @generated
+	 */
+	String getUserId();
+
+	/**
+	 * Sets the value of the '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getUserId <em>User Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>User Id</em>' attribute.
+	 * @see #getUserId()
+	 * @generated
+	 */
+	void setUserId(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Group Ids</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Group Ids</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Group Ids</em>' attribute list.
+	 * @see org.apache.hadoop.eclipse.internal.model.HadoopPackage#getHDFSServer_GroupIds()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getGroupIds();
 
 } // HDFSServer
