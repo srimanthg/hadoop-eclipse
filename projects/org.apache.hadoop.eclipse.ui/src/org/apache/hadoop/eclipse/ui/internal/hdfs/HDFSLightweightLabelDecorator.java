@@ -17,16 +17,13 @@
  */
 package org.apache.hadoop.eclipse.ui.internal.hdfs;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.apache.hadoop.eclipse.hdfs.ResourceInformation.Permissions;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSManager;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSURI;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
-import org.apache.hadoop.eclipse.ui.Activator;
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.resources.IProject;

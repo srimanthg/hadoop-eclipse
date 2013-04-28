@@ -64,8 +64,10 @@ public class HDFSFileStore extends FileStore {
 	private final HDFSURI uri;
 	private File localFile = null;
 	private IFileInfo serverFileInfo = null;
+	private ResourceInformation serverResourceInfo = null;
 	private HDFSServer hdfsServer;
 	private ResourceInformation.Permissions effectivePermissions = null;
+	private List<String> systemDefaultUserIdAndGroupIds = null;
 
 	public HDFSFileStore(HDFSURI uri) {
 		this.uri = uri;
@@ -102,6 +104,7 @@ public class HDFSFileStore extends FileStore {
 	@Override
 	public IFileInfo fetchInfo(int options, IProgressMonitor monitor) throws CoreException {
 		if (serverFileInfo == null) {
+			serverResourceInfo = null;
 			this.effectivePermissions = new ResourceInformation.Permissions();
 			FileInfo fi = new FileInfo(getName());
 			HDFSServer server = getServer();
@@ -113,12 +116,19 @@ public class HDFSFileStore extends FileStore {
 					} else {
 						ResourceInformation fileInformation = getClient().getResourceInformation(uri.getURI(), server.getUserId());
 						if (fileInformation != null) {
+							serverResourceInfo = fileInformation;
 							fi.setDirectory(fileInformation.isFolder());
 							fi.setExists(true);
 							fi.setLastModified(fileInformation.getLastModifiedTime());
 							fi.setLength(fileInformation.getSize());
 							fi.setName(fileInformation.getName());
-							fileInformation.updateEffectivePermissions(server.getUserId(), server.getGroupIds());
+							String userId = server.getUserId();
+							List<String> groupIds = server.getGroupIds();
+							if (userId == null) {
+								userId = getDefaultUserId();
+								groupIds = getDefaultGroupIds();
+							}
+							fileInformation.updateEffectivePermissions(userId, groupIds);
 							this.effectivePermissions.copy(fileInformation.getEffectivePermissions());
 							fi.setAttribute(EFS.ATTRIBUTE_OWNER_READ, fileInformation.getUserPermissions().read);
 							fi.setAttribute(EFS.ATTRIBUTE_OWNER_WRITE, fileInformation.getUserPermissions().write);
@@ -146,6 +156,36 @@ public class HDFSFileStore extends FileStore {
 		if (logger.isDebugEnabled())
 			logger.debug("[" + uri + "]: fetchInfo(): " + HDFSUtilites.getDebugMessage(serverFileInfo));
 		return serverFileInfo;
+	}
+
+	protected String getDefaultUserId() {
+		if (systemDefaultUserIdAndGroupIds == null) {
+			try {
+				this.systemDefaultUserIdAndGroupIds = getClient().getDefaultUserAndGroupIds();
+			} catch (IOException e) {
+				logger.debug(e.getMessage(), e);
+			} catch (CoreException e) {
+				logger.debug(e.getMessage(), e);
+			}
+		}
+		if (this.systemDefaultUserIdAndGroupIds != null && this.systemDefaultUserIdAndGroupIds.size() > 0)
+			return this.systemDefaultUserIdAndGroupIds.get(0);
+		return null;
+	}
+
+	protected List<String> getDefaultGroupIds() {
+		if (systemDefaultUserIdAndGroupIds == null) {
+			try {
+				this.systemDefaultUserIdAndGroupIds = getClient().getDefaultUserAndGroupIds();
+			} catch (IOException e) {
+				logger.debug(e.getMessage(), e);
+			} catch (CoreException e) {
+				logger.debug(e.getMessage(), e);
+			}
+		}
+		if (this.systemDefaultUserIdAndGroupIds != null && this.systemDefaultUserIdAndGroupIds.size() > 1)
+			return this.systemDefaultUserIdAndGroupIds.subList(1, this.systemDefaultUserIdAndGroupIds.size() - 1);
+		return null;
 	}
 
 	/*
@@ -432,5 +472,12 @@ public class HDFSFileStore extends FileStore {
 				effectivePermissions = new ResourceInformation.Permissions();
 		}
 		return effectivePermissions;
+	}
+
+	/**
+	 * @return the serverResourceInfo
+	 */
+	public ResourceInformation getServerResourceInfo() {
+		return serverResourceInfo;
 	}
 }

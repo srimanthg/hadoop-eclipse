@@ -121,5 +121,54 @@
          </action>
       </objectContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="org.eclipse.ui.navigator.ProjectExplorer"
+            typeMapper="org.apache.hadoop.eclipse.ui.internal.hdfs.PropertyTypeMapper">
+         <propertyCategory
+               category="general"></propertyCategory>
+         <propertyCategory
+               category="resource">
+         </propertyCategory>
+      </propertyContributor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs
+            contributorId="org.eclipse.ui.navigator.ProjectExplorer">
+         <propertyTab
+               category="resource"
+               id="org.apache.hadoop.eclipse.ui.propertyTab.hdfs"
+               image="icons/hadoop-hdfs-16x16.gif"
+               label="HDFS">
+         </propertyTab>
+      </propertyTabs>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections
+            contributorId="org.eclipse.ui.navigator.ProjectExplorer">
+         <propertySection
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSPropertySection"
+               enablesFor="1"
+               id="org.apache.hadoop.eclipse.ui.propertySection.hdfs"
+               tab="org.apache.hadoop.eclipse.ui.propertyTab.hdfs">
+            <input
+                  type="org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore">
+            </input>
+         </propertySection>
+      </propertySections>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore"
+            class="org.apache.hadoop.eclipse.ui.internal.HadoopAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
+   </extension>
 
 </plugin>
