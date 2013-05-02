@@ -12,7 +12,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="statusCode" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="-1">
+        transient="true" defaultValueLiteral="0">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel" references="#//HDFSServer/statusCode/%http:%2F%2Fwww.eclipse.org%2Femf%2F2002%2FGenModel%">
         <details key="documentation" value="Indicates the status of this server. Values could be from HTTP response codes to indicate server status."/>
       </eAnnotations>
@@ -39,6 +39,7 @@
         defaultValueLiteral="1.0.0.0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ServerStatus">
-    <eLiterals name="NO_PROJECT" value="1000"/>
+    <eLiterals name="NO_PROJECT" value="1"/>
+    <eLiterals name="DISCONNECTED" value="2"/>
   </eClassifiers>
 </ecore:EPackage>

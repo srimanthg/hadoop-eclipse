@@ -120,6 +120,31 @@
                menubarPath="additions">
          </action>
       </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.apache.hadoop.eclipse.ui.team.projectContribution"
+            objectClass="org.eclipse.core.resources.IProject">
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.ReconnectAction"
+               icon="icons/ovr/online.png"
+               id="org.apache.hadoop.eclipse.ui.team.projectReconnectContribution"
+               label="Reconnect"
+               menubarPath="additions">
+            <class
+                  class="org.eclipse.core.resources.IProject">
+            </class>
+         </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.DisconnectAction"
+               icon="icons/ovr/offline.png"
+               id="org.apache.hadoop.eclipse.ui.team.projectDisconnectContribution"
+               label="Disconnect"
+               menubarPath="additions">
+            <class
+                  class="org.eclipse.core.resources.IProject">
+            </class>
+         </action>
+      </objectContribution>
    </extension>
    <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">

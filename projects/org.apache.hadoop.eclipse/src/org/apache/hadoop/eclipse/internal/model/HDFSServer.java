@@ -101,7 +101,7 @@ public interface HDFSServer extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Status Code</b></em>' attribute.
-	 * The default value is <code>"-1"</code>.
+	 * The default value is <code>"0"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -110,7 +110,7 @@ public interface HDFSServer extends EObject {
 	 * @return the value of the '<em>Status Code</em>' attribute.
 	 * @see #setStatusCode(int)
 	 * @see org.apache.hadoop.eclipse.internal.model.HadoopPackage#getHDFSServer_StatusCode()
-	 * @model default="-1"
+	 * @model default="0" transient="true"
 	 * @generated
 	 */
 	int getStatusCode();

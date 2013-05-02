@@ -102,7 +102,7 @@ public class HDFSServerImpl extends EObjectImpl implements HDFSServer {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int STATUS_CODE_EDEFAULT = -1;
+	protected static final int STATUS_CODE_EDEFAULT = 0;
 
 	/**
 	 * The cached value of the '{@link #getStatusCode() <em>Status Code</em>}' attribute.

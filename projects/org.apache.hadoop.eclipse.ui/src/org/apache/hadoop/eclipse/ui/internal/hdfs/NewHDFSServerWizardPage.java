@@ -17,17 +17,13 @@
  */
 package org.apache.hadoop.eclipse.ui.internal.hdfs;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore;
 import org.apache.hadoop.eclipse.ui.Activator;
-import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -46,7 +42,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class NewHDFSServerWizardPage extends WizardPage {
 
-	private static final Logger logger = Logger.getLogger(NewHDFSServerWizardPage.class);
+	//private static final Logger logger = Logger.getLogger(NewHDFSServerWizardPage.class);
 	private Combo serverCombo;
 	private Text serverNameText;
 
@@ -188,14 +184,8 @@ public class NewHDFSServerWizardPage extends WizardPage {
 	}
 
 	private List<String> getUserAndGroupIds() {
-		try {
-			return HDFSFileStore.getClient().getDefaultUserAndGroupIds();
-		} catch (IOException e) {
-			logger.warn(e.getMessage(), e);
-		} catch (CoreException e) {
-			logger.warn(e.getMessage(), e);
-		}
-		return null;
+		List<String> list = new ArrayList<String>();
+		return list;
 	}
 
 	/**

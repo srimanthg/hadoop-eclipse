@@ -46,6 +46,8 @@ public class Activator extends AbstractUIPlugin {
 	public static ImageDescriptor IMAGE_SYNC_OVR;
 	public static ImageDescriptor IMAGE_READONLY_OVR;
 	public static ImageDescriptor IMAGE_HADOOP;
+	public static ImageDescriptor IMAGE_OFFLINE_OVR;
+	public static ImageDescriptor IMAGE_ONLINE_OVR;
 	// Images
 	public static Image IMAGE_HDFS;
 
@@ -106,6 +108,8 @@ public class Activator extends AbstractUIPlugin {
 		URL hdfsUrl = FileLocator.find(bundle, new Path("/icons/hadoop-hdfs-16x16.gif"), null);
 		URL hadoopUrl = FileLocator.find(bundle, new Path("/icons/hadoop-logo-16x16.png"), null);
 		URL readonlyUrl = FileLocator.find(bundle, new Path("/icons/ovr/read_only.gif"), null);
+		URL offlineUrl = FileLocator.find(bundle, new Path("/icons/ovr/offline.png"), null);
+		URL onlineUrl = FileLocator.find(bundle, new Path("/icons/ovr/online.png"), null);
 		IMAGE_REMOTE_OVR = ImageDescriptor.createFromURL(remoteFileUrl);
 		IMAGE_LOCAL_OVR = ImageDescriptor.createFromURL(localFileUrl);
 		IMAGE_INCOMING_OVR = ImageDescriptor.createFromURL(incomingUrl);
@@ -114,5 +118,8 @@ public class Activator extends AbstractUIPlugin {
 		IMAGE_HDFS = ImageDescriptor.createFromURL(hdfsUrl).createImage();
 		IMAGE_HADOOP = ImageDescriptor.createFromURL(hadoopUrl);
 		IMAGE_READONLY_OVR = ImageDescriptor.createFromURL(readonlyUrl);
+		IMAGE_OFFLINE_OVR = ImageDescriptor.createFromURL(offlineUrl);
+		IMAGE_ONLINE_OVR = ImageDescriptor.createFromURL(onlineUrl);
+		
 	}
 }

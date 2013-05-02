@@ -42,7 +42,15 @@ public enum ServerStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	NO_PROJECT(1000, "NO_PROJECT", "NO_PROJECT");
+	NO_PROJECT(1, "NO_PROJECT", "NO_PROJECT"), /**
+	 * The '<em><b>DISCONNECTED</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #DISCONNECTED_VALUE
+	 * @generated
+	 * @ordered
+	 */
+	DISCONNECTED(2, "DISCONNECTED", "DISCONNECTED");
 
 	/**
 	 * The '<em><b>NO PROJECT</b></em>' literal value.
@@ -57,7 +65,22 @@ public enum ServerStatus implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	public static final int NO_PROJECT_VALUE = 1000;
+	public static final int NO_PROJECT_VALUE = 1;
+
+	/**
+	 * The '<em><b>DISCONNECTED</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>DISCONNECTED</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DISCONNECTED
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DISCONNECTED_VALUE = 2;
 
 	/**
 	 * An array of all the '<em><b>Server Status</b></em>' enumerators.
@@ -68,6 +91,7 @@ public enum ServerStatus implements Enumerator {
 	private static final ServerStatus[] VALUES_ARRAY =
 		new ServerStatus[] {
 			NO_PROJECT,
+			DISCONNECTED,
 		};
 
 	/**
@@ -119,6 +143,7 @@ public enum ServerStatus implements Enumerator {
 	public static ServerStatus get(int value) {
 		switch (value) {
 			case NO_PROJECT_VALUE: return NO_PROJECT;
+			case DISCONNECTED_VALUE: return DISCONNECTED;
 		}
 		return null;
 	}

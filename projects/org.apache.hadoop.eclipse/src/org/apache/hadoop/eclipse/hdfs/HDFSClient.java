@@ -35,8 +35,9 @@ public abstract class HDFSClient {
 	 * @return List of ids. First ID has to be of the user. Group IDs are
 	 *         optional.
 	 * @throws IOException
+	 * @throws InterruptedException 
 	 */
-	public abstract List<String> getDefaultUserAndGroupIds() throws IOException;
+	public abstract List<String> getDefaultUserAndGroupIds() throws IOException, InterruptedException;
 
 	/**
 	 * 

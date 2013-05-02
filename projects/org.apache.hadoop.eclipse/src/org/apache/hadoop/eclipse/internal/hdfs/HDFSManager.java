@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.hadoop.eclipse.Activator;
+import org.apache.hadoop.eclipse.hdfs.HDFSClient;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.hadoop.eclipse.internal.model.HadoopFactory;
 import org.apache.hadoop.eclipse.internal.model.ServerStatus;
@@ -35,12 +36,16 @@ import org.apache.hadoop.eclipse.internal.model.Servers;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -59,10 +64,33 @@ public class HDFSManager {
 	public static HDFSManager INSTANCE = new HDFSManager();
 	private static final Logger logger = Logger.getLogger(HDFSManager.class);
 	private static final String MODEL_FILE_NAME = "servers.xmi";
+	
+	public static void disconnectProject(IProject project){
+		HDFSServer server = HDFSManager.INSTANCE.getServer(project.getLocationURI().toString());
+		if (server != null && server.getStatusCode() != ServerStatus.DISCONNECTED_VALUE)
+			server.setStatusCode(ServerStatus.DISCONNECTED_VALUE);
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (CoreException e) {
+			logger.warn(e.getMessage(), e);
+		}
+	}
+	
+	public static void reconnectProject(IProject project){
+		HDFSServer server = HDFSManager.INSTANCE.getServer(project.getLocationURI().toString());
+		if (server != null && server.getStatusCode() == ServerStatus.DISCONNECTED_VALUE)
+			server.setStatusCode(0);
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (CoreException e) {
+			logger.warn(e.getMessage(), e);
+		}
+	}
 
 	private Servers servers = null;
 	private Map<HDFSServer, String> serverToProjectMap = new HashMap<HDFSServer, String>();
 	private Map<String, HDFSServer> projectToServerMap = new HashMap<String, HDFSServer>();
+	private final Map<String, HDFSClient> hdfsClientsMap = new HashMap<String, HDFSClient>();
 	/**
 	 * URI should always end with a '/'
 	 */
@@ -161,7 +189,7 @@ public class HDFSManager {
 		hdfsServer.setUri(hdfsURI.toString());
 		hdfsServer.setLoaded(true);
 		hdfsServer.setWorkspaceProjectName(name);
-		if(userId!=null)
+		if (userId != null)
 			hdfsServer.setUserId(userId);
 		if (groupIds != null)
 			for (String groupId : groupIds)
@@ -251,5 +279,33 @@ public class HDFSManager {
 		this.projectToServerMap.remove(projectName);
 		this.uriToServerMap.remove(server.getUri());
 		saveServers();
+	}
+
+	/**
+	 * Provides the HDFSClient instance to
+	 * 
+	 * @param serverURI
+	 * @return
+	 * @throws CoreException
+	 */
+	public HDFSClient getClient(String serverURI) throws CoreException {
+		HDFSServer server = getServer(serverURI);
+		if (server != null && server.getStatusCode() == ServerStatus.DISCONNECTED_VALUE) {
+			if (logger.isDebugEnabled())
+				logger.debug("getClient(" + serverURI + "): Server timed out. Not returning client");
+			throw new CoreException(new Status(IStatus.WARNING, Activator.BUNDLE_ID, "Server disconnected due to timeout. Please reconnect to server."));
+		}
+		if (hdfsClientsMap.containsKey(serverURI))
+			return hdfsClientsMap.get(serverURI);
+		else {
+			IConfigurationElement[] elementsFor = Platform.getExtensionRegistry().getConfigurationElementsFor("org.apache.hadoop.eclipse.hdfsclient");
+			try {
+				HDFSClient client = (HDFSClient) elementsFor[0].createExecutableExtension("class");
+				hdfsClientsMap.put(serverURI, new InterruptableHDFSClient(serverURI, client));
+			} catch (CoreException t) {
+				throw t;
+			}
+			return hdfsClientsMap.get(serverURI);
+		}
 	}
 }

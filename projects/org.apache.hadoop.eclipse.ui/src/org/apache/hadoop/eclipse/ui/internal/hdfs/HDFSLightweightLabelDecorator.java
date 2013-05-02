@@ -24,6 +24,7 @@ import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSManager;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSURI;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
+import org.apache.hadoop.eclipse.internal.model.ServerStatus;
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.resources.IProject;
@@ -103,13 +104,14 @@ public class HDFSLightweightLabelDecorator implements ILightweightLabelDecorator
 			if (HDFSURI.SCHEME.equals(locationURI.getScheme())) {
 				try {
 					if (r instanceof IProject) {
-						HDFSServer server = HDFSManager.INSTANCE.getServer(locationURI.toString());
+						final HDFSManager hdfsManager = HDFSManager.INSTANCE;
+						HDFSServer server = hdfsManager.getServer(locationURI.toString());
 						if (server != null) {
 							String serverUrl = server.getUri();
 							String userId = server.getUserId();
 							if (userId == null) {
 								try {
-									userId = HDFSFileStore.getClient().getDefaultUserAndGroupIds().get(0);
+									userId = hdfsManager.getClient(serverUrl).getDefaultUserAndGroupIds().get(0);
 								} catch (Throwable e) {
 									userId = null;
 								}
@@ -118,16 +120,20 @@ public class HDFSLightweightLabelDecorator implements ILightweightLabelDecorator
 								userId = "";
 							else
 								userId = userId + "@";
-							if(serverUrl!=null){
+							if (serverUrl != null) {
 								try {
 									URI uri = new URI(serverUrl);
-									serverUrl = serverUrl.substring(uri.getScheme().length()+3);
+									serverUrl = serverUrl.substring(uri.getScheme().length() + 3);
 								} catch (Throwable e) {
 								}
 							}
-							if(serverUrl.endsWith("/"))
-								serverUrl = serverUrl.substring(0, serverUrl.length()-1);
-							decoration.addSuffix(" " + userId+serverUrl);
+							if (serverUrl.endsWith("/"))
+								serverUrl = serverUrl.substring(0, serverUrl.length() - 1);
+							decoration.addSuffix(" " + userId + serverUrl);
+							if (server.getStatusCode() == ServerStatus.DISCONNECTED_VALUE)
+								decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_OFFLINE_OVR);
+							else
+								decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_ONLINE_OVR);
 						} else
 							decoration.addSuffix(" [Unknown server]");
 					} else

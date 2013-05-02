@@ -337,7 +337,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		initEClass(hdfsServerEClass, HDFSServer.class, "HDFSServer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getHDFSServer_Name(), ecorePackage.getEString(), "name", "", 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_Uri(), ecorePackage.getEString(), "uri", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getHDFSServer_StatusCode(), ecorePackage.getEInt(), "statusCode", "-1", 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getHDFSServer_StatusCode(), ecorePackage.getEInt(), "statusCode", "0", 0, 1, HDFSServer.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_StatusMessage(), ecorePackage.getEString(), "statusMessage", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_LastAccessed(), ecorePackage.getELong(), "lastAccessed", "-1", 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_Loaded(), ecorePackage.getEBoolean(), "loaded", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -353,6 +353,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		// Initialize enums and add enum literals
 		initEEnum(serverStatusEEnum, ServerStatus.class, "ServerStatus");
 		addEEnumLiteral(serverStatusEEnum, ServerStatus.NO_PROJECT);
+		addEEnumLiteral(serverStatusEEnum, ServerStatus.DISCONNECTED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -211,4 +211,14 @@ public class ResourceInformation {
 		}
 	}
 
+	/**
+	 * @param resourceInformation
+	 */
+	public void copyFrom(ResourceInformation resourceInformation) {
+		this.setFolder(resourceInformation.isFolder());
+		this.setGroup(resourceInformation.getGroup());
+		this.setGroupPermissions(resourceInformation.getGroupPermissions());
+		//TODO
+	}
+
 }

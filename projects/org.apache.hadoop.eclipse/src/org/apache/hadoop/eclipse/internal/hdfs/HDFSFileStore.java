@@ -43,10 +43,8 @@ import org.eclipse.core.filesystem.provider.FileInfo;
 import org.eclipse.core.filesystem.provider.FileStore;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.URIUtil;
 
@@ -99,6 +97,14 @@ public class HDFSFileStore extends FileStore {
 		if (logger.isDebugEnabled())
 			logger.debug("[" + uri + "]: childNames():" + childNamesList);
 		return childNamesList.toArray(new String[childNamesList.size()]);
+	}
+
+	/**
+	 * @return
+	 * @throws CoreException 
+	 */
+	private HDFSClient getClient() throws CoreException {
+		return HDFSManager.INSTANCE.getClient(getServer().getUri());
 	}
 
 	@Override
@@ -166,6 +172,8 @@ public class HDFSFileStore extends FileStore {
 				logger.debug(e.getMessage(), e);
 			} catch (CoreException e) {
 				logger.debug(e.getMessage(), e);
+			} catch (InterruptedException e) {
+				logger.debug(e.getMessage(), e);
 			}
 		}
 		if (this.systemDefaultUserIdAndGroupIds != null && this.systemDefaultUserIdAndGroupIds.size() > 0)
@@ -180,6 +188,8 @@ public class HDFSFileStore extends FileStore {
 			} catch (IOException e) {
 				logger.debug(e.getMessage(), e);
 			} catch (CoreException e) {
+				logger.debug(e.getMessage(), e);
+			} catch (InterruptedException e) {
 				logger.debug(e.getMessage(), e);
 			}
 		}
@@ -273,7 +283,6 @@ public class HDFSFileStore extends FileStore {
 					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 				}
 			} else {
-				HDFSServer server = getServer();
 				return openRemoteInputStream(options, monitor);
 			}
 		}
@@ -299,15 +308,6 @@ public class HDFSFileStore extends FileStore {
 	@Override
 	public URI toURI() {
 		return uri.getURI();
-	}
-
-	public static HDFSClient getClient() throws CoreException {
-		IConfigurationElement[] elementsFor = Platform.getExtensionRegistry().getConfigurationElementsFor("org.apache.hadoop.eclipse.hdfsclient");
-		try {
-			return (HDFSClient) elementsFor[0].createExecutableExtension("class");
-		} catch (CoreException t) {
-			throw t;
-		}
 	}
 
 	/**
