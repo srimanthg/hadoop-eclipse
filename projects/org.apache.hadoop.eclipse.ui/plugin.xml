@@ -100,6 +100,13 @@
                label="Upload"
                menubarPath="additions">
          </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.DiscardDownloadResourceAction"
+               icon="icons/discardDownload.png"
+               id="org.apache.hadoop.eclipse.ui.team.fileDiscardDownloadAction"
+               label="Discard Download"
+               menubarPath="additions">
+         </action>
       </objectContribution>
       <objectContribution
             adaptable="true"
@@ -117,6 +124,13 @@
                icon="icons/upload.gif"
                id="org.apache.hadoop.eclipse.ui.team.folderUploadContribution"
                label="Upload"
+               menubarPath="additions">
+         </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.DiscardDownloadResourceAction"
+               icon="icons/discardDownload.png"
+               id="org.apache.hadoop.eclipse.ui.team.folderDiscardDownloadAction"
+               label="Discard Download"
                menubarPath="additions">
          </action>
       </objectContribution>

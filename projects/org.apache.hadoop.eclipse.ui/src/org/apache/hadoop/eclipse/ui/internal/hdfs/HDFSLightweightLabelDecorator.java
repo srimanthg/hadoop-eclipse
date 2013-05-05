@@ -147,22 +147,16 @@ public class HDFSLightweightLabelDecorator implements ILightweightLabelDecorator
 
 	protected void decorate(HDFSFileStore store, IDecoration decoration) {
 		if (store != null) {
-			if (HDFSManager.INSTANCE.isServerOperationRunning(store.toURI().toString())) {
-				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_OUTGOING_OVR);
-			} else {
-				if (store.isLocalFile()) {
-					decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_LOCAL_OVR);
-				} else {
-					Permissions effectivePermissions = store.getEffectivePermissions();
-					if (effectivePermissions != null) {
-						if (!effectivePermissions.read && !effectivePermissions.write)
-							decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_READONLY_OVR);
-						else
-							decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_REMOTE_OVR);
-					} else
-						decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_REMOTE_OVR);
-				}
-			}
+			if (store.isLocalFile())
+				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_LOCAL_OVR, IDecoration.BOTTOM_LEFT);
+			else if (store.isRemoteFile())
+				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_REMOTE_OVR, IDecoration.BOTTOM_LEFT);
+			if (store.isLocalOnly())
+				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_OUTGOING_OVR, IDecoration.BOTTOM_RIGHT);
+
+			Permissions effectivePermissions = store.getEffectivePermissions();
+			if (effectivePermissions != null && !effectivePermissions.read && !effectivePermissions.write)
+				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_READONLY_OVR);
 		}
 	}
 

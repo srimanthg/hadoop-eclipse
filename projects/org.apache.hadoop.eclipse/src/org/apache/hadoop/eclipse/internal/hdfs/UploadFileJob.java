@@ -121,9 +121,12 @@ public class UploadFileJob extends Job {
 	}
 
 	/**
+	 * Will attempt to delete the provided folder and its parents
+	 * provided they are empty. 
+	 *  
 	 * @param localFile
 	 */
-	private void deleteFoldersIfEmpty(File folder) {
+	public static void deleteFoldersIfEmpty(File folder) {
 		File toDeleteFolder = folder;
 		String[] children = toDeleteFolder.list();
 		while (children == null || children.length < 1) {

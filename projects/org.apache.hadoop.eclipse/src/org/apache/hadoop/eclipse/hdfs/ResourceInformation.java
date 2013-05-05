@@ -201,7 +201,7 @@ public class ResourceInformation {
 			if (getOwner().equals(user)) {
 				// Owner permissions apply
 				this.effectivePermissions.copy(this.userPermissions);
-			} else if (groups.contains(getGroup())) {
+			} else if (groups!=null && groups.contains(getGroup())) {
 				// Group permissions apply
 				this.effectivePermissions.copy(this.groupPermissions);
 			} else {
@@ -210,15 +210,4 @@ public class ResourceInformation {
 			}
 		}
 	}
-
-	/**
-	 * @param resourceInformation
-	 */
-	public void copyFrom(ResourceInformation resourceInformation) {
-		this.setFolder(resourceInformation.isFolder());
-		this.setGroup(resourceInformation.getGroup());
-		this.setGroupPermissions(resourceInformation.getGroupPermissions());
-		//TODO
-	}
-
 }

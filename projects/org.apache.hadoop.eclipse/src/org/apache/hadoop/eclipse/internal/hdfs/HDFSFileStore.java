@@ -28,6 +28,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.hadoop.eclipse.Activator;
@@ -61,7 +62,8 @@ public class HDFSFileStore extends FileStore {
 	private static final Logger logger = Logger.getLogger(HDFSFileStore.class);
 	private final HDFSURI uri;
 	private File localFile = null;
-	private IFileInfo serverFileInfo = null;
+	private FileInfo serverFileInfo = null;
+	private FileInfo localFileInfo = null;
 	private ResourceInformation serverResourceInfo = null;
 	private HDFSServer hdfsServer;
 	private ResourceInformation.Permissions effectivePermissions = null;
@@ -93,6 +95,15 @@ public class HDFSFileStore extends FileStore {
 			} catch (InterruptedException e) {
 				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 			}
+			if (isLocalFile()) {
+				// If there is a local folder also, then local children belong
+				// to
+				// the server also.
+				File local = getLocalFile();
+				if (local.isDirectory()) {
+					childNamesList.addAll(Arrays.asList(local.list()));
+				}
+			}
 		}
 		if (logger.isDebugEnabled())
 			logger.debug("[" + uri + "]: childNames():" + childNamesList);
@@ -101,17 +112,34 @@ public class HDFSFileStore extends FileStore {
 
 	/**
 	 * @return
-	 * @throws CoreException 
+	 * @throws CoreException
 	 */
 	private HDFSClient getClient() throws CoreException {
 		return HDFSManager.INSTANCE.getClient(getServer().getUri());
 	}
 
+	/**
+	 * The file information for this resource contains two parts: server file
+	 * information and local file information. Either one, or both file
+	 * informations are possible:
+	 * <ul>
+	 * <li>Server only</li>
+	 * <li>Local only</li>
+	 * <li>Server and local
+	 * <li>
+	 * </ul>
+	 * 
+	 * This method will attempt to determine both server and client file
+	 * informations depending on which is not available. Stale information can
+	 * be cleared by call {@link #clearServerFileInfo()} and
+	 * {@link #clearLocalFileInfo()}.
+	 * 
+	 */
 	@Override
 	public IFileInfo fetchInfo(int options, IProgressMonitor monitor) throws CoreException {
 		if (serverFileInfo == null) {
 			serverResourceInfo = null;
-			this.effectivePermissions = new ResourceInformation.Permissions();
+			this.effectivePermissions = null;
 			FileInfo fi = new FileInfo(getName());
 			HDFSServer server = getServer();
 			if (server != null) {
@@ -135,7 +163,7 @@ public class HDFSFileStore extends FileStore {
 								groupIds = getDefaultGroupIds();
 							}
 							fileInformation.updateEffectivePermissions(userId, groupIds);
-							this.effectivePermissions.copy(fileInformation.getEffectivePermissions());
+							this.effectivePermissions = fileInformation.getEffectivePermissions();
 							fi.setAttribute(EFS.ATTRIBUTE_OWNER_READ, fileInformation.getUserPermissions().read);
 							fi.setAttribute(EFS.ATTRIBUTE_OWNER_WRITE, fileInformation.getUserPermissions().write);
 							fi.setAttribute(EFS.ATTRIBUTE_OWNER_EXECUTE, fileInformation.getUserPermissions().execute);
@@ -159,8 +187,25 @@ public class HDFSFileStore extends FileStore {
 			}
 			serverFileInfo = fi;
 		}
+		if (localFileInfo == null) {
+			if (isLocalFile()) {
+				File file = getLocalFile();
+				localFileInfo = new FileInfo(file.getName());
+				if (file.exists()) {
+					localFileInfo.setExists(true);
+					localFileInfo.setLastModified(file.lastModified());
+					localFileInfo.setLength(file.length());
+					localFileInfo.setDirectory(file.isDirectory());
+					localFileInfo.setAttribute(EFS.ATTRIBUTE_READ_ONLY, file.exists() && !file.canWrite());
+					localFileInfo.setAttribute(EFS.ATTRIBUTE_HIDDEN, file.isHidden());
+				} else
+					localFileInfo.setExists(false);
+			}
+		}
 		if (logger.isDebugEnabled())
 			logger.debug("[" + uri + "]: fetchInfo(): " + HDFSUtilites.getDebugMessage(serverFileInfo));
+		if (localFileInfo != null)
+			return localFileInfo;
 		return serverFileInfo;
 	}
 
@@ -208,11 +253,23 @@ public class HDFSFileStore extends FileStore {
 	@Override
 	public void putInfo(IFileInfo info, int options, IProgressMonitor monitor) throws CoreException {
 		try {
-			ResourceInformation ri = new ResourceInformation();
-			ri.setFolder(info.isDirectory());
-			ri.setLastModifiedTime(info.getLastModified());
-			HDFSServer server = getServer();
-			getClient().setResourceInformation(uri.getURI(), ri, server == null ? null : server.getUserId());
+			if (isLocalFile()) {
+				File file = getLocalFile();
+				if ((options & EFS.SET_LAST_MODIFIED) != 0)
+					file.setLastModified(info.getLastModified());
+				if ((options & EFS.SET_ATTRIBUTES) != 0) {
+					file.setReadable(info.getAttribute(EFS.ATTRIBUTE_OWNER_READ), true);
+					file.setWritable(info.getAttribute(EFS.ATTRIBUTE_OWNER_WRITE), true);
+					file.setExecutable(info.getAttribute(EFS.ATTRIBUTE_OWNER_EXECUTE), true);
+				}
+			} else {
+				ResourceInformation ri = new ResourceInformation();
+				ri.setFolder(info.isDirectory());
+				if ((options & EFS.SET_LAST_MODIFIED) != 0)
+					ri.setLastModifiedTime(info.getLastModified());
+				HDFSServer server = getServer();
+				getClient().setResourceInformation(uri.getURI(), ri, server == null ? null : server.getUserId());
+			}
 		} catch (IOException e) {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		} catch (InterruptedException e) {
@@ -228,6 +285,16 @@ public class HDFSFileStore extends FileStore {
 		if (logger.isDebugEnabled())
 			logger.debug("[" + uri + "]: clearServerFileInfo()");
 		this.serverFileInfo = null;
+	}
+
+	/**
+	 * When this file store makes changes which obsolete the local information,
+	 * it should clear the localinformation.
+	 */
+	protected void clearLocalFileInfo() {
+		if (logger.isDebugEnabled())
+			logger.debug("[" + uri + "]: clearServerFileInfo()");
+		this.localFileInfo = null;
 	}
 
 	@Override
@@ -363,6 +430,11 @@ public class HDFSFileStore extends FileStore {
 		}
 	}
 
+	/**
+	 * Determines if file exists in local workspace
+	 * 
+	 * @return
+	 */
 	public boolean isLocalFile() {
 		try {
 			File localFile = getLocalFile();
@@ -371,6 +443,27 @@ public class HDFSFileStore extends FileStore {
 			logger.debug("Unable to determine if file is local", e);
 		}
 		return false;
+	}
+
+	/**
+	 * <code>true</code> only when it is {@link #isLocalFile()} and NOT
+	 * {@link #isRemoteFile()}
+	 * 
+	 * @return
+	 */
+	public boolean isLocalOnly() {
+		return isLocalFile() && !isRemoteFile();
+	}
+
+	/**
+	 * Determines if file exists on server side.
+	 * 
+	 * @return
+	 */
+	public boolean isRemoteFile() {
+		if (this.serverFileInfo == null)
+			this.fetchInfo();
+		return this.serverFileInfo != null && this.serverFileInfo.exists();
 	}
 
 	/*
@@ -398,15 +491,23 @@ public class HDFSFileStore extends FileStore {
 			}
 		} else {
 			File lFile = getLocalFile();
+			if (!lFile.exists()) {
+				lFile.getParentFile().mkdirs();
+				try {
+					lFile.createNewFile();
+				} catch (IOException e) {
+					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, "Cannot create new file to save", e));
+				}
+			}
 			if (lFile.exists()) {
 				try {
+					clearLocalFileInfo();
 					return new FileOutputStream(lFile);
 				} catch (FileNotFoundException e) {
 					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 				}
-			} else {
-				return openRemoteOutputStream(options, monitor);
-			}
+			} else
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, "Local file does not exist to write to: " + lFile.getAbsolutePath()));
 		}
 	}
 
@@ -415,13 +516,11 @@ public class HDFSFileStore extends FileStore {
 			logger.debug("[" + uri + "]: openRemoteOutputStream()");
 		try {
 			HDFSServer server = getServer();
-			if (fetchInfo().exists()) {
-				clearServerFileInfo();
+			clearServerFileInfo();
+			if (fetchInfo().exists())
 				return getClient().openOutputStream(uri.getURI(), server == null ? null : server.getUserId());
-			} else {
-				clearServerFileInfo();
+			else
 				return getClient().createOutputStream(uri.getURI(), server == null ? null : server.getUserId());
-			}
 		} catch (IOException e) {
 			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, e.getMessage(), e));
 		} catch (InterruptedException e) {
@@ -440,18 +539,29 @@ public class HDFSFileStore extends FileStore {
 		if (logger.isDebugEnabled())
 			logger.debug("[" + uri + "]: delete()");
 		try {
-			final HDFSServer server = getServer();
-			if (server != null) {
-				if (server.getUri().equals(uri.getURI().toString())) {
-					// Server location is the same as the project - so we just
-					// disconnect instead of actually deleting the root folder
-					// on HDFS.
+			if (isLocalFile()) {
+				clearLocalFileInfo();
+				final File lf = getLocalFile();
+				final File plf = lf.getParentFile();
+				lf.delete();
+				UploadFileJob.deleteFoldersIfEmpty(plf);
+			}
+			if (isRemoteFile()) {
+				final HDFSServer server = getServer();
+				if (server != null) {
+					if (server.getUri().equals(uri.getURI().toString())) {
+						// Server location is the same as the project - so we
+						// just
+						// disconnect instead of actually deleting the root
+						// folder
+						// on HDFS.
+					} else {
+						clearServerFileInfo();
+						getClient().delete(uri.getURI(), server == null ? null : server.getUserId());
+					}
 				} else {
-					clearServerFileInfo();
-					getClient().delete(uri.getURI(), server == null ? null : server.getUserId());
+					// Not associated with any server, we just disconnect.
 				}
-			} else {
-				// Not associated with any server, we just disconnect.
 			}
 		} catch (IOException e) {
 			logger.error("Unable to delete: " + uri);
@@ -463,14 +573,15 @@ public class HDFSFileStore extends FileStore {
 	}
 
 	/**
+	 * Effective permissions are only given when the accessing user and the
+	 * permissions from the server are known. If any data in permissions
+	 * determining process is not known, <code>null</code> is returned.
+	 * 
 	 * @return the effectivePermissions
 	 */
 	public ResourceInformation.Permissions getEffectivePermissions() {
-		if (effectivePermissions == null) {
+		if (effectivePermissions == null)
 			fetchInfo();
-			if (effectivePermissions == null)
-				effectivePermissions = new ResourceInformation.Permissions();
-		}
 		return effectivePermissions;
 	}
 

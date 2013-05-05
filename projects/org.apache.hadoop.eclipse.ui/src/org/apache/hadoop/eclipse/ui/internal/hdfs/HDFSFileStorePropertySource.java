@@ -20,6 +20,7 @@ package org.apache.hadoop.eclipse.ui.internal.hdfs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.hadoop.eclipse.hdfs.ResourceInformation.Permissions;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -101,9 +102,16 @@ public class HDFSFileStorePropertySource implements IPropertySource {
 			return this.fileStore.isLocalFile();
 		else if (Property.PERMISSIONS.equals(id)){
 			String perms = "";
-			perms += this.fileStore.getEffectivePermissions().read ? "r" : "-";
-			perms += this.fileStore.getEffectivePermissions().write ? "w" : "-";
-			perms += this.fileStore.getEffectivePermissions().execute ? "x" : "-";
+			final Permissions effectivePermissions = this.fileStore.getEffectivePermissions();
+			if(effectivePermissions!=null){
+				perms += effectivePermissions.read ? "r" : "-";
+				perms += effectivePermissions.write ? "w" : "-";
+				perms += effectivePermissions.execute ? "x" : "-";
+			}else{
+				perms += "?";
+				perms += "?";
+				perms += "?";
+			}
 			return perms;
 		} else if (Property.USER_PERMISSIONS.equals(id)){
 			String perms = "";

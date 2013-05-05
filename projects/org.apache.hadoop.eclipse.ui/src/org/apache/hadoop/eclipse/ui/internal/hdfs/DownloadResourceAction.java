@@ -2,6 +2,7 @@ package org.apache.hadoop.eclipse.ui.internal.hdfs;
 
 import java.util.Iterator;
 
+import org.apache.hadoop.eclipse.hdfs.ResourceInformation.Permissions;
 import org.apache.hadoop.eclipse.internal.hdfs.DownloadFileJob;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileStore;
 import org.apache.log4j.Logger;
@@ -93,7 +94,11 @@ public class DownloadResourceAction implements IObjectActionDelegate {
 					IResource r = (IResource) object;
 					try {
 						HDFSFileStore store = (HDFSFileStore) EFS.getStore(r.getLocationURI());
-						enabled = !store.isLocalFile();
+						Permissions effectivePermissions = store.getEffectivePermissions();
+						if (enabled && effectivePermissions != null && !effectivePermissions.read)
+							enabled = false;
+						if (enabled)
+							enabled = !store.isLocalFile();
 					} catch (Throwable t) {
 						enabled = false;
 					}

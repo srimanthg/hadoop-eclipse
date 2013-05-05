@@ -221,7 +221,7 @@ public class HDFSManager {
 	}
 
 	public HDFSServer getServer(String uri) {
-		if (!uriToServerCacheMap.containsKey(uri)) {
+		if (uri!=null && !uriToServerCacheMap.containsKey(uri)) {
 			String tmpUri = uri;
 			HDFSServer serverU = uriToServerMap.get(tmpUri);
 			while (serverU == null) {

@@ -37,31 +37,49 @@ public class HDFSUtilites {
 			String userPerms = "user(";
 			if (fi.getAttribute(EFS.ATTRIBUTE_OWNER_READ))
 				userPerms+="r";
+			else
+				userPerms+="-";
 			if (fi.getAttribute(EFS.ATTRIBUTE_OWNER_WRITE))
 				userPerms+="w";
+			else
+				userPerms+="-";
 			if (fi.getAttribute(EFS.ATTRIBUTE_OWNER_EXECUTE))
 				userPerms+="x";
+			else
+				userPerms+="-";
 			userPerms += ")";
 
 			String groupPerms = "group(";
 			if (fi.getAttribute(EFS.ATTRIBUTE_GROUP_READ))
 				groupPerms+="r";
+			else
+				groupPerms+="-";
 			if (fi.getAttribute(EFS.ATTRIBUTE_GROUP_WRITE))
 				groupPerms+="w";
+			else
+				groupPerms+="-";
 			if (fi.getAttribute(EFS.ATTRIBUTE_GROUP_EXECUTE))
 				groupPerms+="x";
+			else
+				groupPerms+="-";
 			groupPerms += ")";
 
 			String otherPerms = "other(";
 			if (fi.getAttribute(EFS.ATTRIBUTE_OTHER_READ))
 				otherPerms+="r";
+			else
+				otherPerms+="-";
 			if (fi.getAttribute(EFS.ATTRIBUTE_OTHER_WRITE))
 				otherPerms+="w";
+			else
+				otherPerms+="-";
 			if (fi.getAttribute(EFS.ATTRIBUTE_OTHER_EXECUTE))
 				otherPerms+="x";
+			else
+				otherPerms+="-";
 			otherPerms += ")";
 
-			return "Exists=" + fi.exists() + ", Length=" + fi.getLength() + ", LastMod=" + lastMod + ", "+otherPerms+", "+groupPerms+", "+otherPerms;
+			return "Exists=" + fi.exists() + ", Length=" + fi.getLength() + ", LastMod=" + lastMod + ", "+userPerms+", "+groupPerms+", "+otherPerms;
 		}
 		return "null";
 	}
