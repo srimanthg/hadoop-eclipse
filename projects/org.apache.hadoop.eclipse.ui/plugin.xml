@@ -73,12 +73,17 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <wizard
+            category="org.apache.hadoop.eclipse.ui.newWizards.category"
             class="org.apache.hadoop.eclipse.ui.internal.hdfs.NewHDFSWizard"
             finalPerspective="org.apache.hadoop.eclipse.ui.perspective"
             icon="icons/hadoop-hdfs-16x16.gif"
             id="org.apache.hadoop.eclipse.ui.wizard.newHdfsServer"
             name="New HDFS Server">
       </wizard>
+      <category
+            id="org.apache.hadoop.eclipse.ui.newWizards.category"
+            name="Hadoop">
+      </category>
    </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
