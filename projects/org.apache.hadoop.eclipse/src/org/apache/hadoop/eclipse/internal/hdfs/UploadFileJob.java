@@ -76,12 +76,17 @@ public class UploadFileJob extends Job {
 						if (!monitor.isCanceled()) {
 							byte[] data = new byte[8 * 1024];
 							int read = fis.read(data);
-							monitor.worked(read);
+							int totalRead = 0;
 							while (read > -1) {
 								if (monitor.isCanceled())
 									throw new InterruptedException();
 								fos.write(data, 0, read);
+								totalRead += read;
+								monitor.worked(read);
 								read = fis.read(data);
+								if (logger.isDebugEnabled())
+									logger.debug("Uploaded " + totalRead + " out of " + localFile.length() + " [" + (((float)totalRead*100.0f) / (float)localFile.length())
+											+ "]");
 							}
 							uploaded = true;
 						}
@@ -121,9 +126,9 @@ public class UploadFileJob extends Job {
 	}
 
 	/**
-	 * Will attempt to delete the provided folder and its parents
-	 * provided they are empty. 
-	 *  
+	 * Will attempt to delete the provided folder and its parents provided they
+	 * are empty.
+	 * 
 	 * @param localFile
 	 */
 	public static void deleteFoldersIfEmpty(File folder) {

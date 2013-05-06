@@ -81,13 +81,18 @@ public class DownloadFileJob extends Job {
 					try {
 						if (!monitor.isCanceled()) {
 							byte[] data = new byte[8 * 1024];
+							int totalRead = 0;
 							int read = openInputStream.read(data);
-							monitor.worked(read);
 							while (read > -1) {
 								if (monitor.isCanceled())
 									throw new InterruptedException();
 								fos.write(data, 0, read);
+								totalRead += read;
+								monitor.worked(read);
 								read = openInputStream.read(data);
+								if (logger.isDebugEnabled())
+									logger.debug("Downloaded " + totalRead + " out of " + serverInfo.getLength() + " [" + (((float)totalRead*100.0f) / (float)serverInfo.getLength())
+											+ "]");
 							}
 						}
 					} catch (IOException e) {
