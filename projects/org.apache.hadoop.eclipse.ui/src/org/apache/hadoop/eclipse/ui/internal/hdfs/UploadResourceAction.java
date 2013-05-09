@@ -51,8 +51,7 @@ public class UploadResourceAction implements IObjectActionDelegate {
 		try {
 			switch (r.getType()) {
 			case IResource.FILE:
-				HDFSFileStore store = (HDFSFileStore) EFS.getStore(r.getLocationURI());
-				UploadFileJob ufj = new UploadFileJob(store);
+				UploadFileJob ufj = new UploadFileJob(r);
 				ufj.schedule();
 				break;
 			case IResource.FOLDER:

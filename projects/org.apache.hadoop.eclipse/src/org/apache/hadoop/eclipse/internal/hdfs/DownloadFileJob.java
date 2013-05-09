@@ -28,6 +28,7 @@ import org.apache.hadoop.eclipse.Activator;
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -43,13 +44,16 @@ public class DownloadFileJob extends Job {
 
 	private final static Logger logger = Logger.getLogger(DownloadFileJob.class);
 	private final HDFSFileStore store;
+	private final IResource resource;
 
 	/**
+	 * @throws CoreException 
 	 * 
 	 */
-	public DownloadFileJob(HDFSFileStore store) {
-		super("Downloading " + store.toURI().toString());
-		this.store = store;
+	public DownloadFileJob(IResource resource) throws CoreException {
+		super("Downloading " + resource.getLocationURI().toString());
+		this.resource = resource;
+		this.store = (HDFSFileStore) EFS.getStore(resource.getLocationURI());
 	}
 
 	/*
@@ -110,9 +114,9 @@ public class DownloadFileJob extends Job {
 						}
 						monitor.done();
 					}
-				} else {
+				} else
 					throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, "Server resource not found [" + uri + "]"));
-				}
+				resource.refreshLocal(IResource.DEPTH_ONE, new NullProgressMonitor());
 			} catch (InterruptedException e) {
 				logger.warn(e);
 			} catch (CoreException e) {

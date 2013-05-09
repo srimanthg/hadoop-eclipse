@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.apache.hadoop.eclipse.feature_1.0.0.qualifier.jar" id="org.apache.hadoop.eclipse.feature" version="1.0.0.qualifier">
+   <feature url="features/org.apache.hadoop.eclipse.feature_1.0.0.201305090952.jar" id="org.apache.hadoop.eclipse.feature" version="1.0.0.201305090952">
       <category name="org.apache.hadoop.eclipse"/>
    </feature>
    <category-def name="org.apache.hadoop.eclipse" label="Apache Hadoop Eclipse"/>

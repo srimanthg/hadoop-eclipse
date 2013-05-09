@@ -123,7 +123,6 @@ public class HDFSCommonContentProvider implements ICommonContentProvider {
 				if (notification.getNotifier() instanceof HDFSServer) {
 					int featureID = notification.getFeatureID(HDFSServer.class);
 					if (featureID == HadoopPackage.HDFS_SERVER__OPERATION_UR_IS) {
-						System.out.println(notification);
 						if (notification.getEventType() == Notification.ADD) {
 							Object[] array = ((HDFSServer) notification.getNotifier()).getOperationURIs().toArray();
 							for (int ac = 0; ac < array.length; ac++) {

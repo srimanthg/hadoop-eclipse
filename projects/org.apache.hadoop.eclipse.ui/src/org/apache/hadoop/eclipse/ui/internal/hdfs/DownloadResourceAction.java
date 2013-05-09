@@ -52,8 +52,7 @@ public class DownloadResourceAction implements IObjectActionDelegate {
 		try {
 			switch (r.getType()) {
 			case IFile.FILE:
-				HDFSFileStore store = (HDFSFileStore) EFS.getStore(r.getLocationURI());
-				DownloadFileJob dfj = new DownloadFileJob(store);
+				DownloadFileJob dfj = new DownloadFileJob(r);
 				dfj.schedule();
 				break;
 			case IFolder.FOLDER:

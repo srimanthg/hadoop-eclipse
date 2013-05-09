@@ -26,6 +26,7 @@ import java.net.URI;
 import org.apache.hadoop.eclipse.Activator;
 import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -41,13 +42,16 @@ public class UploadFileJob extends Job {
 
 	private final static Logger logger = Logger.getLogger(UploadFileJob.class);
 	private final HDFSFileStore store;
+	private final IResource resource;
 
 	/**
+	 * @throws CoreException
 	 * 
 	 */
-	public UploadFileJob(HDFSFileStore store) {
-		super("Uploading " + store.toURI().toString());
-		this.store = store;
+	public UploadFileJob(IResource resource) throws CoreException {
+		super("Uploading " + resource.getLocationURI());
+		this.resource = resource;
+		this.store = (HDFSFileStore) EFS.getStore(resource.getLocationURI());;
 	}
 
 	/*
@@ -111,6 +115,7 @@ public class UploadFileJob extends Job {
 					}
 				} else
 					status = new Status(IStatus.ERROR, Activator.BUNDLE_ID, "Local file not found [" + localFile + "]");
+				resource.refreshLocal(IResource.DEPTH_ONE, new NullProgressMonitor());
 			} catch (InterruptedException e) {
 				logger.debug("Uploading file [" + uri + "] cancelled by user");
 			} catch (IOException e) {
