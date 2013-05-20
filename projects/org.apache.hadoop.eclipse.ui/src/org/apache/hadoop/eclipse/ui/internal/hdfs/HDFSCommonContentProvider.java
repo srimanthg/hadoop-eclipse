@@ -21,6 +21,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.hadoop.eclipse.internal.HadoopManager;
 import org.apache.hadoop.eclipse.internal.hdfs.HDFSManager;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.hadoop.eclipse.internal.model.HadoopPackage;
@@ -47,7 +48,6 @@ public class HDFSCommonContentProvider implements ICommonContentProvider {
 
 	private static final Logger logger = Logger.getLogger(HDFSCommonContentProvider.class);
 
-	private HDFSManager hdfsManager;
 	private String viewerId;
 	private Display display = null;
 
@@ -78,7 +78,7 @@ public class HDFSCommonContentProvider implements ICommonContentProvider {
 	@Override
 	public void dispose() {
 		if (serversListener != null) {
-			hdfsManager.getServers().eAdapters().remove(serversListener);
+			HadoopManager.INSTANCE.getServers().eAdapters().remove(serversListener);
 			serversListener = null;
 		}
 	}
@@ -103,7 +103,6 @@ public class HDFSCommonContentProvider implements ICommonContentProvider {
 
 	@Override
 	public void init(ICommonContentExtensionSite aConfig) {
-		hdfsManager = HDFSManager.INSTANCE;
 		INavigatorContentService cs = aConfig.getService();
 		viewerId = cs.getViewerId();
 		this.display = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay();
@@ -181,7 +180,7 @@ public class HDFSCommonContentProvider implements ICommonContentProvider {
 				}
 			}
 		};
-		hdfsManager.getServers().eAdapters().add(serversListener);
+		HadoopManager.INSTANCE.getServers().eAdapters().add(serversListener);
 	}
 
 }

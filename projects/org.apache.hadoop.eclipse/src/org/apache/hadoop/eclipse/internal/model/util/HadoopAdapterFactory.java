@@ -92,6 +92,14 @@ public class HadoopAdapterFactory extends AdapterFactoryImpl {
 				return createServersAdapter();
 			}
 			@Override
+			public Adapter caseServer(Server object) {
+				return createServerAdapter();
+			}
+			@Override
+			public Adapter caseZooKeeperServer(ZooKeeperServer object) {
+				return createZooKeeperServerAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -136,6 +144,34 @@ public class HadoopAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createServersAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.apache.hadoop.eclipse.internal.model.Server <em>Server</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.apache.hadoop.eclipse.internal.model.Server
+	 * @generated
+	 */
+	public Adapter createServerAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.apache.hadoop.eclipse.internal.model.ZooKeeperServer <em>Zoo Keeper Server</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZooKeeperServer
+	 * @generated
+	 */
+	public Adapter createZooKeeperServerAdapter() {
 		return null;
 	}
 

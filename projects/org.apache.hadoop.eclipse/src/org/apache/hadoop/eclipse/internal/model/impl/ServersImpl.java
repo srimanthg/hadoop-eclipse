@@ -23,6 +23,7 @@ import java.util.Collection;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.hadoop.eclipse.internal.model.HadoopPackage;
 import org.apache.hadoop.eclipse.internal.model.Servers;
+import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -31,6 +32,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -42,6 +44,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ServersImpl#getHdfsServers <em>Hdfs Servers</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ServersImpl#getVersion <em>Version</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ServersImpl#getZookeeperServers <em>Zookeeper Servers</em>}</li>
  * </ul>
  * </p>
  *
@@ -77,6 +80,16 @@ public class ServersImpl extends EObjectImpl implements Servers {
 	 * @ordered
 	 */
 	protected String version = VERSION_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getZookeeperServers() <em>Zookeeper Servers</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getZookeeperServers()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ZooKeeperServer> zookeeperServers;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -135,11 +148,25 @@ public class ServersImpl extends EObjectImpl implements Servers {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ZooKeeperServer> getZookeeperServers() {
+		if (zookeeperServers == null) {
+			zookeeperServers = new EObjectContainmentEList<ZooKeeperServer>(ZooKeeperServer.class, this, HadoopPackage.SERVERS__ZOOKEEPER_SERVERS);
+		}
+		return zookeeperServers;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case HadoopPackage.SERVERS__HDFS_SERVERS:
 				return ((InternalEList<?>)getHdfsServers()).basicRemove(otherEnd, msgs);
+			case HadoopPackage.SERVERS__ZOOKEEPER_SERVERS:
+				return ((InternalEList<?>)getZookeeperServers()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -156,6 +183,8 @@ public class ServersImpl extends EObjectImpl implements Servers {
 				return getHdfsServers();
 			case HadoopPackage.SERVERS__VERSION:
 				return getVersion();
+			case HadoopPackage.SERVERS__ZOOKEEPER_SERVERS:
+				return getZookeeperServers();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -176,6 +205,10 @@ public class ServersImpl extends EObjectImpl implements Servers {
 			case HadoopPackage.SERVERS__VERSION:
 				setVersion((String)newValue);
 				return;
+			case HadoopPackage.SERVERS__ZOOKEEPER_SERVERS:
+				getZookeeperServers().clear();
+				getZookeeperServers().addAll((Collection<? extends ZooKeeperServer>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -194,6 +227,9 @@ public class ServersImpl extends EObjectImpl implements Servers {
 			case HadoopPackage.SERVERS__VERSION:
 				setVersion(VERSION_EDEFAULT);
 				return;
+			case HadoopPackage.SERVERS__ZOOKEEPER_SERVERS:
+				getZookeeperServers().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -210,6 +246,8 @@ public class ServersImpl extends EObjectImpl implements Servers {
 				return hdfsServers != null && !hdfsServers.isEmpty();
 			case HadoopPackage.SERVERS__VERSION:
 				return VERSION_EDEFAULT == null ? version != null : !VERSION_EDEFAULT.equals(version);
+			case HadoopPackage.SERVERS__ZOOKEEPER_SERVERS:
+				return zookeeperServers != null && !zookeeperServers.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

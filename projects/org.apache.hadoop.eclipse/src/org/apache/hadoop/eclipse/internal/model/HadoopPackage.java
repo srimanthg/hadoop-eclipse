@@ -73,6 +73,70 @@ public interface HadoopPackage extends EPackage {
 	HadoopPackage eINSTANCE = org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl.init();
 
 	/**
+	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ServerImpl <em>Server</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.apache.hadoop.eclipse.internal.model.impl.ServerImpl
+	 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getServer()
+	 * @generated
+	 */
+	int SERVER = 2;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER__URI = 1;
+
+	/**
+	 * The feature id for the '<em><b>Status Code</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER__STATUS_CODE = 2;
+
+	/**
+	 * The feature id for the '<em><b>Status Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER__STATUS_MESSAGE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Last Accessed</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER__LAST_ACCESSED = 4;
+
+	/**
+	 * The number of structural features of the '<em>Server</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVER_FEATURE_COUNT = 5;
+
+	/**
 	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.impl.HDFSServerImpl <em>HDFS Server</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -89,7 +153,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER__NAME = 0;
+	int HDFS_SERVER__NAME = SERVER__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Uri</b></em>' attribute.
@@ -98,7 +162,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER__URI = 1;
+	int HDFS_SERVER__URI = SERVER__URI;
 
 	/**
 	 * The feature id for the '<em><b>Status Code</b></em>' attribute.
@@ -107,7 +171,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER__STATUS_CODE = 2;
+	int HDFS_SERVER__STATUS_CODE = SERVER__STATUS_CODE;
 
 	/**
 	 * The feature id for the '<em><b>Status Message</b></em>' attribute.
@@ -116,7 +180,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER__STATUS_MESSAGE = 3;
+	int HDFS_SERVER__STATUS_MESSAGE = SERVER__STATUS_MESSAGE;
 
 	/**
 	 * The feature id for the '<em><b>Last Accessed</b></em>' attribute.
@@ -125,7 +189,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER__LAST_ACCESSED = 4;
+	int HDFS_SERVER__LAST_ACCESSED = SERVER__LAST_ACCESSED;
 
 	/**
 	 * The feature id for the '<em><b>Loaded</b></em>' attribute.
@@ -134,16 +198,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER__LOADED = 5;
-
-	/**
-	 * The feature id for the '<em><b>Workspace Project Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int HDFS_SERVER__WORKSPACE_PROJECT_NAME = 6;
+	int HDFS_SERVER__LOADED = SERVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Operation UR Is</b></em>' attribute list.
@@ -152,7 +207,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER__OPERATION_UR_IS = 7;
+	int HDFS_SERVER__OPERATION_UR_IS = SERVER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>User Id</b></em>' attribute.
@@ -161,7 +216,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER__USER_ID = 8;
+	int HDFS_SERVER__USER_ID = SERVER_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Group Ids</b></em>' attribute list.
@@ -170,7 +225,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER__GROUP_IDS = 9;
+	int HDFS_SERVER__GROUP_IDS = SERVER_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>HDFS Server</em>' class.
@@ -179,7 +234,7 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int HDFS_SERVER_FEATURE_COUNT = 10;
+	int HDFS_SERVER_FEATURE_COUNT = SERVER_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ServersImpl <em>Servers</em>}' class.
@@ -210,13 +265,86 @@ public interface HadoopPackage extends EPackage {
 	int SERVERS__VERSION = 1;
 
 	/**
+	 * The feature id for the '<em><b>Zookeeper Servers</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERVERS__ZOOKEEPER_SERVERS = 2;
+
+	/**
 	 * The number of structural features of the '<em>Servers</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERVERS_FEATURE_COUNT = 2;
+	int SERVERS_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl <em>Zoo Keeper Server</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl
+	 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getZooKeeperServer()
+	 * @generated
+	 */
+	int ZOO_KEEPER_SERVER = 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__NAME = SERVER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__URI = SERVER__URI;
+
+	/**
+	 * The feature id for the '<em><b>Status Code</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__STATUS_CODE = SERVER__STATUS_CODE;
+
+	/**
+	 * The feature id for the '<em><b>Status Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__STATUS_MESSAGE = SERVER__STATUS_MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Last Accessed</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__LAST_ACCESSED = SERVER__LAST_ACCESSED;
+
+	/**
+	 * The number of structural features of the '<em>Zoo Keeper Server</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER_FEATURE_COUNT = SERVER_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.ServerStatus <em>Server Status</em>}' enum.
@@ -226,7 +354,7 @@ public interface HadoopPackage extends EPackage {
 	 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getServerStatus()
 	 * @generated
 	 */
-	int SERVER_STATUS = 2;
+	int SERVER_STATUS = 4;
 
 
 	/**
@@ -240,61 +368,6 @@ public interface HadoopPackage extends EPackage {
 	EClass getHDFSServer();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.apache.hadoop.eclipse.internal.model.HDFSServer#getName()
-	 * @see #getHDFSServer()
-	 * @generated
-	 */
-	EAttribute getHDFSServer_Name();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getUri <em>Uri</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Uri</em>'.
-	 * @see org.apache.hadoop.eclipse.internal.model.HDFSServer#getUri()
-	 * @see #getHDFSServer()
-	 * @generated
-	 */
-	EAttribute getHDFSServer_Uri();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getStatusCode <em>Status Code</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Status Code</em>'.
-	 * @see org.apache.hadoop.eclipse.internal.model.HDFSServer#getStatusCode()
-	 * @see #getHDFSServer()
-	 * @generated
-	 */
-	EAttribute getHDFSServer_StatusCode();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getStatusMessage <em>Status Message</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Status Message</em>'.
-	 * @see org.apache.hadoop.eclipse.internal.model.HDFSServer#getStatusMessage()
-	 * @see #getHDFSServer()
-	 * @generated
-	 */
-	EAttribute getHDFSServer_StatusMessage();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getLastAccessed <em>Last Accessed</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Last Accessed</em>'.
-	 * @see org.apache.hadoop.eclipse.internal.model.HDFSServer#getLastAccessed()
-	 * @see #getHDFSServer()
-	 * @generated
-	 */
-	EAttribute getHDFSServer_LastAccessed();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#isLoaded <em>Loaded</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -304,17 +377,6 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getHDFSServer_Loaded();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getWorkspaceProjectName <em>Workspace Project Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Workspace Project Name</em>'.
-	 * @see org.apache.hadoop.eclipse.internal.model.HDFSServer#getWorkspaceProjectName()
-	 * @see #getHDFSServer()
-	 * @generated
-	 */
-	EAttribute getHDFSServer_WorkspaceProjectName();
 
 	/**
 	 * Returns the meta object for the attribute list '{@link org.apache.hadoop.eclipse.internal.model.HDFSServer#getOperationURIs <em>Operation UR Is</em>}'.
@@ -382,6 +444,92 @@ public interface HadoopPackage extends EPackage {
 	EAttribute getServers_Version();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link org.apache.hadoop.eclipse.internal.model.Servers#getZookeeperServers <em>Zookeeper Servers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Zookeeper Servers</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.Servers#getZookeeperServers()
+	 * @see #getServers()
+	 * @generated
+	 */
+	EReference getServers_ZookeeperServers();
+
+	/**
+	 * Returns the meta object for class '{@link org.apache.hadoop.eclipse.internal.model.Server <em>Server</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Server</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.Server
+	 * @generated
+	 */
+	EClass getServer();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.Server#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.Server#getName()
+	 * @see #getServer()
+	 * @generated
+	 */
+	EAttribute getServer_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.Server#getUri <em>Uri</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uri</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.Server#getUri()
+	 * @see #getServer()
+	 * @generated
+	 */
+	EAttribute getServer_Uri();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.Server#getStatusCode <em>Status Code</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Status Code</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.Server#getStatusCode()
+	 * @see #getServer()
+	 * @generated
+	 */
+	EAttribute getServer_StatusCode();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.Server#getStatusMessage <em>Status Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Status Message</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.Server#getStatusMessage()
+	 * @see #getServer()
+	 * @generated
+	 */
+	EAttribute getServer_StatusMessage();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.Server#getLastAccessed <em>Last Accessed</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Last Accessed</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.Server#getLastAccessed()
+	 * @see #getServer()
+	 * @generated
+	 */
+	EAttribute getServer_LastAccessed();
+
+	/**
+	 * Returns the meta object for class '{@link org.apache.hadoop.eclipse.internal.model.ZooKeeperServer <em>Zoo Keeper Server</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Zoo Keeper Server</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZooKeeperServer
+	 * @generated
+	 */
+	EClass getZooKeeperServer();
+
+	/**
 	 * Returns the meta object for enum '{@link org.apache.hadoop.eclipse.internal.model.ServerStatus <em>Server Status</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -424,60 +572,12 @@ public interface HadoopPackage extends EPackage {
 		EClass HDFS_SERVER = eINSTANCE.getHDFSServer();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute HDFS_SERVER__NAME = eINSTANCE.getHDFSServer_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute HDFS_SERVER__URI = eINSTANCE.getHDFSServer_Uri();
-
-		/**
-		 * The meta object literal for the '<em><b>Status Code</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute HDFS_SERVER__STATUS_CODE = eINSTANCE.getHDFSServer_StatusCode();
-
-		/**
-		 * The meta object literal for the '<em><b>Status Message</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute HDFS_SERVER__STATUS_MESSAGE = eINSTANCE.getHDFSServer_StatusMessage();
-
-		/**
-		 * The meta object literal for the '<em><b>Last Accessed</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute HDFS_SERVER__LAST_ACCESSED = eINSTANCE.getHDFSServer_LastAccessed();
-
-		/**
 		 * The meta object literal for the '<em><b>Loaded</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute HDFS_SERVER__LOADED = eINSTANCE.getHDFSServer_Loaded();
-
-		/**
-		 * The meta object literal for the '<em><b>Workspace Project Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute HDFS_SERVER__WORKSPACE_PROJECT_NAME = eINSTANCE.getHDFSServer_WorkspaceProjectName();
 
 		/**
 		 * The meta object literal for the '<em><b>Operation UR Is</b></em>' attribute list feature.
@@ -528,6 +628,74 @@ public interface HadoopPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SERVERS__VERSION = eINSTANCE.getServers_Version();
+
+		/**
+		 * The meta object literal for the '<em><b>Zookeeper Servers</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERVERS__ZOOKEEPER_SERVERS = eINSTANCE.getServers_ZookeeperServers();
+
+		/**
+		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ServerImpl <em>Server</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.apache.hadoop.eclipse.internal.model.impl.ServerImpl
+		 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getServer()
+		 * @generated
+		 */
+		EClass SERVER = eINSTANCE.getServer();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVER__NAME = eINSTANCE.getServer_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVER__URI = eINSTANCE.getServer_Uri();
+
+		/**
+		 * The meta object literal for the '<em><b>Status Code</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVER__STATUS_CODE = eINSTANCE.getServer_StatusCode();
+
+		/**
+		 * The meta object literal for the '<em><b>Status Message</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVER__STATUS_MESSAGE = eINSTANCE.getServer_StatusMessage();
+
+		/**
+		 * The meta object literal for the '<em><b>Last Accessed</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERVER__LAST_ACCESSED = eINSTANCE.getServer_LastAccessed();
+
+		/**
+		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl <em>Zoo Keeper Server</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl
+		 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getZooKeeperServer()
+		 * @generated
+		 */
+		EClass ZOO_KEEPER_SERVER = eINSTANCE.getZooKeeperServer();
 
 		/**
 		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.ServerStatus <em>Server Status</em>}' enum.

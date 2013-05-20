@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Apache Hadoop Eclipse WebHDFS
+Bundle-SymbolicName: org.apache.hadoop.eclipse.release.webhdfs;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: org.apache.hadoop.eclipse;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ClassPath: .,
+ lib/httpclient-4.2.5/commons-codec-1.6.jar,
+ lib/httpclient-4.2.5/commons-logging-1.1.1.jar,
+ lib/httpclient-4.2.5/fluent-hc-4.2.5.jar,
+ lib/httpclient-4.2.5/httpclient-4.2.5.jar,
+ lib/httpclient-4.2.5/httpclient-cache-4.2.5.jar,
+ lib/httpclient-4.2.5/httpcore-4.2.4.jar,
+ lib/httpclient-4.2.5/httpmime-4.2.5.jar,
+ lib/httpcore-4.2.4/httpcore-4.2.4.jar,
+ lib/httpcore-4.2.4/httpcore-ab-4.2.4.jar,
+ lib/httpcore-4.2.4/httpcore-nio-4.2.4.jar

@@ -18,7 +18,7 @@
 
 package org.apache.hadoop.eclipse;
 
-import org.apache.hadoop.eclipse.internal.hdfs.HDFSManager;
+import org.apache.hadoop.eclipse.internal.HadoopManager;
 import org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -46,7 +46,7 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		HadoopPackageImpl.init();
-		HDFSManager.INSTANCE.getServers();
+		HadoopManager.INSTANCE.getServers();
 	}
 
 	/*
@@ -56,7 +56,7 @@ public class Activator implements BundleActivator {
 	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
-		HDFSManager.INSTANCE.saveServers();
+		HadoopManager.INSTANCE.saveServers();
 		Activator.context = null;
 	}
 

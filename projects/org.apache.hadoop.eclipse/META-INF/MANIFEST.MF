@@ -15,10 +15,13 @@ Bundle-ClassPath: lib/log4j/log4j-1.2.17.jar,
  .
 Export-Package: org.apache.hadoop.eclipse,
  org.apache.hadoop.eclipse.hdfs,
+ org.apache.hadoop.eclipse.internal,
  org.apache.hadoop.eclipse.internal.hdfs;x-friends:="org.apache.hadoop.eclipse.ui",
  org.apache.hadoop.eclipse.internal.model,
  org.apache.hadoop.eclipse.internal.model.impl,
  org.apache.hadoop.eclipse.internal.model.util,
+ org.apache.hadoop.eclipse.internal.zookeeper,
+ org.apache.hadoop.eclipse.zookeeper,
  org.apache.log4j,
  org.apache.log4j.config
 Bundle-ActivationPolicy: lazy

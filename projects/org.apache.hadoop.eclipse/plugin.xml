@@ -17,7 +17,8 @@
    limitations under the License.
 -->
 <plugin>
-   <extension-point id="org.apache.hadoop.eclipse.hdfsclient" name="Apache Hadoop HDFS Client" schema="schema/org.apache.hadoop.eclipse.hdfsclient.exsd"/>
+   <extension-point id="org.apache.hadoop.eclipse.hdfsClient" name="Apache Hadoop HDFS Client" schema="schema/org.apache.hadoop.eclipse.hdfsclient.exsd"/>
+   <extension-point id="org.apache.hadoop.eclipse.zookeeperClient" name="Apache Hadoop ZooKeeper Client" schema="schema/org.apache.hadoop.eclipse.zookeeperClient.exsd"/>
    <extension
          id="org.apache.hadoop.hdfs.filesystem"
          name="Apache Hadoop HDFS"

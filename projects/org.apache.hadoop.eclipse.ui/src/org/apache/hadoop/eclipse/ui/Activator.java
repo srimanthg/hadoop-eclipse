@@ -38,6 +38,7 @@ public class Activator extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.apache.hadoop.eclipse.ui"; //$NON-NLS-1$
 	public static final String PREFERENCE_HDFS_URLS = "HDFS_SERVER_URLS";
+	public static final String PREFERENCE_ZOOKEEPER_URLS = "ZOOKEEPER_SERVER_URLS";
 	// ImageDescriptors
 	public static ImageDescriptor IMAGE_REMOTE_OVR;
 	public static ImageDescriptor IMAGE_LOCAL_OVR;
@@ -50,6 +51,8 @@ public class Activator extends AbstractUIPlugin {
 	public static ImageDescriptor IMAGE_ONLINE_OVR;
 	// Images
 	public static Image IMAGE_HDFS;
+	public static Image IMAGE_ZOOKEEPER;
+	public static Image IMAGE_ZOOKEEPER_NODE;
 
 	// The shared instance
 	private static Activator plugin;
@@ -106,10 +109,13 @@ public class Activator extends AbstractUIPlugin {
 		URL outgoingUrl = FileLocator.find(bundle, new Path("/icons/ovr/overlay-outgoing.gif"), null);
 		URL waitingUrl = FileLocator.find(bundle, new Path("/icons/ovr/waiting_ovr.gif"), null);
 		URL hdfsUrl = FileLocator.find(bundle, new Path("/icons/hadoop-hdfs-16x16.gif"), null);
+		URL zookeeperUrl = FileLocator.find(bundle, new Path("/icons/hadoop-zookeeper-16x16.png"), null);
+		URL zookeeperNodeUrl = FileLocator.find(bundle, new Path("/icons/zookeeper_node.png"), null);
 		URL hadoopUrl = FileLocator.find(bundle, new Path("/icons/hadoop-logo-16x16.png"), null);
 		URL readonlyUrl = FileLocator.find(bundle, new Path("/icons/ovr/read_only.gif"), null);
 		URL offlineUrl = FileLocator.find(bundle, new Path("/icons/ovr/offline.png"), null);
 		URL onlineUrl = FileLocator.find(bundle, new Path("/icons/ovr/online.png"), null);
+		
 		IMAGE_REMOTE_OVR = ImageDescriptor.createFromURL(remoteFileUrl);
 		IMAGE_LOCAL_OVR = ImageDescriptor.createFromURL(localFileUrl);
 		IMAGE_INCOMING_OVR = ImageDescriptor.createFromURL(incomingUrl);
@@ -120,6 +126,7 @@ public class Activator extends AbstractUIPlugin {
 		IMAGE_READONLY_OVR = ImageDescriptor.createFromURL(readonlyUrl);
 		IMAGE_OFFLINE_OVR = ImageDescriptor.createFromURL(offlineUrl);
 		IMAGE_ONLINE_OVR = ImageDescriptor.createFromURL(onlineUrl);
-		
+		IMAGE_ZOOKEEPER = ImageDescriptor.createFromURL(zookeeperUrl).createImage();
+		IMAGE_ZOOKEEPER_NODE = ImageDescriptor.createFromURL(zookeeperNodeUrl).createImage();
 	}
 }

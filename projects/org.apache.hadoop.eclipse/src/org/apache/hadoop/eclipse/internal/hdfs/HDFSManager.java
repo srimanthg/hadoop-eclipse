@@ -18,10 +18,7 @@
 
 package org.apache.hadoop.eclipse.internal.hdfs;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -29,10 +26,10 @@ import java.util.Map;
 
 import org.apache.hadoop.eclipse.Activator;
 import org.apache.hadoop.eclipse.hdfs.HDFSClient;
+import org.apache.hadoop.eclipse.internal.HadoopManager;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.hadoop.eclipse.internal.model.HadoopFactory;
 import org.apache.hadoop.eclipse.internal.model.ServerStatus;
-import org.apache.hadoop.eclipse.internal.model.Servers;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -46,12 +43,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.team.core.RepositoryProvider;
-import org.osgi.framework.Bundle;
 
 /**
  * Manages workspace files with server files.
@@ -63,9 +56,8 @@ public class HDFSManager {
 
 	public static HDFSManager INSTANCE = new HDFSManager();
 	private static final Logger logger = Logger.getLogger(HDFSManager.class);
-	private static final String MODEL_FILE_NAME = "servers.xmi";
-	
-	public static void disconnectProject(IProject project){
+
+	public static void disconnectProject(IProject project) {
 		HDFSServer server = HDFSManager.INSTANCE.getServer(project.getLocationURI().toString());
 		if (server != null && server.getStatusCode() != ServerStatus.DISCONNECTED_VALUE)
 			server.setStatusCode(ServerStatus.DISCONNECTED_VALUE);
@@ -75,8 +67,8 @@ public class HDFSManager {
 			logger.warn(e.getMessage(), e);
 		}
 	}
-	
-	public static void reconnectProject(IProject project){
+
+	public static void reconnectProject(IProject project) {
 		HDFSServer server = HDFSManager.INSTANCE.getServer(project.getLocationURI().toString());
 		if (server != null && server.getStatusCode() == ServerStatus.DISCONNECTED_VALUE)
 			server.setStatusCode(0);
@@ -87,7 +79,6 @@ public class HDFSManager {
 		}
 	}
 
-	private Servers servers = null;
 	private Map<HDFSServer, String> serverToProjectMap = new HashMap<HDFSServer, String>();
 	private Map<String, HDFSServer> projectToServerMap = new HashMap<String, HDFSServer>();
 	private final Map<String, HDFSClient> hdfsClientsMap = new HashMap<String, HDFSClient>();
@@ -111,32 +102,20 @@ public class HDFSManager {
 	private HDFSManager() {
 	}
 
-	public Servers getServers() {
-		if (servers == null) {
-			loadServers();
-			if (servers == null)
-				servers = HadoopFactory.eINSTANCE.createServers();
-		}
-		return servers;
+	public EList<HDFSServer> getHdfsServers() {
+		return HadoopManager.INSTANCE.getServers().getHdfsServers();
 	}
 
-	private void loadServers() {
+	public void loadServers() {
 		final IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		Bundle bundle = Platform.getBundle(Activator.BUNDLE_ID);
-		File serversFile = bundle.getBundleContext().getDataFile(MODEL_FILE_NAME);
-		if (serversFile.exists()) {
-			ResourceSet resSet = new ResourceSetImpl();
-			Resource resource = resSet.getResource(URI.createFileURI(serversFile.getPath()), true);
-			servers = (Servers) resource.getContents().get(0);
-			for (HDFSServer server : servers.getHdfsServers()) {
-				uriToServerMap.put(server.getUri(), server);
-				final IProject project = workspaceRoot.getProject(server.getName());
-				if (!project.exists()) {
-					server.setStatusCode(ServerStatus.NO_PROJECT_VALUE);
-				}
-				serverToProjectMap.put(server, server.getName());
-				projectToServerMap.put(server.getName(), server);
+		for (HDFSServer server : getHdfsServers()) {
+			uriToServerMap.put(server.getUri(), server);
+			final IProject project = workspaceRoot.getProject(server.getName());
+			if (!project.exists()) {
+				server.setStatusCode(ServerStatus.NO_PROJECT_VALUE);
 			}
+			serverToProjectMap.put(server, server.getName());
+			projectToServerMap.put(server.getName(), server);
 		}
 		IProject[] projects = workspaceRoot.getProjects();
 		if (projects != null) {
@@ -156,19 +135,6 @@ public class HDFSManager {
 		}
 	}
 
-	public void saveServers() {
-		Bundle bundle = Platform.getBundle(Activator.BUNDLE_ID);
-		File serversFile = bundle.getBundleContext().getDataFile(MODEL_FILE_NAME);
-		ResourceSet resSet = new ResourceSetImpl();
-		Resource resource = resSet.createResource(URI.createFileURI(serversFile.getPath()));
-		resource.getContents().add(getServers());
-		try {
-			resource.save(Collections.EMPTY_MAP);
-		} catch (IOException e) {
-			logger.error("Unable to persist Hadoop servers model", e);
-		}
-	}
-
 	/**
 	 * Creates and adds an HDFS server definition. This also creates a local
 	 * project which represents server file system via EFS.
@@ -178,7 +144,7 @@ public class HDFSManager {
 	 * @throws CoreException
 	 */
 	public HDFSServer createServer(String name, java.net.URI hdfsURI, String userId, List<String> groupIds) throws CoreException {
-		if (hdfsURI.getPath().length() < 1) {
+		if (hdfsURI.getPath() == null || hdfsURI.getPath().length() < 1) {
 			try {
 				hdfsURI = new java.net.URI(hdfsURI.toString() + "/");
 			} catch (URISyntaxException e) {
@@ -188,14 +154,13 @@ public class HDFSManager {
 		hdfsServer.setName(name);
 		hdfsServer.setUri(hdfsURI.toString());
 		hdfsServer.setLoaded(true);
-		hdfsServer.setWorkspaceProjectName(name);
 		if (userId != null)
 			hdfsServer.setUserId(userId);
 		if (groupIds != null)
 			for (String groupId : groupIds)
 				hdfsServer.getGroupIds().add(groupId);
-		getServers().getHdfsServers().add(hdfsServer);
-		saveServers();
+		getHdfsServers().add(hdfsServer);
+		HadoopManager.INSTANCE.saveServers();
 		uriToServerMap.put(hdfsServer.getUri(), hdfsServer);
 		serverToProjectMap.put(hdfsServer, name);
 		projectToServerMap.put(name, hdfsServer);
@@ -221,7 +186,7 @@ public class HDFSManager {
 	}
 
 	public HDFSServer getServer(String uri) {
-		if (uri!=null && !uriToServerCacheMap.containsKey(uri)) {
+		if (uri != null && !uriToServerCacheMap.containsKey(uri)) {
 			String tmpUri = uri;
 			HDFSServer serverU = uriToServerMap.get(tmpUri);
 			while (serverU == null) {
@@ -274,11 +239,11 @@ public class HDFSManager {
 	 * @param server
 	 */
 	public void deleteServer(HDFSServer server) {
-		getServers().getHdfsServers().remove(server);
+		getHdfsServers().remove(server);
 		String projectName = this.serverToProjectMap.remove(server);
 		this.projectToServerMap.remove(projectName);
 		this.uriToServerMap.remove(server.getUri());
-		saveServers();
+		HadoopManager.INSTANCE.saveServers();
 	}
 
 	/**
@@ -298,12 +263,17 @@ public class HDFSManager {
 		if (hdfsClientsMap.containsKey(serverURI))
 			return hdfsClientsMap.get(serverURI);
 		else {
-			IConfigurationElement[] elementsFor = Platform.getExtensionRegistry().getConfigurationElementsFor("org.apache.hadoop.eclipse.hdfsclient");
 			try {
-				HDFSClient client = (HDFSClient) elementsFor[0].createExecutableExtension("class");
-				hdfsClientsMap.put(serverURI, new InterruptableHDFSClient(serverURI, client));
-			} catch (CoreException t) {
-				throw t;
+				java.net.URI sUri = new java.net.URI(serverURI);
+				IConfigurationElement[] elementsFor = Platform.getExtensionRegistry().getConfigurationElementsFor("org.apache.hadoop.eclipse.hdfsClient");
+				for (IConfigurationElement element : elementsFor) {
+					if (sUri.getScheme().equals(element.getAttribute("protocol"))) {
+						HDFSClient client = (HDFSClient) element.createExecutableExtension("class");
+						hdfsClientsMap.put(serverURI, new InterruptableHDFSClient(serverURI, client));
+					}
+				}
+			} catch (URISyntaxException e) {
+				throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, "Invalid server URI", e));
 			}
 			return hdfsClientsMap.get(serverURI);
 		}

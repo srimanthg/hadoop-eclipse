@@ -56,6 +56,15 @@ public interface HadoopFactory extends EFactory {
 	Servers createServers();
 
 	/**
+	 * Returns a new object of class '<em>Zoo Keeper Server</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Zoo Keeper Server</em>'.
+	 * @generated
+	 */
+	ZooKeeperServer createZooKeeperServer();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

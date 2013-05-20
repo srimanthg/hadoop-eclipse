@@ -18,10 +18,19 @@
 -->
 <fragment>
    <extension
-         point="org.apache.hadoop.eclipse.hdfsclient">
+         point="org.apache.hadoop.eclipse.hdfsClient">
       <hdfsClient
-            class="org.apache.hadoop.eclipse.release.HDFSClientRelease">
+            class="org.apache.hadoop.eclipse.release.HDFSClientRelease"
+            protocol="hdfs"
+            protocolVersion="1.1.2.21">
       </hdfsClient>
+   </extension>
+   <extension
+         point="org.apache.hadoop.eclipse.zookeeperClient">
+      <zookeeperClient
+            class="org.apache.hadoop.eclipse.release.ZooKeeperClientRelease"
+            protocolVersion="3.4.5">
+      </zookeeperClient>
    </extension>
 
 </fragment>

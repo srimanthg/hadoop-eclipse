@@ -21,9 +21,12 @@ package org.apache.hadoop.eclipse.internal.model.impl;
 import org.apache.hadoop.eclipse.internal.model.HDFSServer;
 import org.apache.hadoop.eclipse.internal.model.HadoopFactory;
 import org.apache.hadoop.eclipse.internal.model.HadoopPackage;
+import org.apache.hadoop.eclipse.internal.model.Server;
 import org.apache.hadoop.eclipse.internal.model.ServerStatus;
 import org.apache.hadoop.eclipse.internal.model.Servers;
 
+import org.apache.hadoop.eclipse.internal.model.ZNode;
+import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -52,6 +55,20 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * @generated
 	 */
 	private EClass serversEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass serverEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass zooKeeperServerEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -135,7 +152,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHDFSServer_Name() {
+	public EAttribute getHDFSServer_Loaded() {
 		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -144,7 +161,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHDFSServer_Uri() {
+	public EAttribute getHDFSServer_OperationURIs() {
 		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -153,7 +170,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHDFSServer_StatusCode() {
+	public EAttribute getHDFSServer_UserId() {
 		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -162,62 +179,8 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getHDFSServer_StatusMessage() {
-		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getHDFSServer_LastAccessed() {
-		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getHDFSServer_Loaded() {
-		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getHDFSServer_WorkspaceProjectName() {
-		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getHDFSServer_OperationURIs() {
-		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getHDFSServer_UserId() {
-		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getHDFSServer_GroupIds() {
-		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(9);
+		return (EAttribute)hdfsServerEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -245,6 +208,78 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 */
 	public EAttribute getServers_Version() {
 		return (EAttribute)serversEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getServers_ZookeeperServers() {
+		return (EReference)serversEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getServer() {
+		return serverEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getServer_Name() {
+		return (EAttribute)serverEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getServer_Uri() {
+		return (EAttribute)serverEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getServer_StatusCode() {
+		return (EAttribute)serverEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getServer_StatusMessage() {
+		return (EAttribute)serverEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getServer_LastAccessed() {
+		return (EAttribute)serverEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getZooKeeperServer() {
+		return zooKeeperServerEClass;
 	}
 
 	/**
@@ -285,13 +320,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 
 		// Create classes and their features
 		hdfsServerEClass = createEClass(HDFS_SERVER);
-		createEAttribute(hdfsServerEClass, HDFS_SERVER__NAME);
-		createEAttribute(hdfsServerEClass, HDFS_SERVER__URI);
-		createEAttribute(hdfsServerEClass, HDFS_SERVER__STATUS_CODE);
-		createEAttribute(hdfsServerEClass, HDFS_SERVER__STATUS_MESSAGE);
-		createEAttribute(hdfsServerEClass, HDFS_SERVER__LAST_ACCESSED);
 		createEAttribute(hdfsServerEClass, HDFS_SERVER__LOADED);
-		createEAttribute(hdfsServerEClass, HDFS_SERVER__WORKSPACE_PROJECT_NAME);
 		createEAttribute(hdfsServerEClass, HDFS_SERVER__OPERATION_UR_IS);
 		createEAttribute(hdfsServerEClass, HDFS_SERVER__USER_ID);
 		createEAttribute(hdfsServerEClass, HDFS_SERVER__GROUP_IDS);
@@ -299,6 +328,16 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		serversEClass = createEClass(SERVERS);
 		createEReference(serversEClass, SERVERS__HDFS_SERVERS);
 		createEAttribute(serversEClass, SERVERS__VERSION);
+		createEReference(serversEClass, SERVERS__ZOOKEEPER_SERVERS);
+
+		serverEClass = createEClass(SERVER);
+		createEAttribute(serverEClass, SERVER__NAME);
+		createEAttribute(serverEClass, SERVER__URI);
+		createEAttribute(serverEClass, SERVER__STATUS_CODE);
+		createEAttribute(serverEClass, SERVER__STATUS_MESSAGE);
+		createEAttribute(serverEClass, SERVER__LAST_ACCESSED);
+
+		zooKeeperServerEClass = createEClass(ZOO_KEEPER_SERVER);
 
 		// Create enums
 		serverStatusEEnum = createEEnum(SERVER_STATUS);
@@ -332,16 +371,12 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		hdfsServerEClass.getESuperTypes().add(this.getServer());
+		zooKeeperServerEClass.getESuperTypes().add(this.getServer());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(hdfsServerEClass, HDFSServer.class, "HDFSServer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getHDFSServer_Name(), ecorePackage.getEString(), "name", "", 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getHDFSServer_Uri(), ecorePackage.getEString(), "uri", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getHDFSServer_StatusCode(), ecorePackage.getEInt(), "statusCode", "0", 0, 1, HDFSServer.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getHDFSServer_StatusMessage(), ecorePackage.getEString(), "statusMessage", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getHDFSServer_LastAccessed(), ecorePackage.getELong(), "lastAccessed", "-1", 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_Loaded(), ecorePackage.getEBoolean(), "loaded", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getHDFSServer_WorkspaceProjectName(), ecorePackage.getEString(), "workspaceProjectName", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_OperationURIs(), ecorePackage.getEString(), "operationURIs", null, 0, -1, HDFSServer.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_UserId(), ecorePackage.getEString(), "userId", null, 0, 1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getHDFSServer_GroupIds(), ecorePackage.getEString(), "groupIds", null, 0, -1, HDFSServer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -349,11 +384,22 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		initEClass(serversEClass, Servers.class, "Servers", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getServers_HdfsServers(), this.getHDFSServer(), null, "hdfsServers", null, 0, -1, Servers.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getServers_Version(), ecorePackage.getEString(), "version", "1.0.0.0", 0, 1, Servers.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getServers_ZookeeperServers(), this.getZooKeeperServer(), null, "zookeeperServers", null, 0, -1, Servers.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(serverEClass, Server.class, "Server", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getServer_Name(), ecorePackage.getEString(), "name", "", 0, 1, Server.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getServer_Uri(), ecorePackage.getEString(), "uri", null, 0, 1, Server.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getServer_StatusCode(), ecorePackage.getEInt(), "statusCode", "0", 0, 1, Server.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getServer_StatusMessage(), ecorePackage.getEString(), "statusMessage", null, 0, 1, Server.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getServer_LastAccessed(), ecorePackage.getELong(), "lastAccessed", "-1", 0, 1, Server.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(zooKeeperServerEClass, ZooKeeperServer.class, "ZooKeeperServer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Initialize enums and add enum literals
 		initEEnum(serverStatusEEnum, ServerStatus.class, "ServerStatus");
 		addEEnumLiteral(serverStatusEEnum, ServerStatus.NO_PROJECT);
 		addEEnumLiteral(serverStatusEEnum, ServerStatus.DISCONNECTED);
+		addEEnumLiteral(serverStatusEEnum, ServerStatus.CONNECTED);
 
 		// Create resource
 		createResource(eNS_URI);

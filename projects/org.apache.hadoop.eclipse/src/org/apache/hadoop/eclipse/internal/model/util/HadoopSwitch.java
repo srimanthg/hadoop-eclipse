@@ -102,12 +102,26 @@ public class HadoopSwitch<T> {
 			case HadoopPackage.HDFS_SERVER: {
 				HDFSServer hdfsServer = (HDFSServer)theEObject;
 				T result = caseHDFSServer(hdfsServer);
+				if (result == null) result = caseServer(hdfsServer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case HadoopPackage.SERVERS: {
 				Servers servers = (Servers)theEObject;
 				T result = caseServers(servers);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HadoopPackage.SERVER: {
+				Server server = (Server)theEObject;
+				T result = caseServer(server);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HadoopPackage.ZOO_KEEPER_SERVER: {
+				ZooKeeperServer zooKeeperServer = (ZooKeeperServer)theEObject;
+				T result = caseZooKeeperServer(zooKeeperServer);
+				if (result == null) result = caseServer(zooKeeperServer);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -142,6 +156,36 @@ public class HadoopSwitch<T> {
 	 * @generated
 	 */
 	public T caseServers(Servers object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Server</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Server</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseServer(Server object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Zoo Keeper Server</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Zoo Keeper Server</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseZooKeeperServer(ZooKeeperServer object) {
 		return null;
 	}
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="org.apache.hadoop.eclipse.hdfsclient">
+      <hdfsClient
+            class="org.apache.hadoop.eclipse.release.webhdfs.HDFSClientRelease"
+            protocol="webhdfs"
+            protocolVersion="1.0.4">
+      </hdfsClient>
+   </extension>
+
+</fragment>

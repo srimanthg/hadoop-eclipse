@@ -31,7 +31,7 @@
       <decorator
             adaptable="true"
             class="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSLightweightLabelDecorator"
-            id="org.apache.hadoop.eclipse.ui.decorator"
+            id="org.apache.hadoop.eclipse.ui.decorator.hdfs"
             label="HDFS Resource Decorator"
             lightweight="true"
             location="BOTTOM_RIGHT"
@@ -39,6 +39,20 @@
          <enablement>
             <objectClass
                   name="org.eclipse.core.resources.IResource">
+            </objectClass>
+         </enablement>
+      </decorator>
+      <decorator
+            adaptable="true"
+            class="org.apache.hadoop.eclipse.ui.internal.zookeeper.ZooKeeperLightweightLabelDecorator"
+            id="org.apache.hadoop.eclipse.ui.decorator.zookeeper"
+            label="ZooKeeper Resource Decorator"
+            lightweight="true"
+            location="BOTTOM_RIGHT"
+            state="true">
+         <enablement>
+            <objectClass
+                  name="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
             </objectClass>
          </enablement>
       </decorator>
@@ -51,6 +65,10 @@
             <contentExtension
                   pattern="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs">
             </contentExtension>
+            <contentExtension
+                  isRoot="true"
+                  pattern="org.apache.hadoop.eclipse.ui.navigatorContent.zookeeper">
+            </contentExtension>
          </includes>
       </viewerContentBinding>
    </extension>
@@ -62,6 +80,20 @@
             id="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs"
             labelProvider="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSLabelProvider"
             name="Navigator HDFS Content Provider"
+            priority="higher">
+         <triggerPoints>
+            <instanceof
+                  value="org.eclipse.core.resources.IProject">
+            </instanceof>
+         </triggerPoints>
+      </navigatorContent>
+      <navigatorContent
+            activeByDefault="true"
+            contentProvider="org.apache.hadoop.eclipse.ui.internal.zookeeper.ZooKeeperCommonContentProvider"
+            icon="icons/hadoop-zookeeper-16x16.png"
+            id="org.apache.hadoop.eclipse.ui.navigatorContent.zookeeper"
+            labelProvider="org.apache.hadoop.eclipse.ui.internal.zookeeper.ZooKeeperLabelProvider"
+            name="Navigator ZooKeeper Content Provider"
             priority="higher">
          <triggerPoints>
             <instanceof
@@ -84,6 +116,14 @@
             id="org.apache.hadoop.eclipse.ui.newWizards.category"
             name="Hadoop">
       </category>
+      <wizard
+            category="org.apache.hadoop.eclipse.ui.newWizards.category"
+            class="org.apache.hadoop.eclipse.ui.internal.zookeeper.NewZooKeeperWizard"
+            finalPerspective="org.apache.hadoop.eclipse.ui.perspective"
+            icon="icons/hadoop-zookeeper-16x16.png"
+            id="org.apache.hadoop.eclipse.ui.wizard.newZooKeeperServer"
+            name="New ZooKeeper Server">
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
@@ -161,6 +201,56 @@
                menubarPath="additions">
             <class
                   class="org.eclipse.core.resources.IProject">
+            </class>
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.apache.hadoop.eclipse.ui.team.zkServerContribution"
+            objectClass="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.zookeeper.DisconnectAction"
+               icon="icons/ovr/offline.png"
+               id="org.apache.hadoop.eclipse.ui.team.zookeeper.DisconnectContribution"
+               label="Disconnect"
+               menubarPath="additions">
+            <class
+                  class="org.eclipse.core.resources.IProject">
+            </class>
+         </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.zookeeper.ReconnectAction"
+               icon="icons/ovr/online.png"
+               id="org.apache.hadoop.eclipse.ui.team.zookeeper.ReconnectContribution"
+               label="Reconnect"
+               menubarPath="additions">
+            <class
+                  class="org.eclipse.core.resources.IProject">
+            </class>
+         </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.zookeeper.RefreshAction"
+               icon="icons/zookeeper-refresh.gif"
+               id="org.apache.hadoop.eclipse.ui.team.zookeeper.server.RefreshContribution"
+               label="Refresh"
+               menubarPath="additions">
+            <class
+                  class="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
+            </class>
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.apache.hadoop.eclipse.ui.team.zkNodeContribution"
+            objectClass="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.zookeeper.RefreshAction"
+               icon="icons/zookeeper-refresh.gif"
+               id="org.apache.hadoop.eclipse.ui.team.zookeeper.node.RefreshContribution"
+               label="Refresh"
+               menubarPath="additions">
+            <class
+                  class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
             </class>
          </action>
       </objectContribution>

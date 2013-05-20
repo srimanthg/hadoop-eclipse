@@ -75,6 +75,7 @@ public class HadoopFactoryImpl extends EFactoryImpl implements HadoopFactory {
 		switch (eClass.getClassifierID()) {
 			case HadoopPackage.HDFS_SERVER: return createHDFSServer();
 			case HadoopPackage.SERVERS: return createServers();
+			case HadoopPackage.ZOO_KEEPER_SERVER: return createZooKeeperServer();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -128,6 +129,16 @@ public class HadoopFactoryImpl extends EFactoryImpl implements HadoopFactory {
 	public Servers createServers() {
 		ServersImpl servers = new ServersImpl();
 		return servers;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ZooKeeperServer createZooKeeperServer() {
+		ZooKeeperServerImpl zooKeeperServer = new ZooKeeperServerImpl();
+		return zooKeeperServer;
 	}
 
 	/**

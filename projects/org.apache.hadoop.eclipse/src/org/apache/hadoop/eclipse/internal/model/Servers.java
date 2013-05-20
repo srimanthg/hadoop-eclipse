@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.Servers#getHdfsServers <em>Hdfs Servers</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.Servers#getVersion <em>Version</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.Servers#getZookeeperServers <em>Zookeeper Servers</em>}</li>
  * </ul>
  * </p>
  *
@@ -82,5 +83,21 @@ public interface Servers extends EObject {
 	 * @generated
 	 */
 	void setVersion(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Zookeeper Servers</b></em>' containment reference list.
+	 * The list contents are of type {@link org.apache.hadoop.eclipse.internal.model.ZooKeeperServer}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Zookeeper Servers</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Zookeeper Servers</em>' containment reference list.
+	 * @see org.apache.hadoop.eclipse.internal.model.HadoopPackage#getServers_ZookeeperServers()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ZooKeeperServer> getZookeeperServers();
 
 } // Servers
