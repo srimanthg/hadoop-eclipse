@@ -52,7 +52,7 @@ public class ZooKeeperLightweightLabelDecorator implements ILightweightLabelDeco
 				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_ONLINE_OVR);
 
 			// Text decorations
-			decoration.addSuffix(zks.getUri());
+			decoration.addSuffix("  "+zks.getUri());
 		}else if (element instanceof ZooKeeperNode) {
 			//ZooKeeperNode zkn = (ZooKeeperNode) element;
 			

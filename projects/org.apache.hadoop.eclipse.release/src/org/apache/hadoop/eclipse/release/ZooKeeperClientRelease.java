@@ -20,6 +20,7 @@ package org.apache.hadoop.eclipse.release;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
 import org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
@@ -119,6 +120,18 @@ public class ZooKeeperClientRelease extends ZooKeeperClient {
 			return client.getChildren(path, false);
 		} catch (KeeperException e) {
 			logger.debug(e.getMessage(), e);
+			throw new IOException(e.getMessage(), e);
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient#delete(org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode)
+	 */
+	@Override
+	public void delete(ZooKeeperNode zkn) throws IOException, InterruptedException {
+		try {
+			client.delete(zkn.getPath(), -1);
+		} catch (KeeperException e) {
 			throw new IOException(e.getMessage(), e);
 		}
 	}

@@ -93,9 +93,9 @@ public class InterruptableZooKeeperClient extends ZooKeeperClient {
 			return data.get(0);
 		return null;
 	}
-	
-	protected void connectIfNecessary() throws IOException, InterruptedException{
-		if(!client.isConnected())
+
+	protected void connectIfNecessary() throws IOException, InterruptedException {
+		if (!client.isConnected())
 			client.connect();
 	}
 
@@ -185,6 +185,22 @@ public class InterruptableZooKeeperClient extends ZooKeeperClient {
 			@Override
 			public Object run() throws IOException, InterruptedException {
 				client.disconnect();
+				return null;
+			}
+		});
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient#disconnect()
+	 */
+	@Override
+	public void delete(final ZooKeeperNode node) throws IOException, InterruptedException {
+		executeWithTimeout(new CustomRunnable<Object>() {
+			@Override
+			public Object run() throws IOException, InterruptedException {
+				client.delete(node);
 				return null;
 			}
 		});

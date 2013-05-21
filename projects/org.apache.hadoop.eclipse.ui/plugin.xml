@@ -238,6 +238,16 @@
                   class="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
             </class>
          </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.zookeeper.DeleteAction"
+               icon="icons/delete.gif"
+               id="org.apache.hadoop.eclipse.ui.team.zookeeper.node.DeleteContribution"
+               label="Delete"
+               menubarPath="additions">
+            <class
+                  class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
+            </class>
+         </action>
       </objectContribution>
       <objectContribution
             adaptable="false"
@@ -248,6 +258,16 @@
                icon="icons/zookeeper-refresh.gif"
                id="org.apache.hadoop.eclipse.ui.team.zookeeper.node.RefreshContribution"
                label="Refresh"
+               menubarPath="additions">
+            <class
+                  class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
+            </class>
+         </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.zookeeper.DeleteAction"
+               icon="icons/delete.gif"
+               id="org.apache.hadoop.eclipse.ui.team.zookeeper.node.DeleteContribution"
+               label="Delete"
                menubarPath="additions">
             <class
                   class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">

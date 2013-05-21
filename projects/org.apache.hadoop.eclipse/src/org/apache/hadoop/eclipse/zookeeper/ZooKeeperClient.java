@@ -21,19 +21,23 @@ package org.apache.hadoop.eclipse.zookeeper;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
+
 /**
  * @author Srimanth Gunturi
- *
+ * 
  */
 public abstract class ZooKeeperClient {
-	
+
 	public abstract void initialize(String serverLocation);
-	
+
 	public abstract boolean isConnected() throws IOException, InterruptedException;
-	
+
 	public abstract void connect() throws IOException, InterruptedException;
-	
+
 	public abstract List<String> getChildren(String path) throws IOException, InterruptedException;
-	
+
 	public abstract void disconnect() throws IOException, InterruptedException;
+
+	public abstract void delete(ZooKeeperNode zkn) throws IOException, InterruptedException ;
 }

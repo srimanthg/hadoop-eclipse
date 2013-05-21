@@ -19,8 +19,6 @@
 package org.apache.hadoop.eclipse.internal.zookeeper;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +52,7 @@ public class ZooKeeperManager {
 	 * 
 	 */
 	public void loadServers() {
-		
+
 	}
 
 	public EList<ZooKeeperServer> getServers() {
@@ -79,8 +77,10 @@ public class ZooKeeperManager {
 	 */
 	public void disconnect(ZooKeeperServer server) {
 		try {
-			getClient(server).disconnect();
-			server.setStatusCode(ServerStatus.DISCONNECTED_VALUE);
+			if (ServerStatus.DISCONNECTED_VALUE != server.getStatusCode()) {
+				getClient(server).disconnect();
+				server.setStatusCode(ServerStatus.DISCONNECTED_VALUE);
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,17 +100,17 @@ public class ZooKeeperManager {
 	 */
 	public void reconnect(ZooKeeperServer server) {
 		try {
-			if(logger.isDebugEnabled())
-				logger.debug("reconnect(): Reconnecting: "+server);
+			if (logger.isDebugEnabled())
+				logger.debug("reconnect(): Reconnecting: " + server);
 			server.setStatusCode(0);
 			getClient(server).connect();
-			if(!getClient(server).isConnected()){
-				if(logger.isDebugEnabled())
-					logger.debug("reconnect(): Client not connected. Setting to disconnected: "+server);
+			if (!getClient(server).isConnected()) {
+				if (logger.isDebugEnabled())
+					logger.debug("reconnect(): Client not connected. Setting to disconnected: " + server);
 				server.setStatusCode(ServerStatus.DISCONNECTED_VALUE);
 			}
-			if(logger.isDebugEnabled())
-				logger.debug("reconnect(): Reconnected: "+server);
+			if (logger.isDebugEnabled())
+				logger.debug("reconnect(): Reconnected: " + server);
 		} catch (IOException e) {
 			server.setStatusCode(ServerStatus.DISCONNECTED_VALUE);
 			// TODO Auto-generated catch block
@@ -143,5 +143,20 @@ public class ZooKeeperManager {
 			}
 			return clientsMap.get(server.getUri());
 		}
+	}
+
+	/**
+	 * @param r
+	 * @throws CoreException
+	 */
+	public void delete(ZooKeeperServer server) throws CoreException {
+		if (server != null && server.getStatusCode() != ServerStatus.DISCONNECTED_VALUE) {
+			if (logger.isDebugEnabled())
+				logger.debug("getClient(" + server.getUri() + "): Cannot delete a connected server.");
+			throw new CoreException(new Status(IStatus.WARNING, Activator.BUNDLE_ID, "Cannot delete a connected server."));
+		}
+		if (clientsMap.containsKey(server.getUri()))
+			clientsMap.remove(server.getUri());
+		getServers().remove(server);
 	}
 }
