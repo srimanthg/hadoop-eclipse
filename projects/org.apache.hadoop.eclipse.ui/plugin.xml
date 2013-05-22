@@ -245,7 +245,7 @@
                label="Delete"
                menubarPath="additions">
             <class
-                  class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
+                  class="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
             </class>
          </action>
       </objectContribution>

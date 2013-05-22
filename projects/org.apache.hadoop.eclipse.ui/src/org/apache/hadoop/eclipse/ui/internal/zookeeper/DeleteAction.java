@@ -90,11 +90,14 @@ public class DeleteAction implements IObjectActionDelegate {
 			Iterator itr = sSelection.iterator();
 			while (itr.hasNext()) {
 				Object object = itr.next();
+				enabled = false;
 				if (object instanceof ZooKeeperServer) {
 					ZooKeeperServer server = (ZooKeeperServer) object;
 					enabled = server != null;
-				} else
-					enabled = false;
+				} else if (object instanceof ZooKeeperNode) {
+					ZooKeeperNode zkn = (ZooKeeperNode) object;
+					enabled = zkn != null;
+				}
 			}
 		} else
 			enabled = false;
