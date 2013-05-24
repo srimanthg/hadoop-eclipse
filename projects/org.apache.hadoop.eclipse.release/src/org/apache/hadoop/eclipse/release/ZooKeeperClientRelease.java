@@ -28,6 +28,7 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.ZooKeeper.States;
+import org.apache.zookeeper.data.Stat;
 
 /**
  * @author Srimanth Gunturi
@@ -123,9 +124,13 @@ public class ZooKeeperClientRelease extends ZooKeeperClient {
 			throw new IOException(e.getMessage(), e);
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient#delete(org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient#delete(org.apache
+	 * .hadoop.eclipse.internal.zookeeper.ZooKeeperNode)
 	 */
 	@Override
 	public void delete(ZooKeeperNode zkn) throws IOException, InterruptedException {
@@ -134,6 +139,29 @@ public class ZooKeeperClientRelease extends ZooKeeperClient {
 		} catch (KeeperException e) {
 			throw new IOException(e.getMessage(), e);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient#open(java.lang.String
+	 * )
+	 */
+	@Override
+	public NodeData open(String path) throws InterruptedException, IOException {
+		NodeData data = new NodeData();
+		Stat stat = new Stat();
+		byte[] nd;
+		try {
+			nd = client.getData(path, false, stat);
+		} catch (KeeperException e) {
+			throw new IOException(e.getMessage(), e);
+		}
+		data.data = nd;
+		data.childrenVersion = stat.getCversion();
+		data.version = stat.getVersion();
+		return data;
 	}
 
 }

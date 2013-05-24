@@ -205,4 +205,22 @@ public class InterruptableZooKeeperClient extends ZooKeeperClient {
 			}
 		});
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient#open(java.lang.String
+	 * )
+	 */
+	@Override
+	public NodeData open(final String path) throws InterruptedException, IOException {
+		connectIfNecessary();
+		return executeWithTimeout(new CustomRunnable<NodeData>() {
+			@Override
+			public NodeData run() throws IOException, InterruptedException {
+				return client.open(path);
+			}
+		});
+	}
 }

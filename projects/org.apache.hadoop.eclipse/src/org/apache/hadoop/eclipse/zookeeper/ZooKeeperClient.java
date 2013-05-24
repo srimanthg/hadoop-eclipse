@@ -29,6 +29,15 @@ import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
  */
 public abstract class ZooKeeperClient {
 
+	public static class NodeInfo {
+		public int version;
+		public int childrenVersion;
+	}
+
+	public static class NodeData extends NodeInfo {
+		public byte[] data;
+	}
+
 	public abstract void initialize(String serverLocation);
 
 	public abstract boolean isConnected() throws IOException, InterruptedException;
@@ -39,5 +48,7 @@ public abstract class ZooKeeperClient {
 
 	public abstract void disconnect() throws IOException, InterruptedException;
 
-	public abstract void delete(ZooKeeperNode zkn) throws IOException, InterruptedException ;
+	public abstract void delete(ZooKeeperNode zkn) throws IOException, InterruptedException;
+
+	public abstract NodeData open(String path) throws InterruptedException, IOException;
 }

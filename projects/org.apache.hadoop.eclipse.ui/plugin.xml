@@ -273,6 +273,16 @@
                   class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
             </class>
          </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.zookeeper.OpenAction"
+               enablesFor="1+"
+               id="org.apache.hadoop.eclipse.ui.team.zookeeper.node.OpenContribution"
+               label="Open"
+               menubarPath="additions">
+            <class
+                  class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
+            </class>
+         </action>
       </objectContribution>
    </extension>
    <extension

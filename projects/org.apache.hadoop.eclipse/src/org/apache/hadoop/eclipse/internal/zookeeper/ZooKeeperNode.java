@@ -22,7 +22,7 @@ import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
 
 /**
  * @author Srimanth Gunturi
- *
+ * 
  */
 public class ZooKeeperNode {
 	private final String name;
@@ -59,10 +59,20 @@ public class ZooKeeperNode {
 	public ZooKeeperServer getServer() {
 		return server;
 	}
-	
-	public String getPath(){
-		if(path==null)
-			path = (parent==null ? "" : parent.getPath()) + "/" + getName();
+
+	public String getPath() {
+		if (path == null)
+			path = (parent == null ? "" : parent.getPath()) + "/" + getName();
 		return path;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "[" + getPath() + "]" + super.toString();
 	}
 }
