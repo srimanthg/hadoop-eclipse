@@ -3,8 +3,8 @@ package org.apache.hadoop.eclipse.ui.internal.zookeeper;
 import java.util.Iterator;
 
 import org.apache.hadoop.eclipse.internal.model.ServerStatus;
+import org.apache.hadoop.eclipse.internal.model.ZNode;
 import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
-import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -63,7 +63,7 @@ public class RefreshAction implements IObjectActionDelegate {
 					ZooKeeperServer zks = (ZooKeeperServer) object;
 					enabled = zks.getStatusCode() == ServerStatus.CONNECTED_VALUE;
 				} else
-					enabled = object instanceof ZooKeeperNode;
+					enabled = object instanceof ZNode;
 			}
 		} else
 			enabled = false;

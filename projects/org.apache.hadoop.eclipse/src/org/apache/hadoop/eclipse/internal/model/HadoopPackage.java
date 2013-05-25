@@ -338,13 +338,320 @@ public interface HadoopPackage extends EPackage {
 	int ZOO_KEEPER_SERVER__LAST_ACCESSED = SERVER__LAST_ACCESSED;
 
 	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__CHILDREN = SERVER_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Last Refresh</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__LAST_REFRESH = SERVER_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Refreshing</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__REFRESHING = SERVER_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__TYPE = SERVER_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Creation Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__CREATION_ID = SERVER_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Modified Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__MODIFIED_ID = SERVER_FEATURE_COUNT + 5;
+
+	/**
+	 * The feature id for the '<em><b>Creation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__CREATION_TIME = SERVER_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Modified Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__MODIFIED_TIME = SERVER_FEATURE_COUNT + 7;
+
+	/**
+	 * The feature id for the '<em><b>Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__VERSION = SERVER_FEATURE_COUNT + 8;
+
+	/**
+	 * The feature id for the '<em><b>Children Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__CHILDREN_VERSION = SERVER_FEATURE_COUNT + 9;
+
+	/**
+	 * The feature id for the '<em><b>Acl Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__ACL_VERSION = SERVER_FEATURE_COUNT + 10;
+
+	/**
+	 * The feature id for the '<em><b>Ephermal Owner Session Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__EPHERMAL_OWNER_SESSION_ID = SERVER_FEATURE_COUNT + 11;
+
+	/**
+	 * The feature id for the '<em><b>Data Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__DATA_LENGTH = SERVER_FEATURE_COUNT + 12;
+
+	/**
+	 * The feature id for the '<em><b>Children Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__CHILDREN_COUNT = SERVER_FEATURE_COUNT + 13;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__PARENT = SERVER_FEATURE_COUNT + 14;
+
+	/**
+	 * The feature id for the '<em><b>Node Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__NODE_NAME = SERVER_FEATURE_COUNT + 15;
+
+	/**
 	 * The number of structural features of the '<em>Zoo Keeper Server</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ZOO_KEEPER_SERVER_FEATURE_COUNT = SERVER_FEATURE_COUNT + 0;
+	int ZOO_KEEPER_SERVER_FEATURE_COUNT = SERVER_FEATURE_COUNT + 16;
+
+	/**
+	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl <em>ZNode</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl
+	 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getZNode()
+	 * @generated
+	 */
+	int ZNODE = 4;
+
+	/**
+	 * The feature id for the '<em><b>Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__CHILDREN = 0;
+
+	/**
+	 * The feature id for the '<em><b>Last Refresh</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__LAST_REFRESH = 1;
+
+	/**
+	 * The feature id for the '<em><b>Refreshing</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__REFRESHING = 2;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__TYPE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Creation Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__CREATION_ID = 4;
+
+	/**
+	 * The feature id for the '<em><b>Modified Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__MODIFIED_ID = 5;
+
+	/**
+	 * The feature id for the '<em><b>Creation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__CREATION_TIME = 6;
+
+	/**
+	 * The feature id for the '<em><b>Modified Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__MODIFIED_TIME = 7;
+
+	/**
+	 * The feature id for the '<em><b>Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__VERSION = 8;
+
+	/**
+	 * The feature id for the '<em><b>Children Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__CHILDREN_VERSION = 9;
+
+	/**
+	 * The feature id for the '<em><b>Acl Version</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__ACL_VERSION = 10;
+
+	/**
+	 * The feature id for the '<em><b>Ephermal Owner Session Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__EPHERMAL_OWNER_SESSION_ID = 11;
+
+	/**
+	 * The feature id for the '<em><b>Data Length</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__DATA_LENGTH = 12;
+
+	/**
+	 * The feature id for the '<em><b>Children Count</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__CHILDREN_COUNT = 13;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__PARENT = 14;
+
+	/**
+	 * The feature id for the '<em><b>Node Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__NODE_NAME = 15;
+
+	/**
+	 * The number of structural features of the '<em>ZNode</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE_FEATURE_COUNT = 16;
 
 	/**
 	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.ServerStatus <em>Server Status</em>}' enum.
@@ -354,7 +661,18 @@ public interface HadoopPackage extends EPackage {
 	 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getServerStatus()
 	 * @generated
 	 */
-	int SERVER_STATUS = 4;
+	int SERVER_STATUS = 5;
+
+
+	/**
+	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.ZNodeType <em>ZNode Type</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNodeType
+	 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getZNodeType()
+	 * @generated
+	 */
+	int ZNODE_TYPE = 6;
 
 
 	/**
@@ -530,6 +848,192 @@ public interface HadoopPackage extends EPackage {
 	EClass getZooKeeperServer();
 
 	/**
+	 * Returns the meta object for class '{@link org.apache.hadoop.eclipse.internal.model.ZNode <em>ZNode</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>ZNode</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode
+	 * @generated
+	 */
+	EClass getZNode();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getChildren <em>Children</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Children</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getChildren()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EReference getZNode_Children();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getLastRefresh <em>Last Refresh</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Last Refresh</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getLastRefresh()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_LastRefresh();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#isRefreshing <em>Refreshing</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Refreshing</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#isRefreshing()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_Refreshing();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getType()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getCreationId <em>Creation Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Creation Id</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getCreationId()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_CreationId();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getModifiedId <em>Modified Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Modified Id</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getModifiedId()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_ModifiedId();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getCreationTime <em>Creation Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Creation Time</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getCreationTime()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_CreationTime();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getModifiedTime <em>Modified Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Modified Time</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getModifiedTime()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_ModifiedTime();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getVersion <em>Version</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Version</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getVersion()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_Version();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getChildrenVersion <em>Children Version</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Children Version</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getChildrenVersion()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_ChildrenVersion();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getAclVersion <em>Acl Version</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Acl Version</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getAclVersion()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_AclVersion();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getEphermalOwnerSessionId <em>Ephermal Owner Session Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ephermal Owner Session Id</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getEphermalOwnerSessionId()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_EphermalOwnerSessionId();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getDataLength <em>Data Length</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Data Length</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getDataLength()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_DataLength();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getChildrenCount <em>Children Count</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Children Count</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getChildrenCount()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_ChildrenCount();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getParent <em>Parent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Parent</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getParent()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EReference getZNode_Parent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getNodeName <em>Node Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Node Name</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getNodeName()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_NodeName();
+
+	/**
 	 * Returns the meta object for enum '{@link org.apache.hadoop.eclipse.internal.model.ServerStatus <em>Server Status</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -538,6 +1042,16 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getServerStatus();
+
+	/**
+	 * Returns the meta object for enum '{@link org.apache.hadoop.eclipse.internal.model.ZNodeType <em>ZNode Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>ZNode Type</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNodeType
+	 * @generated
+	 */
+	EEnum getZNodeType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -698,6 +1212,144 @@ public interface HadoopPackage extends EPackage {
 		EClass ZOO_KEEPER_SERVER = eINSTANCE.getZooKeeperServer();
 
 		/**
+		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl <em>ZNode</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl
+		 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getZNode()
+		 * @generated
+		 */
+		EClass ZNODE = eINSTANCE.getZNode();
+
+		/**
+		 * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ZNODE__CHILDREN = eINSTANCE.getZNode_Children();
+
+		/**
+		 * The meta object literal for the '<em><b>Last Refresh</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__LAST_REFRESH = eINSTANCE.getZNode_LastRefresh();
+
+		/**
+		 * The meta object literal for the '<em><b>Refreshing</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__REFRESHING = eINSTANCE.getZNode_Refreshing();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__TYPE = eINSTANCE.getZNode_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Creation Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__CREATION_ID = eINSTANCE.getZNode_CreationId();
+
+		/**
+		 * The meta object literal for the '<em><b>Modified Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__MODIFIED_ID = eINSTANCE.getZNode_ModifiedId();
+
+		/**
+		 * The meta object literal for the '<em><b>Creation Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__CREATION_TIME = eINSTANCE.getZNode_CreationTime();
+
+		/**
+		 * The meta object literal for the '<em><b>Modified Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__MODIFIED_TIME = eINSTANCE.getZNode_ModifiedTime();
+
+		/**
+		 * The meta object literal for the '<em><b>Version</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__VERSION = eINSTANCE.getZNode_Version();
+
+		/**
+		 * The meta object literal for the '<em><b>Children Version</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__CHILDREN_VERSION = eINSTANCE.getZNode_ChildrenVersion();
+
+		/**
+		 * The meta object literal for the '<em><b>Acl Version</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__ACL_VERSION = eINSTANCE.getZNode_AclVersion();
+
+		/**
+		 * The meta object literal for the '<em><b>Ephermal Owner Session Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__EPHERMAL_OWNER_SESSION_ID = eINSTANCE.getZNode_EphermalOwnerSessionId();
+
+		/**
+		 * The meta object literal for the '<em><b>Data Length</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__DATA_LENGTH = eINSTANCE.getZNode_DataLength();
+
+		/**
+		 * The meta object literal for the '<em><b>Children Count</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__CHILDREN_COUNT = eINSTANCE.getZNode_ChildrenCount();
+
+		/**
+		 * The meta object literal for the '<em><b>Parent</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ZNODE__PARENT = eINSTANCE.getZNode_Parent();
+
+		/**
+		 * The meta object literal for the '<em><b>Node Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__NODE_NAME = eINSTANCE.getZNode_NodeName();
+
+		/**
 		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.ServerStatus <em>Server Status</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -706,6 +1358,16 @@ public interface HadoopPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum SERVER_STATUS = eINSTANCE.getServerStatus();
+
+		/**
+		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.ZNodeType <em>ZNode Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.apache.hadoop.eclipse.internal.model.ZNodeType
+		 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getZNodeType()
+		 * @generated
+		 */
+		EEnum ZNODE_TYPE = eINSTANCE.getZNodeType();
 
 	}
 

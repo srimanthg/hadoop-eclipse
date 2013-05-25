@@ -76,6 +76,7 @@ public class HadoopFactoryImpl extends EFactoryImpl implements HadoopFactory {
 			case HadoopPackage.HDFS_SERVER: return createHDFSServer();
 			case HadoopPackage.SERVERS: return createServers();
 			case HadoopPackage.ZOO_KEEPER_SERVER: return createZooKeeperServer();
+			case HadoopPackage.ZNODE: return createZNode();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -91,6 +92,8 @@ public class HadoopFactoryImpl extends EFactoryImpl implements HadoopFactory {
 		switch (eDataType.getClassifierID()) {
 			case HadoopPackage.SERVER_STATUS:
 				return createServerStatusFromString(eDataType, initialValue);
+			case HadoopPackage.ZNODE_TYPE:
+				return createZNodeTypeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -106,6 +109,8 @@ public class HadoopFactoryImpl extends EFactoryImpl implements HadoopFactory {
 		switch (eDataType.getClassifierID()) {
 			case HadoopPackage.SERVER_STATUS:
 				return convertServerStatusToString(eDataType, instanceValue);
+			case HadoopPackage.ZNODE_TYPE:
+				return convertZNodeTypeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -146,6 +151,16 @@ public class HadoopFactoryImpl extends EFactoryImpl implements HadoopFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ZNode createZNode() {
+		ZNodeImpl zNode = new ZNodeImpl();
+		return zNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ServerStatus createServerStatusFromString(EDataType eDataType, String initialValue) {
 		ServerStatus result = ServerStatus.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -158,6 +173,26 @@ public class HadoopFactoryImpl extends EFactoryImpl implements HadoopFactory {
 	 * @generated
 	 */
 	public String convertServerStatusToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ZNodeType createZNodeTypeFromString(EDataType eDataType, String initialValue) {
+		ZNodeType result = ZNodeType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertZNodeTypeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

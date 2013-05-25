@@ -1,12 +1,11 @@
 package org.apache.hadoop.eclipse.ui.internal.zookeeper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.hadoop.eclipse.internal.model.ZNode;
 import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
 import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperManager;
-import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
 import org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
@@ -36,30 +35,11 @@ public class ZooKeeperCommonContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof ZooKeeperServer) {
-			ZooKeeperServer zks = (ZooKeeperServer) parentElement;
-			try {
-				ZooKeeperClient client = ZooKeeperManager.INSTANCE.getClient(zks);
-				List<String> children = client.getChildren("/");
-				List<ZooKeeperNode> zkChildren = new ArrayList<ZooKeeperNode>();
-				for (String child : children)
-					zkChildren.add(new ZooKeeperNode(child, null, zks));
-				return zkChildren.toArray();
-			} catch (CoreException e) {
-				logger.error("Error getting children of server", e);
-			} catch (IOException e) {
-				logger.error("Error getting children of server", e);
-			} catch (InterruptedException e) {
-				logger.error("Error getting children of server", e);
-			}
-		} else if (parentElement instanceof ZooKeeperNode) {
-			ZooKeeperNode zkn = (ZooKeeperNode) parentElement;
+		if (parentElement instanceof ZNode) {
+			ZNode zkn = (ZNode) parentElement;
 			try {
 				ZooKeeperClient client = ZooKeeperManager.INSTANCE.getClient(zkn.getServer());
-				List<String> children = client.getChildren(zkn.getPath());
-				List<ZooKeeperNode> zkChildren = new ArrayList<ZooKeeperNode>();
-				for (String child : children)
-					zkChildren.add(new ZooKeeperNode(child, zkn, zkn.getServer()));
+				List<ZNode> zkChildren = client.getChildren(zkn);
 				return zkChildren.toArray();
 			} catch (CoreException e) {
 				logger.error("Error getting children of node", e);
@@ -74,8 +54,8 @@ public class ZooKeeperCommonContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object getParent(Object element) {
-		if (element instanceof ZooKeeperNode) {
-			ZooKeeperNode zkn = (ZooKeeperNode) element;
+		if (element instanceof ZNode) {
+			ZNode zkn = (ZNode) element;
 			return zkn.getParent();
 		}
 		return null;
@@ -85,7 +65,7 @@ public class ZooKeeperCommonContentProvider implements ITreeContentProvider {
 	public boolean hasChildren(Object element) {
 		if (element instanceof ZooKeeperServer)
 			return true;
-		if (element instanceof ZooKeeperNode)
+		if (element instanceof ZNode)
 			return true;
 		return false;
 	}

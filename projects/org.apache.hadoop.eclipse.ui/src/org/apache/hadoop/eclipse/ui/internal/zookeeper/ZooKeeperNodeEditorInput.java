@@ -17,9 +17,8 @@
  */
 package org.apache.hadoop.eclipse.ui.internal.zookeeper;
 
-import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
+import org.apache.hadoop.eclipse.internal.model.ZNode;
 import org.apache.hadoop.eclipse.ui.Activator;
-import org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient.NodeData;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -32,13 +31,13 @@ import org.eclipse.ui.IStorageEditorInput;
  */
 public class ZooKeeperNodeEditorInput implements IStorageEditorInput {
 
-	private final NodeData nodeData;
-	private final ZooKeeperNode node;
+	private final byte[] nodeData;
+	private final ZNode node;
 
 	/**
 	 * 
 	 */
-	public ZooKeeperNodeEditorInput(ZooKeeperNode node, NodeData nodeData) {
+	public ZooKeeperNodeEditorInput(ZNode node, byte[] nodeData) {
 		this.node = node;
 		this.nodeData = nodeData;
 	}
@@ -71,7 +70,7 @@ public class ZooKeeperNodeEditorInput implements IStorageEditorInput {
 	 */
 	@Override
 	public String getName() {
-		return getNode().getName();
+		return getNode().getNodeName();
 	}
 
 	/*
@@ -116,11 +115,11 @@ public class ZooKeeperNodeEditorInput implements IStorageEditorInput {
 		return new ZooKeeperNodeStorage(this);
 	}
 
-	public NodeData getNodeData() {
+	public byte[] getNodeData() {
 		return nodeData;
 	}
 
-	public ZooKeeperNode getNode() {
+	public ZNode getNode() {
 		return node;
 	}
 

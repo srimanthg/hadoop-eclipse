@@ -3,10 +3,9 @@ package org.apache.hadoop.eclipse.ui.internal.zookeeper;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.hadoop.eclipse.internal.model.ZNode;
 import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperManager;
-import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
 import org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient;
-import org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient.NodeData;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
@@ -37,16 +36,17 @@ public class OpenAction implements IObjectActionDelegate {
 			Iterator itr = sSelection.iterator();
 			while (itr.hasNext()) {
 				Object object = itr.next();
-				if (object instanceof ZooKeeperNode) {
-					ZooKeeperNode zkn = (ZooKeeperNode) object;
+				if (object instanceof ZNode) {
+					ZNode zkn = (ZNode) object;
 					if (logger.isDebugEnabled())
 						logger.debug("Opening: " + zkn);
 					try {
 						ZooKeeperClient client = ZooKeeperManager.INSTANCE.getClient(zkn.getServer());
-						NodeData open = client.open(zkn.getPath());
+						byte[] open = client.open(zkn);
 						IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-						IEditorDescriptor defaultEditor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(zkn.getName());
-						activePage.openEditor(new ZooKeeperNodeEditorInput(zkn, open), defaultEditor == null ? "org.eclipse.ui.DefaultTextEditor" : defaultEditor.getId(), true);
+						IEditorDescriptor defaultEditor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(zkn.getNodeName());
+						activePage.openEditor(new ZooKeeperNodeEditorInput(zkn, open), defaultEditor == null ? "org.eclipse.ui.DefaultTextEditor"
+								: defaultEditor.getId(), true);
 					} catch (CoreException e) {
 						logger.error(e.getMessage(), e);
 					} catch (IOException e) {
@@ -77,8 +77,8 @@ public class OpenAction implements IObjectActionDelegate {
 			while (itr.hasNext()) {
 				Object object = itr.next();
 				enabled = false;
-				if (object instanceof ZooKeeperNode) {
-					ZooKeeperNode zkn = (ZooKeeperNode) object;
+				if (object instanceof ZNode) {
+					ZNode zkn = (ZNode) object;
 					enabled = zkn != null;
 				}
 			}

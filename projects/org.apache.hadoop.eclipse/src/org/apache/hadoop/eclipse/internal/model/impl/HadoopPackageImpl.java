@@ -26,6 +26,7 @@ import org.apache.hadoop.eclipse.internal.model.ServerStatus;
 import org.apache.hadoop.eclipse.internal.model.Servers;
 
 import org.apache.hadoop.eclipse.internal.model.ZNode;
+import org.apache.hadoop.eclipse.internal.model.ZNodeType;
 import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -75,7 +76,21 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass zNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EEnum serverStatusEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum zNodeTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -287,8 +302,170 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getZNode() {
+		return zNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getZNode_Children() {
+		return (EReference)zNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_LastRefresh() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_Refreshing() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_Type() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_CreationId() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_ModifiedId() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_CreationTime() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_ModifiedTime() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_Version() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_ChildrenVersion() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_AclVersion() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(10);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_EphermalOwnerSessionId() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(11);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_DataLength() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(12);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_ChildrenCount() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(13);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getZNode_Parent() {
+		return (EReference)zNodeEClass.getEStructuralFeatures().get(14);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getZNode_NodeName() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(15);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getServerStatus() {
 		return serverStatusEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getZNodeType() {
+		return zNodeTypeEEnum;
 	}
 
 	/**
@@ -339,8 +516,27 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 
 		zooKeeperServerEClass = createEClass(ZOO_KEEPER_SERVER);
 
+		zNodeEClass = createEClass(ZNODE);
+		createEReference(zNodeEClass, ZNODE__CHILDREN);
+		createEAttribute(zNodeEClass, ZNODE__LAST_REFRESH);
+		createEAttribute(zNodeEClass, ZNODE__REFRESHING);
+		createEAttribute(zNodeEClass, ZNODE__TYPE);
+		createEAttribute(zNodeEClass, ZNODE__CREATION_ID);
+		createEAttribute(zNodeEClass, ZNODE__MODIFIED_ID);
+		createEAttribute(zNodeEClass, ZNODE__CREATION_TIME);
+		createEAttribute(zNodeEClass, ZNODE__MODIFIED_TIME);
+		createEAttribute(zNodeEClass, ZNODE__VERSION);
+		createEAttribute(zNodeEClass, ZNODE__CHILDREN_VERSION);
+		createEAttribute(zNodeEClass, ZNODE__ACL_VERSION);
+		createEAttribute(zNodeEClass, ZNODE__EPHERMAL_OWNER_SESSION_ID);
+		createEAttribute(zNodeEClass, ZNODE__DATA_LENGTH);
+		createEAttribute(zNodeEClass, ZNODE__CHILDREN_COUNT);
+		createEReference(zNodeEClass, ZNODE__PARENT);
+		createEAttribute(zNodeEClass, ZNODE__NODE_NAME);
+
 		// Create enums
 		serverStatusEEnum = createEEnum(SERVER_STATUS);
+		zNodeTypeEEnum = createEEnum(ZNODE_TYPE);
 	}
 
 	/**
@@ -373,6 +569,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		// Add supertypes to classes
 		hdfsServerEClass.getESuperTypes().add(this.getServer());
 		zooKeeperServerEClass.getESuperTypes().add(this.getServer());
+		zooKeeperServerEClass.getESuperTypes().add(this.getZNode());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(hdfsServerEClass, HDFSServer.class, "HDFSServer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -395,11 +592,38 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 
 		initEClass(zooKeeperServerEClass, ZooKeeperServer.class, "ZooKeeperServer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(zNodeEClass, ZNode.class, "ZNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getZNode_Children(), this.getZNode(), null, "children", null, 0, -1, ZNode.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_LastRefresh(), ecorePackage.getELong(), "lastRefresh", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_Refreshing(), ecorePackage.getEBoolean(), "refreshing", null, 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_Type(), this.getZNodeType(), "type", null, 0, 1, ZNode.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_CreationId(), ecorePackage.getELong(), "creationId", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_ModifiedId(), ecorePackage.getELong(), "modifiedId", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_CreationTime(), ecorePackage.getELong(), "creationTime", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_ModifiedTime(), ecorePackage.getELong(), "modifiedTime", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_Version(), ecorePackage.getEInt(), "version", "-1", 0, 1, ZNode.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_ChildrenVersion(), ecorePackage.getEInt(), "childrenVersion", "-1", 0, 1, ZNode.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_AclVersion(), ecorePackage.getEInt(), "aclVersion", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_EphermalOwnerSessionId(), ecorePackage.getELong(), "ephermalOwnerSessionId", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_DataLength(), ecorePackage.getEInt(), "dataLength", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_ChildrenCount(), ecorePackage.getEInt(), "childrenCount", "0", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getZNode_Parent(), this.getZNode(), null, "parent", null, 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_NodeName(), ecorePackage.getEString(), "nodeName", null, 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(zNodeEClass, ecorePackage.getEString(), "getPath", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(zNodeEClass, this.getZooKeeperServer(), "getServer", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		// Initialize enums and add enum literals
 		initEEnum(serverStatusEEnum, ServerStatus.class, "ServerStatus");
 		addEEnumLiteral(serverStatusEEnum, ServerStatus.NO_PROJECT);
 		addEEnumLiteral(serverStatusEEnum, ServerStatus.DISCONNECTED);
 		addEEnumLiteral(serverStatusEEnum, ServerStatus.CONNECTED);
+
+		initEEnum(zNodeTypeEEnum, ZNodeType.class, "ZNodeType");
+		addEEnumLiteral(zNodeTypeEEnum, ZNodeType.REGULAR);
+		addEEnumLiteral(zNodeTypeEEnum, ZNodeType.EPHERMAL);
+		addEEnumLiteral(zNodeTypeEEnum, ZNodeType.SEQUENCE);
 
 		// Create resource
 		createResource(eNS_URI);

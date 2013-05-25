@@ -122,6 +122,13 @@ public class HadoopSwitch<T> {
 				ZooKeeperServer zooKeeperServer = (ZooKeeperServer)theEObject;
 				T result = caseZooKeeperServer(zooKeeperServer);
 				if (result == null) result = caseServer(zooKeeperServer);
+				if (result == null) result = caseZNode(zooKeeperServer);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case HadoopPackage.ZNODE: {
+				ZNode zNode = (ZNode)theEObject;
+				T result = caseZNode(zNode);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -186,6 +193,21 @@ public class HadoopSwitch<T> {
 	 * @generated
 	 */
 	public T caseZooKeeperServer(ZooKeeperServer object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>ZNode</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>ZNode</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseZNode(ZNode object) {
 		return null;
 	}
 

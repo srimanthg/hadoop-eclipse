@@ -1,8 +1,8 @@
 package org.apache.hadoop.eclipse.ui.internal.zookeeper;
 
 import org.apache.hadoop.eclipse.internal.model.ServerStatus;
+import org.apache.hadoop.eclipse.internal.model.ZNode;
 import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
-import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
@@ -52,10 +52,10 @@ public class ZooKeeperLightweightLabelDecorator implements ILightweightLabelDeco
 				decoration.addOverlay(org.apache.hadoop.eclipse.ui.Activator.IMAGE_ONLINE_OVR);
 
 			// Text decorations
-			decoration.addSuffix("  "+zks.getUri());
-		}else if (element instanceof ZooKeeperNode) {
-			//ZooKeeperNode zkn = (ZooKeeperNode) element;
-			
+			decoration.addSuffix("  " + zks.getUri());
+		} else if (element instanceof ZNode) {
+			// ZooKeeperNode zkn = (ZooKeeperNode) element;
+
 		}
 	}
 

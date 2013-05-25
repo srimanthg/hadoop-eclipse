@@ -46,5 +46,51 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastAccessed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
         defaultValueLiteral="-1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ZooKeeperServer" eSuperTypes="#//Server"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ZooKeeperServer" eSuperTypes="#//Server #//ZNode"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ZNode">
+    <eOperations name="getPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="if (this instanceof org.apache.hadoop.eclipse.internal.model.ZooKeeperServer)&#xA;&#x9;return &quot;/&quot;;&#xA;else {&#xA;&#x9;String parentPath = getParent().getPath();&#xA;&#x9;return parentPath.endsWith(&quot;/&quot;) ? parentPath + getNodeName() : parentPath + &quot;/&quot; + getNodeName();&#xA;}"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getServer" eType="#//ZooKeeperServer">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="if(this instanceof org.apache.hadoop.eclipse.internal.model.ZooKeeperServer)&#xA;&#x9;&#x9;&#x9;return (org.apache.hadoop.eclipse.internal.model.ZooKeeperServer) this;&#xA;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;return getParent().getServer();"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="children" upperBound="-1"
+        eType="#//ZNode" transient="true" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastRefresh" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refreshing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ZNodeType"
+        transient="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiedId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiedTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        transient="true" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="childrenVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        transient="true" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aclVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ephermalOwnerSessionId"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong" defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataLength" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="childrenCount" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//ZNode"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ZNodeType">
+    <eLiterals name="REGULAR"/>
+    <eLiterals name="EPHERMAL" value="1"/>
+    <eLiterals name="SEQUENCE" value="2"/>
+  </eClassifiers>
 </ecore:EPackage>

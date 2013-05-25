@@ -31,5 +31,5 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface ZooKeeperServer extends Server {
+public interface ZooKeeperServer extends Server, ZNode {
 } // ZooKeeperServer

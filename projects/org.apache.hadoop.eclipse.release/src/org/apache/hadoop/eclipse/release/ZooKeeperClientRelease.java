@@ -18,9 +18,12 @@
 package org.apache.hadoop.eclipse.release;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
+import org.apache.hadoop.eclipse.internal.model.HadoopFactory;
+import org.apache.hadoop.eclipse.internal.model.ZNode;
+import org.apache.hadoop.eclipse.internal.model.ZNodeType;
 import org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
@@ -49,6 +52,8 @@ public class ZooKeeperClientRelease extends ZooKeeperClient {
 	 */
 	@Override
 	public void initialize(String serverLocation) {
+		if (logger.isDebugEnabled())
+			logger.debug("initialize(" + serverLocation + ")");
 		this.serverLocation = serverLocation;
 	}
 
@@ -102,6 +107,8 @@ public class ZooKeeperClientRelease extends ZooKeeperClient {
 	 */
 	@Override
 	public void disconnect() throws IOException, InterruptedException {
+		if (logger.isDebugEnabled())
+			logger.debug("disconnect(" + serverLocation + ")");
 		if (client != null) {
 			client.close();
 			client = null;
@@ -116,13 +123,54 @@ public class ZooKeeperClientRelease extends ZooKeeperClient {
 	 * lang.String)
 	 */
 	@Override
-	public List<String> getChildren(String path) throws IOException, InterruptedException {
+	public List<ZNode> getChildren(ZNode node) throws IOException, InterruptedException {
+		if (logger.isDebugEnabled())
+			logger.debug("getChildren(" + node.getPath() + ")");
+		List<ZNode> childNodes = new ArrayList<ZNode>();
 		try {
-			return client.getChildren(path, false);
+			Stat nodeStat = new Stat();
+			List<String> children = client.getChildren(node.getPath(), false, nodeStat);
+			copyFromStat(nodeStat, node);
+
+			if (children != null) {
+				for (String child : children) {
+					ZNode cNode = HadoopFactory.eINSTANCE.createZNode();
+					cNode.setNodeName(child);
+					cNode.setParent(node);
+					Stat exists = client.exists(cNode.getPath(), false);
+					if (exists != null) {
+						copyFromStat(exists, cNode);
+						childNodes.add(cNode);
+					}
+				}
+			}
 		} catch (KeeperException e) {
 			logger.debug(e.getMessage(), e);
 			throw new IOException(e.getMessage(), e);
 		}
+		if (logger.isDebugEnabled())
+			logger.debug("getChildren(" + node.getPath() + "): ChildCount="+childNodes.size());
+		return childNodes;
+	}
+
+	/**
+	 * @param nodeStat
+	 * @param node
+	 */
+	private void copyFromStat(Stat nodeStat, ZNode node) {
+		node.setAclVersion(nodeStat.getAversion());
+		node.setChildrenCount(nodeStat.getNumChildren());
+		node.setChildrenVersion(nodeStat.getCversion());
+		node.setCreationId(nodeStat.getCzxid());
+		node.setCreationTime(nodeStat.getCtime());
+		node.setDataLength(nodeStat.getDataLength());
+		node.setEphermalOwnerSessionId(nodeStat.getEphemeralOwner());
+		node.setLastRefresh(System.currentTimeMillis());
+		node.setModifiedId(nodeStat.getMzxid());
+		node.setModifiedTime(nodeStat.getMtime());
+		node.setVersion(nodeStat.getVersion());
+		if (nodeStat.getEphemeralOwner() > 0)
+			node.setType(ZNodeType.EPHERMAL);
 	}
 
 	/*
@@ -133,7 +181,9 @@ public class ZooKeeperClientRelease extends ZooKeeperClient {
 	 * .hadoop.eclipse.internal.zookeeper.ZooKeeperNode)
 	 */
 	@Override
-	public void delete(ZooKeeperNode zkn) throws IOException, InterruptedException {
+	public void delete(ZNode zkn) throws IOException, InterruptedException {
+		if(logger.isDebugEnabled())
+			logger.debug("delete("+zkn.getPath()+")");
 		try {
 			client.delete(zkn.getPath(), -1);
 		} catch (KeeperException e) {
@@ -149,19 +199,17 @@ public class ZooKeeperClientRelease extends ZooKeeperClient {
 	 * )
 	 */
 	@Override
-	public NodeData open(String path) throws InterruptedException, IOException {
-		NodeData data = new NodeData();
+	public byte[] open(ZNode node) throws InterruptedException, IOException {
+		if(logger.isDebugEnabled())
+			logger.debug("open("+node.getPath()+")");
 		Stat stat = new Stat();
 		byte[] nd;
 		try {
-			nd = client.getData(path, false, stat);
+			nd = client.getData(node.getPath(), false, stat);
 		} catch (KeeperException e) {
 			throw new IOException(e.getMessage(), e);
 		}
-		data.data = nd;
-		data.childrenVersion = stat.getCversion();
-		data.version = stat.getVersion();
-		return data;
+		return nd;
 	}
 
 }

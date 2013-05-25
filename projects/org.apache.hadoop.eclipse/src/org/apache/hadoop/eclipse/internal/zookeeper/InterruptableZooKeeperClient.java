@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.hadoop.eclipse.internal.model.ZNode;
 import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
 import org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient;
 import org.apache.log4j.Logger;
@@ -32,7 +33,7 @@ import org.apache.log4j.Logger;
  * 
  */
 public class InterruptableZooKeeperClient extends ZooKeeperClient {
-	private static final int DEFAULT_TIMEOUT = 5000;
+	private static final int DEFAULT_TIMEOUT = 60000;
 	private static final Logger logger = Logger.getLogger(InterruptableZooKeeperClient.class);
 	// private static ExecutorService threadPool =
 	// Executors.newFixedThreadPool(10);
@@ -164,11 +165,11 @@ public class InterruptableZooKeeperClient extends ZooKeeperClient {
 	 * lang.String)
 	 */
 	@Override
-	public List<String> getChildren(final String path) throws IOException, InterruptedException {
+	public List<ZNode> getChildren(final ZNode path) throws IOException, InterruptedException {
 		connectIfNecessary();
-		return executeWithTimeout(new CustomRunnable<List<String>>() {
+		return executeWithTimeout(new CustomRunnable<List<ZNode>>() {
 			@Override
-			public List<String> run() throws IOException, InterruptedException {
+			public List<ZNode> run() throws IOException, InterruptedException {
 				return client.getChildren(path);
 			}
 		});
@@ -196,7 +197,7 @@ public class InterruptableZooKeeperClient extends ZooKeeperClient {
 	 * @see org.apache.hadoop.eclipse.zookeeper.ZooKeeperClient#disconnect()
 	 */
 	@Override
-	public void delete(final ZooKeeperNode node) throws IOException, InterruptedException {
+	public void delete(final ZNode node) throws IOException, InterruptedException {
 		executeWithTimeout(new CustomRunnable<Object>() {
 			@Override
 			public Object run() throws IOException, InterruptedException {
@@ -214,11 +215,11 @@ public class InterruptableZooKeeperClient extends ZooKeeperClient {
 	 * )
 	 */
 	@Override
-	public NodeData open(final String path) throws InterruptedException, IOException {
+	public byte[] open(final ZNode path) throws InterruptedException, IOException {
 		connectIfNecessary();
-		return executeWithTimeout(new CustomRunnable<NodeData>() {
+		return executeWithTimeout(new CustomRunnable<byte[]>() {
 			@Override
-			public NodeData run() throws IOException, InterruptedException {
+			public byte[] run() throws IOException, InterruptedException {
 				return client.open(path);
 			}
 		});

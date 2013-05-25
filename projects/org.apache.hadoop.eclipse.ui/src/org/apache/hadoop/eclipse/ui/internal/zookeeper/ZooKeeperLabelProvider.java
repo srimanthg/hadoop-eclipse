@@ -1,7 +1,7 @@
 package org.apache.hadoop.eclipse.ui.internal.zookeeper;
 
+import org.apache.hadoop.eclipse.internal.model.ZNode;
 import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
-import org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode;
 import org.apache.hadoop.eclipse.ui.Activator;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -30,7 +30,7 @@ public class ZooKeeperLabelProvider implements ILabelProvider {
 	public Image getImage(Object element) {
 		if (element instanceof ZooKeeperServer)
 			return Activator.IMAGE_ZOOKEEPER;
-		if (element instanceof ZooKeeperNode)
+		if (element instanceof ZNode)
 			return Activator.IMAGE_ZOOKEEPER_NODE;
 		return null;
 	}
@@ -41,8 +41,8 @@ public class ZooKeeperLabelProvider implements ILabelProvider {
 			ZooKeeperServer zks = (ZooKeeperServer) element;
 			return zks.getName();
 		}
-		if (element instanceof ZooKeeperNode)
-			return ((ZooKeeperNode) element).getName();
+		if (element instanceof ZNode)
+			return ((ZNode) element).getNodeName();
 		return null;
 	}
 

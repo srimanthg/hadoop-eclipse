@@ -252,7 +252,7 @@
       <objectContribution
             adaptable="false"
             id="org.apache.hadoop.eclipse.ui.team.zkNodeContribution"
-            objectClass="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
+            objectClass="org.apache.hadoop.eclipse.internal.model.ZNode">
          <action
                class="org.apache.hadoop.eclipse.ui.internal.zookeeper.RefreshAction"
                icon="icons/zookeeper-refresh.gif"
@@ -260,7 +260,7 @@
                label="Refresh"
                menubarPath="additions">
             <class
-                  class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
+                  class="org.apache.hadoop.eclipse.internal.model.ZNode">
             </class>
          </action>
          <action
@@ -270,7 +270,7 @@
                label="Delete"
                menubarPath="additions">
             <class
-                  class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
+                  class="org.apache.hadoop.eclipse.internal.model.ZNode">
             </class>
          </action>
          <action
@@ -280,7 +280,7 @@
                label="Open"
                menubarPath="additions">
             <class
-                  class="org.apache.hadoop.eclipse.internal.zookeeper.ZooKeeperNode">
+                  class="org.apache.hadoop.eclipse.internal.model.ZNode">
             </class>
          </action>
       </objectContribution>

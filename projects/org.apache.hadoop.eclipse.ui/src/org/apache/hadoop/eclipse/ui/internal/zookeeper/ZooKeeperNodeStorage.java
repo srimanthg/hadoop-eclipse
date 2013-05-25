@@ -58,7 +58,7 @@ public class ZooKeeperNodeStorage implements IStorage {
 	 */
 	@Override
 	public InputStream getContents() throws CoreException {
-		return new ByteArrayInputStream(editorInput.getNodeData().data);
+		return new ByteArrayInputStream(editorInput.getNodeData());
 	}
 
 	/*
