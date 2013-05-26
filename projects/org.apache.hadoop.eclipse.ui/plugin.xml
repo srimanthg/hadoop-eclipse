@@ -52,7 +52,7 @@
             state="true">
          <enablement>
             <objectClass
-                  name="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
+                  name="org.apache.hadoop.eclipse.internal.model.ZNode">
             </objectClass>
          </enablement>
       </decorator>
@@ -214,9 +214,6 @@
                id="org.apache.hadoop.eclipse.ui.team.zookeeper.DisconnectContribution"
                label="Disconnect"
                menubarPath="additions">
-            <class
-                  class="org.eclipse.core.resources.IProject">
-            </class>
          </action>
          <action
                class="org.apache.hadoop.eclipse.ui.internal.zookeeper.ReconnectAction"
@@ -224,9 +221,6 @@
                id="org.apache.hadoop.eclipse.ui.team.zookeeper.ReconnectContribution"
                label="Reconnect"
                menubarPath="additions">
-            <class
-                  class="org.eclipse.core.resources.IProject">
-            </class>
          </action>
          <action
                class="org.apache.hadoop.eclipse.ui.internal.zookeeper.RefreshAction"
@@ -234,9 +228,6 @@
                id="org.apache.hadoop.eclipse.ui.team.zookeeper.server.RefreshContribution"
                label="Refresh"
                menubarPath="additions">
-            <class
-                  class="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
-            </class>
          </action>
          <action
                class="org.apache.hadoop.eclipse.ui.internal.zookeeper.DeleteAction"
@@ -244,10 +235,12 @@
                id="org.apache.hadoop.eclipse.ui.team.zookeeper.node.DeleteContribution"
                label="Delete"
                menubarPath="additions">
-            <class
-                  class="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
-            </class>
          </action>
+         <visibility>
+            <objectClass
+                  name="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
+            </objectClass>
+         </visibility>
       </objectContribution>
       <objectContribution
             adaptable="false"
@@ -259,9 +252,6 @@
                id="org.apache.hadoop.eclipse.ui.team.zookeeper.node.RefreshContribution"
                label="Refresh"
                menubarPath="additions">
-            <class
-                  class="org.apache.hadoop.eclipse.internal.model.ZNode">
-            </class>
          </action>
          <action
                class="org.apache.hadoop.eclipse.ui.internal.zookeeper.DeleteAction"
@@ -269,9 +259,6 @@
                id="org.apache.hadoop.eclipse.ui.team.zookeeper.node.DeleteContribution"
                label="Delete"
                menubarPath="additions">
-            <class
-                  class="org.apache.hadoop.eclipse.internal.model.ZNode">
-            </class>
          </action>
          <action
                class="org.apache.hadoop.eclipse.ui.internal.zookeeper.OpenAction"
@@ -279,10 +266,19 @@
                id="org.apache.hadoop.eclipse.ui.team.zookeeper.node.OpenContribution"
                label="Open"
                menubarPath="additions">
-            <class
-                  class="org.apache.hadoop.eclipse.internal.model.ZNode">
-            </class>
          </action>
+         <visibility>
+            <and>
+               <objectClass
+                     name="org.apache.hadoop.eclipse.internal.model.ZNode">
+               </objectClass>
+               <not>
+                  <objectClass
+                        name="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
+                  </objectClass>
+               </not>
+            </and>
+         </visibility>
       </objectContribution>
    </extension>
    <extension

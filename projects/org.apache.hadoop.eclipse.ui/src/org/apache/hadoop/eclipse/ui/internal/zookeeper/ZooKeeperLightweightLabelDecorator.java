@@ -54,8 +54,10 @@ public class ZooKeeperLightweightLabelDecorator implements ILightweightLabelDeco
 			// Text decorations
 			decoration.addSuffix("  " + zks.getUri());
 		} else if (element instanceof ZNode) {
-			// ZooKeeperNode zkn = (ZooKeeperNode) element;
-
+			ZNode zkn = (ZNode) element;
+			if (zkn.getVersion() > -1) {
+				decoration.addSuffix("  [version=" + zkn.getVersion() + "]");
+			}
 		}
 	}
 
