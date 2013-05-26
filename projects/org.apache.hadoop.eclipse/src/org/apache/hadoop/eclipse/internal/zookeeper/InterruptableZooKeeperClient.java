@@ -79,8 +79,14 @@ public class InterruptableZooKeeperClient extends ZooKeeperClient {
 			runnerThread.interrupt();
 			interrupted = true;
 		}
-		if (ioE[0] != null)
+		if (ioE[0] != null) {
+			try {
+				if (!client.isConnected())
+					ZooKeeperManager.INSTANCE.disconnect(server);
+			} catch (Throwable t) {
+			}
 			throw ioE[0];
+		}
 		if (inE[0] != null)
 			throw inE[0];
 		if (interrupted) {
