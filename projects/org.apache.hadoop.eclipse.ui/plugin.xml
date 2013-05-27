@@ -329,6 +329,13 @@
                type="org.eclipse.ui.views.properties.IPropertySource">
          </adapter>
       </factory>
+      <factory
+            adaptableType="org.apache.hadoop.eclipse.internal.model.ZNode"
+            class="org.apache.hadoop.eclipse.ui.internal.HadoopAdapterFactory">
+         <adapter
+               type="org.eclipse.ui.views.properties.IPropertySource">
+         </adapter>
+      </factory>
    </extension>
 
 </plugin>
