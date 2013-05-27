@@ -63,7 +63,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastRefresh" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
         defaultValueLiteral="-1"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="refreshing" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ZNodeType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ephermeral" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         transient="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"
         defaultValueLiteral="-1"/>
@@ -87,10 +87,6 @@
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//ZNode"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="ZNodeType">
-    <eLiterals name="REGULAR"/>
-    <eLiterals name="EPHERMAL" value="1"/>
-    <eLiterals name="SEQUENCE" value="2"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sequential" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
 </ecore:EPackage>

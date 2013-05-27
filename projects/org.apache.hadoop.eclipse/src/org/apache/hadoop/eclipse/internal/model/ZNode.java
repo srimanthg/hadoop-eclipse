@@ -33,7 +33,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#getChildren <em>Children</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#getLastRefresh <em>Last Refresh</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#isRefreshing <em>Refreshing</em>}</li>
- *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#getType <em>Type</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#isEphermeral <em>Ephermeral</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#getCreationId <em>Creation Id</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#getModifiedId <em>Modified Id</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#getCreationTime <em>Creation Time</em>}</li>
@@ -46,6 +46,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#getChildrenCount <em>Children Count</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#getParent <em>Parent</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#getNodeName <em>Node Name</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.ZNode#isSequential <em>Sequential</em>}</li>
  * </ul>
  * </p>
  *
@@ -124,33 +125,30 @@ public interface ZNode extends EObject {
 	void setRefreshing(boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Type</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.apache.hadoop.eclipse.internal.model.ZNodeType}.
+	 * Returns the value of the '<em><b>Ephermeral</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Ephermeral</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Type</em>' attribute.
-	 * @see org.apache.hadoop.eclipse.internal.model.ZNodeType
-	 * @see #setType(ZNodeType)
-	 * @see org.apache.hadoop.eclipse.internal.model.HadoopPackage#getZNode_Type()
+	 * @return the value of the '<em>Ephermeral</em>' attribute.
+	 * @see #setEphermeral(boolean)
+	 * @see org.apache.hadoop.eclipse.internal.model.HadoopPackage#getZNode_Ephermeral()
 	 * @model transient="true"
 	 * @generated
 	 */
-	ZNodeType getType();
+	boolean isEphermeral();
 
 	/**
-	 * Sets the value of the '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getType <em>Type</em>}' attribute.
+	 * Sets the value of the '{@link org.apache.hadoop.eclipse.internal.model.ZNode#isEphermeral <em>Ephermeral</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Type</em>' attribute.
-	 * @see org.apache.hadoop.eclipse.internal.model.ZNodeType
-	 * @see #getType()
+	 * @param value the new value of the '<em>Ephermeral</em>' attribute.
+	 * @see #isEphermeral()
 	 * @generated
 	 */
-	void setType(ZNodeType value);
+	void setEphermeral(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Creation Id</b></em>' attribute.
@@ -473,6 +471,32 @@ public interface ZNode extends EObject {
 	 * @generated
 	 */
 	void setNodeName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Sequential</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sequential</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Sequential</em>' attribute.
+	 * @see #setSequential(boolean)
+	 * @see org.apache.hadoop.eclipse.internal.model.HadoopPackage#getZNode_Sequential()
+	 * @model
+	 * @generated
+	 */
+	boolean isSequential();
+
+	/**
+	 * Sets the value of the '{@link org.apache.hadoop.eclipse.internal.model.ZNode#isSequential <em>Sequential</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Sequential</em>' attribute.
+	 * @see #isSequential()
+	 * @generated
+	 */
+	void setSequential(boolean value);
 
 	/**
 	 * <!-- begin-user-doc -->

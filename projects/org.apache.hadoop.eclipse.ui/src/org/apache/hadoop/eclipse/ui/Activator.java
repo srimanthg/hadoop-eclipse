@@ -49,6 +49,7 @@ public class Activator extends AbstractUIPlugin {
 	public static ImageDescriptor IMAGE_HADOOP;
 	public static ImageDescriptor IMAGE_OFFLINE_OVR;
 	public static ImageDescriptor IMAGE_ONLINE_OVR;
+	public static ImageDescriptor IMAGE_ZOOKEEPER_EPHERMERAL;
 	// Images
 	public static Image IMAGE_HDFS;
 	public static Image IMAGE_ZOOKEEPER;
@@ -115,6 +116,7 @@ public class Activator extends AbstractUIPlugin {
 		URL readonlyUrl = FileLocator.find(bundle, new Path("/icons/ovr/read_only.gif"), null);
 		URL offlineUrl = FileLocator.find(bundle, new Path("/icons/ovr/offline.png"), null);
 		URL onlineUrl = FileLocator.find(bundle, new Path("/icons/ovr/online.png"), null);
+		URL zookeeperEphermeralUrl = FileLocator.find(bundle, new Path("/icons/ovr/zookeeper_ephermeral.gif"), null);
 		
 		IMAGE_REMOTE_OVR = ImageDescriptor.createFromURL(remoteFileUrl);
 		IMAGE_LOCAL_OVR = ImageDescriptor.createFromURL(localFileUrl);
@@ -128,5 +130,6 @@ public class Activator extends AbstractUIPlugin {
 		IMAGE_ONLINE_OVR = ImageDescriptor.createFromURL(onlineUrl);
 		IMAGE_ZOOKEEPER = ImageDescriptor.createFromURL(zookeeperUrl).createImage();
 		IMAGE_ZOOKEEPER_NODE = ImageDescriptor.createFromURL(zookeeperNodeUrl).createImage();
+		IMAGE_ZOOKEEPER_EPHERMERAL = ImageDescriptor.createFromURL(zookeeperEphermeralUrl);
 	}
 }

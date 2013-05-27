@@ -3,6 +3,7 @@ package org.apache.hadoop.eclipse.ui.internal.zookeeper;
 import org.apache.hadoop.eclipse.internal.model.ServerStatus;
 import org.apache.hadoop.eclipse.internal.model.ZNode;
 import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
+import org.apache.hadoop.eclipse.ui.Activator;
 import org.eclipse.jface.viewers.IDecoration;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ILightweightLabelDecorator;
@@ -58,6 +59,8 @@ public class ZooKeeperLightweightLabelDecorator implements ILightweightLabelDeco
 			if (zkn.getVersion() > -1) {
 				decoration.addSuffix("  [version=" + zkn.getVersion() + "]");
 			}
+			if (zkn.isEphermeral())
+				decoration.addOverlay(Activator.IMAGE_ZOOKEEPER_EPHERMERAL, IDecoration.BOTTOM_RIGHT);
 		}
 	}
 

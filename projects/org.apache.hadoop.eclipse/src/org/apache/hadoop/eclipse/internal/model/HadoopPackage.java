@@ -365,13 +365,13 @@ public interface HadoopPackage extends EPackage {
 	int ZOO_KEEPER_SERVER__REFRESHING = SERVER_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * The feature id for the '<em><b>Ephermeral</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ZOO_KEEPER_SERVER__TYPE = SERVER_FEATURE_COUNT + 3;
+	int ZOO_KEEPER_SERVER__EPHERMERAL = SERVER_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Creation Id</b></em>' attribute.
@@ -482,13 +482,22 @@ public interface HadoopPackage extends EPackage {
 	int ZOO_KEEPER_SERVER__NODE_NAME = SERVER_FEATURE_COUNT + 15;
 
 	/**
+	 * The feature id for the '<em><b>Sequential</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZOO_KEEPER_SERVER__SEQUENTIAL = SERVER_FEATURE_COUNT + 16;
+
+	/**
 	 * The number of structural features of the '<em>Zoo Keeper Server</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ZOO_KEEPER_SERVER_FEATURE_COUNT = SERVER_FEATURE_COUNT + 16;
+	int ZOO_KEEPER_SERVER_FEATURE_COUNT = SERVER_FEATURE_COUNT + 17;
 
 	/**
 	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl <em>ZNode</em>}' class.
@@ -528,13 +537,13 @@ public interface HadoopPackage extends EPackage {
 	int ZNODE__REFRESHING = 2;
 
 	/**
-	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * The feature id for the '<em><b>Ephermeral</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ZNODE__TYPE = 3;
+	int ZNODE__EPHERMERAL = 3;
 
 	/**
 	 * The feature id for the '<em><b>Creation Id</b></em>' attribute.
@@ -645,13 +654,22 @@ public interface HadoopPackage extends EPackage {
 	int ZNODE__NODE_NAME = 15;
 
 	/**
+	 * The feature id for the '<em><b>Sequential</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ZNODE__SEQUENTIAL = 16;
+
+	/**
 	 * The number of structural features of the '<em>ZNode</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ZNODE_FEATURE_COUNT = 16;
+	int ZNODE_FEATURE_COUNT = 17;
 
 	/**
 	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.ServerStatus <em>Server Status</em>}' enum.
@@ -662,17 +680,6 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 */
 	int SERVER_STATUS = 5;
-
-
-	/**
-	 * The meta object id for the '{@link org.apache.hadoop.eclipse.internal.model.ZNodeType <em>ZNode Type</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.apache.hadoop.eclipse.internal.model.ZNodeType
-	 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getZNodeType()
-	 * @generated
-	 */
-	int ZNODE_TYPE = 6;
 
 
 	/**
@@ -891,15 +898,15 @@ public interface HadoopPackage extends EPackage {
 	EAttribute getZNode_Refreshing();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getType <em>Type</em>}'.
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#isEphermeral <em>Ephermeral</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#getType()
+	 * @return the meta object for the attribute '<em>Ephermeral</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#isEphermeral()
 	 * @see #getZNode()
 	 * @generated
 	 */
-	EAttribute getZNode_Type();
+	EAttribute getZNode_Ephermeral();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#getCreationId <em>Creation Id</em>}'.
@@ -1034,6 +1041,17 @@ public interface HadoopPackage extends EPackage {
 	EAttribute getZNode_NodeName();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.apache.hadoop.eclipse.internal.model.ZNode#isSequential <em>Sequential</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Sequential</em>'.
+	 * @see org.apache.hadoop.eclipse.internal.model.ZNode#isSequential()
+	 * @see #getZNode()
+	 * @generated
+	 */
+	EAttribute getZNode_Sequential();
+
+	/**
 	 * Returns the meta object for enum '{@link org.apache.hadoop.eclipse.internal.model.ServerStatus <em>Server Status</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1042,16 +1060,6 @@ public interface HadoopPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getServerStatus();
-
-	/**
-	 * Returns the meta object for enum '{@link org.apache.hadoop.eclipse.internal.model.ZNodeType <em>ZNode Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>ZNode Type</em>'.
-	 * @see org.apache.hadoop.eclipse.internal.model.ZNodeType
-	 * @generated
-	 */
-	EEnum getZNodeType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1246,12 +1254,12 @@ public interface HadoopPackage extends EPackage {
 		EAttribute ZNODE__REFRESHING = eINSTANCE.getZNode_Refreshing();
 
 		/**
-		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Ephermeral</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ZNODE__TYPE = eINSTANCE.getZNode_Type();
+		EAttribute ZNODE__EPHERMERAL = eINSTANCE.getZNode_Ephermeral();
 
 		/**
 		 * The meta object literal for the '<em><b>Creation Id</b></em>' attribute feature.
@@ -1350,6 +1358,14 @@ public interface HadoopPackage extends EPackage {
 		EAttribute ZNODE__NODE_NAME = eINSTANCE.getZNode_NodeName();
 
 		/**
+		 * The meta object literal for the '<em><b>Sequential</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ZNODE__SEQUENTIAL = eINSTANCE.getZNode_Sequential();
+
+		/**
 		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.ServerStatus <em>Server Status</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1358,16 +1374,6 @@ public interface HadoopPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum SERVER_STATUS = eINSTANCE.getServerStatus();
-
-		/**
-		 * The meta object literal for the '{@link org.apache.hadoop.eclipse.internal.model.ZNodeType <em>ZNode Type</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.apache.hadoop.eclipse.internal.model.ZNodeType
-		 * @see org.apache.hadoop.eclipse.internal.model.impl.HadoopPackageImpl#getZNodeType()
-		 * @generated
-		 */
-		EEnum ZNODE_TYPE = eINSTANCE.getZNodeType();
 
 	}
 

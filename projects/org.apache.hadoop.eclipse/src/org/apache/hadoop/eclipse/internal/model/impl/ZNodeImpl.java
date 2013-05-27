@@ -43,7 +43,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#getChildren <em>Children</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#getLastRefresh <em>Last Refresh</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#isRefreshing <em>Refreshing</em>}</li>
- *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#isEphermeral <em>Ephermeral</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#getCreationId <em>Creation Id</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#getModifiedId <em>Modified Id</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#getCreationTime <em>Creation Time</em>}</li>
@@ -56,6 +56,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#getChildrenCount <em>Children Count</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#getNodeName <em>Node Name</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZNodeImpl#isSequential <em>Sequential</em>}</li>
  * </ul>
  * </p>
  *
@@ -108,22 +109,24 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 	protected boolean refreshing = REFRESHING_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getType()
+	 * The default value of the '{@link #isEphermeral() <em>Ephermeral</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isEphermeral()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final ZNodeType TYPE_EDEFAULT = ZNodeType.REGULAR;
+	protected static final boolean EPHERMERAL_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @see #getType()
+	 * The cached value of the '{@link #isEphermeral() <em>Ephermeral</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isEphermeral()
 	 * @generated
 	 * @ordered
 	 */
-	protected ZNodeType type = TYPE_EDEFAULT;
+	protected boolean ephermeral = EPHERMERAL_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getCreationId() <em>Creation Id</em>}' attribute.
@@ -343,6 +346,26 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 	protected String nodeName = NODE_NAME_EDEFAULT;
 
 	/**
+	 * The default value of the '{@link #isSequential() <em>Sequential</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSequential()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SEQUENTIAL_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isSequential() <em>Sequential</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSequential()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean sequential = SEQUENTIAL_EDEFAULT;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -409,22 +432,24 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ZNodeType getType() {
-		return type;
+	public boolean isEphermeral() {
+		return ephermeral;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setType(ZNodeType newType) {
-		ZNodeType oldType = type;
-		type = newType == null ? TYPE_EDEFAULT : newType;
+	public void setEphermeral(boolean newEphermeral) {
+		boolean oldEphermeral = ephermeral;
+		ephermeral = newEphermeral;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HadoopPackage.ZNODE__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET, HadoopPackage.ZNODE__EPHERMERAL, oldEphermeral, ephermeral));
 	}
 
 	/**
@@ -672,6 +697,27 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSequential() {
+		return sequential;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSequential(boolean newSequential) {
+		boolean oldSequential = sequential;
+		sequential = newSequential;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HadoopPackage.ZNODE__SEQUENTIAL, oldSequential, sequential));
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -721,8 +767,8 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 				return getLastRefresh();
 			case HadoopPackage.ZNODE__REFRESHING:
 				return isRefreshing();
-			case HadoopPackage.ZNODE__TYPE:
-				return getType();
+			case HadoopPackage.ZNODE__EPHERMERAL:
+				return isEphermeral();
 			case HadoopPackage.ZNODE__CREATION_ID:
 				return getCreationId();
 			case HadoopPackage.ZNODE__MODIFIED_ID:
@@ -748,6 +794,8 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 				return basicGetParent();
 			case HadoopPackage.ZNODE__NODE_NAME:
 				return getNodeName();
+			case HadoopPackage.ZNODE__SEQUENTIAL:
+				return isSequential();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -770,8 +818,8 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 			case HadoopPackage.ZNODE__REFRESHING:
 				setRefreshing((Boolean)newValue);
 				return;
-			case HadoopPackage.ZNODE__TYPE:
-				setType((ZNodeType)newValue);
+			case HadoopPackage.ZNODE__EPHERMERAL:
+				setEphermeral((Boolean)newValue);
 				return;
 			case HadoopPackage.ZNODE__CREATION_ID:
 				setCreationId((Long)newValue);
@@ -809,6 +857,9 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 			case HadoopPackage.ZNODE__NODE_NAME:
 				setNodeName((String)newValue);
 				return;
+			case HadoopPackage.ZNODE__SEQUENTIAL:
+				setSequential((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -829,8 +880,8 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 			case HadoopPackage.ZNODE__REFRESHING:
 				setRefreshing(REFRESHING_EDEFAULT);
 				return;
-			case HadoopPackage.ZNODE__TYPE:
-				setType(TYPE_EDEFAULT);
+			case HadoopPackage.ZNODE__EPHERMERAL:
+				setEphermeral(EPHERMERAL_EDEFAULT);
 				return;
 			case HadoopPackage.ZNODE__CREATION_ID:
 				setCreationId(CREATION_ID_EDEFAULT);
@@ -868,6 +919,9 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 			case HadoopPackage.ZNODE__NODE_NAME:
 				setNodeName(NODE_NAME_EDEFAULT);
 				return;
+			case HadoopPackage.ZNODE__SEQUENTIAL:
+				setSequential(SEQUENTIAL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -885,8 +939,8 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 				return lastRefresh != LAST_REFRESH_EDEFAULT;
 			case HadoopPackage.ZNODE__REFRESHING:
 				return refreshing != REFRESHING_EDEFAULT;
-			case HadoopPackage.ZNODE__TYPE:
-				return type != TYPE_EDEFAULT;
+			case HadoopPackage.ZNODE__EPHERMERAL:
+				return ephermeral != EPHERMERAL_EDEFAULT;
 			case HadoopPackage.ZNODE__CREATION_ID:
 				return creationId != CREATION_ID_EDEFAULT;
 			case HadoopPackage.ZNODE__MODIFIED_ID:
@@ -911,6 +965,8 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 				return parent != null;
 			case HadoopPackage.ZNODE__NODE_NAME:
 				return NODE_NAME_EDEFAULT == null ? nodeName != null : !NODE_NAME_EDEFAULT.equals(nodeName);
+			case HadoopPackage.ZNODE__SEQUENTIAL:
+				return sequential != SEQUENTIAL_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -928,8 +984,8 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 		result.append(lastRefresh);
 		result.append(", refreshing: ");
 		result.append(refreshing);
-		result.append(", type: ");
-		result.append(type);
+		result.append(", ephermeral: ");
+		result.append(ephermeral);
 		result.append(", creationId: ");
 		result.append(creationId);
 		result.append(", modifiedId: ");
@@ -952,6 +1008,8 @@ public class ZNodeImpl extends EObjectImpl implements ZNode {
 		result.append(childrenCount);
 		result.append(", nodeName: ");
 		result.append(nodeName);
+		result.append(", sequential: ");
+		result.append(sequential);
 		result.append(')');
 		return result.toString();
 	}

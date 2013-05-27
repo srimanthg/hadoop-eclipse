@@ -86,13 +86,6 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	private EEnum serverStatusEEnum = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum zNodeTypeEEnum = null;
-
-	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -338,7 +331,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getZNode_Type() {
+	public EAttribute getZNode_Ephermeral() {
 		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -455,8 +448,8 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getServerStatus() {
-		return serverStatusEEnum;
+	public EAttribute getZNode_Sequential() {
+		return (EAttribute)zNodeEClass.getEStructuralFeatures().get(16);
 	}
 
 	/**
@@ -464,8 +457,8 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getZNodeType() {
-		return zNodeTypeEEnum;
+	public EEnum getServerStatus() {
+		return serverStatusEEnum;
 	}
 
 	/**
@@ -520,7 +513,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		createEReference(zNodeEClass, ZNODE__CHILDREN);
 		createEAttribute(zNodeEClass, ZNODE__LAST_REFRESH);
 		createEAttribute(zNodeEClass, ZNODE__REFRESHING);
-		createEAttribute(zNodeEClass, ZNODE__TYPE);
+		createEAttribute(zNodeEClass, ZNODE__EPHERMERAL);
 		createEAttribute(zNodeEClass, ZNODE__CREATION_ID);
 		createEAttribute(zNodeEClass, ZNODE__MODIFIED_ID);
 		createEAttribute(zNodeEClass, ZNODE__CREATION_TIME);
@@ -533,10 +526,10 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		createEAttribute(zNodeEClass, ZNODE__CHILDREN_COUNT);
 		createEReference(zNodeEClass, ZNODE__PARENT);
 		createEAttribute(zNodeEClass, ZNODE__NODE_NAME);
+		createEAttribute(zNodeEClass, ZNODE__SEQUENTIAL);
 
 		// Create enums
 		serverStatusEEnum = createEEnum(SERVER_STATUS);
-		zNodeTypeEEnum = createEEnum(ZNODE_TYPE);
 	}
 
 	/**
@@ -596,7 +589,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		initEReference(getZNode_Children(), this.getZNode(), null, "children", null, 0, -1, ZNode.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getZNode_LastRefresh(), ecorePackage.getELong(), "lastRefresh", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getZNode_Refreshing(), ecorePackage.getEBoolean(), "refreshing", null, 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getZNode_Type(), this.getZNodeType(), "type", null, 0, 1, ZNode.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_Ephermeral(), ecorePackage.getEBoolean(), "ephermeral", null, 0, 1, ZNode.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getZNode_CreationId(), ecorePackage.getELong(), "creationId", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getZNode_ModifiedId(), ecorePackage.getELong(), "modifiedId", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getZNode_CreationTime(), ecorePackage.getELong(), "creationTime", "-1", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -609,6 +602,7 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		initEAttribute(getZNode_ChildrenCount(), ecorePackage.getEInt(), "childrenCount", "0", 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getZNode_Parent(), this.getZNode(), null, "parent", null, 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getZNode_NodeName(), ecorePackage.getEString(), "nodeName", null, 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getZNode_Sequential(), ecorePackage.getEBoolean(), "sequential", null, 0, 1, ZNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(zNodeEClass, ecorePackage.getEString(), "getPath", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -619,11 +613,6 @@ public class HadoopPackageImpl extends EPackageImpl implements HadoopPackage {
 		addEEnumLiteral(serverStatusEEnum, ServerStatus.NO_PROJECT);
 		addEEnumLiteral(serverStatusEEnum, ServerStatus.DISCONNECTED);
 		addEEnumLiteral(serverStatusEEnum, ServerStatus.CONNECTED);
-
-		initEEnum(zNodeTypeEEnum, ZNodeType.class, "ZNodeType");
-		addEEnumLiteral(zNodeTypeEEnum, ZNodeType.REGULAR);
-		addEEnumLiteral(zNodeTypeEEnum, ZNodeType.EPHERMAL);
-		addEEnumLiteral(zNodeTypeEEnum, ZNodeType.SEQUENCE);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -44,7 +44,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#getChildren <em>Children</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#getLastRefresh <em>Last Refresh</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#isRefreshing <em>Refreshing</em>}</li>
- *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#isEphermeral <em>Ephermeral</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#getCreationId <em>Creation Id</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#getModifiedId <em>Modified Id</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#getCreationTime <em>Creation Time</em>}</li>
@@ -57,6 +57,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#getChildrenCount <em>Children Count</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#getParent <em>Parent</em>}</li>
  *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#getNodeName <em>Node Name</em>}</li>
+ *   <li>{@link org.apache.hadoop.eclipse.internal.model.impl.ZooKeeperServerImpl#isSequential <em>Sequential</em>}</li>
  * </ul>
  * </p>
  *
@@ -109,23 +110,23 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 	 */
 	protected boolean refreshing = REFRESHING_EDEFAULT;
 	/**
-	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * The default value of the '{@link #isEphermeral() <em>Ephermeral</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getType()
+	 * @see #isEphermeral()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final ZNodeType TYPE_EDEFAULT = ZNodeType.REGULAR;
+	protected static final boolean EPHERMERAL_EDEFAULT = false;
 	/**
-	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * The cached value of the '{@link #isEphermeral() <em>Ephermeral</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getType()
+	 * @see #isEphermeral()
 	 * @generated
 	 * @ordered
 	 */
-	protected ZNodeType type = TYPE_EDEFAULT;
+	protected boolean ephermeral = EPHERMERAL_EDEFAULT;
 	/**
 	 * The default value of the '{@link #getCreationId() <em>Creation Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -334,6 +335,24 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 	 */
 	protected String nodeName = NODE_NAME_EDEFAULT;
 	/**
+	 * The default value of the '{@link #isSequential() <em>Sequential</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSequential()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean SEQUENTIAL_EDEFAULT = false;
+	/**
+	 * The cached value of the '{@link #isSequential() <em>Sequential</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSequential()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean sequential = SEQUENTIAL_EDEFAULT;
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -411,8 +430,8 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ZNodeType getType() {
-		return type;
+	public boolean isEphermeral() {
+		return ephermeral;
 	}
 
 	/**
@@ -420,11 +439,11 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setType(ZNodeType newType) {
-		ZNodeType oldType = type;
-		type = newType == null ? TYPE_EDEFAULT : newType;
+	public void setEphermeral(boolean newEphermeral) {
+		boolean oldEphermeral = ephermeral;
+		ephermeral = newEphermeral;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, HadoopPackage.ZOO_KEEPER_SERVER__TYPE, oldType, type));
+			eNotify(new ENotificationImpl(this, Notification.SET, HadoopPackage.ZOO_KEEPER_SERVER__EPHERMERAL, oldEphermeral, ephermeral));
 	}
 
 	/**
@@ -701,6 +720,27 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isSequential() {
+		return sequential;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSequential(boolean newSequential) {
+		boolean oldSequential = sequential;
+		sequential = newSequential;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, HadoopPackage.ZOO_KEEPER_SERVER__SEQUENTIAL, oldSequential, sequential));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ZooKeeperServer getServer() {
 		if(this instanceof org.apache.hadoop.eclipse.internal.model.ZooKeeperServer)
 					return (org.apache.hadoop.eclipse.internal.model.ZooKeeperServer) this;
@@ -750,8 +790,8 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 				return getLastRefresh();
 			case HadoopPackage.ZOO_KEEPER_SERVER__REFRESHING:
 				return isRefreshing();
-			case HadoopPackage.ZOO_KEEPER_SERVER__TYPE:
-				return getType();
+			case HadoopPackage.ZOO_KEEPER_SERVER__EPHERMERAL:
+				return isEphermeral();
 			case HadoopPackage.ZOO_KEEPER_SERVER__CREATION_ID:
 				return getCreationId();
 			case HadoopPackage.ZOO_KEEPER_SERVER__MODIFIED_ID:
@@ -777,6 +817,8 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 				return basicGetParent();
 			case HadoopPackage.ZOO_KEEPER_SERVER__NODE_NAME:
 				return getNodeName();
+			case HadoopPackage.ZOO_KEEPER_SERVER__SEQUENTIAL:
+				return isSequential();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -800,8 +842,8 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 			case HadoopPackage.ZOO_KEEPER_SERVER__REFRESHING:
 				setRefreshing((Boolean)newValue);
 				return;
-			case HadoopPackage.ZOO_KEEPER_SERVER__TYPE:
-				setType((ZNodeType)newValue);
+			case HadoopPackage.ZOO_KEEPER_SERVER__EPHERMERAL:
+				setEphermeral((Boolean)newValue);
 				return;
 			case HadoopPackage.ZOO_KEEPER_SERVER__CREATION_ID:
 				setCreationId((Long)newValue);
@@ -839,6 +881,9 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 			case HadoopPackage.ZOO_KEEPER_SERVER__NODE_NAME:
 				setNodeName((String)newValue);
 				return;
+			case HadoopPackage.ZOO_KEEPER_SERVER__SEQUENTIAL:
+				setSequential((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -860,8 +905,8 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 			case HadoopPackage.ZOO_KEEPER_SERVER__REFRESHING:
 				setRefreshing(REFRESHING_EDEFAULT);
 				return;
-			case HadoopPackage.ZOO_KEEPER_SERVER__TYPE:
-				setType(TYPE_EDEFAULT);
+			case HadoopPackage.ZOO_KEEPER_SERVER__EPHERMERAL:
+				setEphermeral(EPHERMERAL_EDEFAULT);
 				return;
 			case HadoopPackage.ZOO_KEEPER_SERVER__CREATION_ID:
 				setCreationId(CREATION_ID_EDEFAULT);
@@ -899,6 +944,9 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 			case HadoopPackage.ZOO_KEEPER_SERVER__NODE_NAME:
 				setNodeName(NODE_NAME_EDEFAULT);
 				return;
+			case HadoopPackage.ZOO_KEEPER_SERVER__SEQUENTIAL:
+				setSequential(SEQUENTIAL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -917,8 +965,8 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 				return lastRefresh != LAST_REFRESH_EDEFAULT;
 			case HadoopPackage.ZOO_KEEPER_SERVER__REFRESHING:
 				return refreshing != REFRESHING_EDEFAULT;
-			case HadoopPackage.ZOO_KEEPER_SERVER__TYPE:
-				return type != TYPE_EDEFAULT;
+			case HadoopPackage.ZOO_KEEPER_SERVER__EPHERMERAL:
+				return ephermeral != EPHERMERAL_EDEFAULT;
 			case HadoopPackage.ZOO_KEEPER_SERVER__CREATION_ID:
 				return creationId != CREATION_ID_EDEFAULT;
 			case HadoopPackage.ZOO_KEEPER_SERVER__MODIFIED_ID:
@@ -943,6 +991,8 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 				return parent != null;
 			case HadoopPackage.ZOO_KEEPER_SERVER__NODE_NAME:
 				return NODE_NAME_EDEFAULT == null ? nodeName != null : !NODE_NAME_EDEFAULT.equals(nodeName);
+			case HadoopPackage.ZOO_KEEPER_SERVER__SEQUENTIAL:
+				return sequential != SEQUENTIAL_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -959,7 +1009,7 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 				case HadoopPackage.ZOO_KEEPER_SERVER__CHILDREN: return HadoopPackage.ZNODE__CHILDREN;
 				case HadoopPackage.ZOO_KEEPER_SERVER__LAST_REFRESH: return HadoopPackage.ZNODE__LAST_REFRESH;
 				case HadoopPackage.ZOO_KEEPER_SERVER__REFRESHING: return HadoopPackage.ZNODE__REFRESHING;
-				case HadoopPackage.ZOO_KEEPER_SERVER__TYPE: return HadoopPackage.ZNODE__TYPE;
+				case HadoopPackage.ZOO_KEEPER_SERVER__EPHERMERAL: return HadoopPackage.ZNODE__EPHERMERAL;
 				case HadoopPackage.ZOO_KEEPER_SERVER__CREATION_ID: return HadoopPackage.ZNODE__CREATION_ID;
 				case HadoopPackage.ZOO_KEEPER_SERVER__MODIFIED_ID: return HadoopPackage.ZNODE__MODIFIED_ID;
 				case HadoopPackage.ZOO_KEEPER_SERVER__CREATION_TIME: return HadoopPackage.ZNODE__CREATION_TIME;
@@ -972,6 +1022,7 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 				case HadoopPackage.ZOO_KEEPER_SERVER__CHILDREN_COUNT: return HadoopPackage.ZNODE__CHILDREN_COUNT;
 				case HadoopPackage.ZOO_KEEPER_SERVER__PARENT: return HadoopPackage.ZNODE__PARENT;
 				case HadoopPackage.ZOO_KEEPER_SERVER__NODE_NAME: return HadoopPackage.ZNODE__NODE_NAME;
+				case HadoopPackage.ZOO_KEEPER_SERVER__SEQUENTIAL: return HadoopPackage.ZNODE__SEQUENTIAL;
 				default: return -1;
 			}
 		}
@@ -990,7 +1041,7 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 				case HadoopPackage.ZNODE__CHILDREN: return HadoopPackage.ZOO_KEEPER_SERVER__CHILDREN;
 				case HadoopPackage.ZNODE__LAST_REFRESH: return HadoopPackage.ZOO_KEEPER_SERVER__LAST_REFRESH;
 				case HadoopPackage.ZNODE__REFRESHING: return HadoopPackage.ZOO_KEEPER_SERVER__REFRESHING;
-				case HadoopPackage.ZNODE__TYPE: return HadoopPackage.ZOO_KEEPER_SERVER__TYPE;
+				case HadoopPackage.ZNODE__EPHERMERAL: return HadoopPackage.ZOO_KEEPER_SERVER__EPHERMERAL;
 				case HadoopPackage.ZNODE__CREATION_ID: return HadoopPackage.ZOO_KEEPER_SERVER__CREATION_ID;
 				case HadoopPackage.ZNODE__MODIFIED_ID: return HadoopPackage.ZOO_KEEPER_SERVER__MODIFIED_ID;
 				case HadoopPackage.ZNODE__CREATION_TIME: return HadoopPackage.ZOO_KEEPER_SERVER__CREATION_TIME;
@@ -1003,6 +1054,7 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 				case HadoopPackage.ZNODE__CHILDREN_COUNT: return HadoopPackage.ZOO_KEEPER_SERVER__CHILDREN_COUNT;
 				case HadoopPackage.ZNODE__PARENT: return HadoopPackage.ZOO_KEEPER_SERVER__PARENT;
 				case HadoopPackage.ZNODE__NODE_NAME: return HadoopPackage.ZOO_KEEPER_SERVER__NODE_NAME;
+				case HadoopPackage.ZNODE__SEQUENTIAL: return HadoopPackage.ZOO_KEEPER_SERVER__SEQUENTIAL;
 				default: return -1;
 			}
 		}
@@ -1023,8 +1075,8 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 		result.append(lastRefresh);
 		result.append(", refreshing: ");
 		result.append(refreshing);
-		result.append(", type: ");
-		result.append(type);
+		result.append(", ephermeral: ");
+		result.append(ephermeral);
 		result.append(", creationId: ");
 		result.append(creationId);
 		result.append(", modifiedId: ");
@@ -1047,6 +1099,8 @@ public class ZooKeeperServerImpl extends ServerImpl implements ZooKeeperServer {
 		result.append(childrenCount);
 		result.append(", nodeName: ");
 		result.append(nodeName);
+		result.append(", sequential: ");
+		result.append(sequential);
 		result.append(')');
 		return result.toString();
 	}

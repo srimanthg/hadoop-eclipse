@@ -170,7 +170,7 @@ public class ZooKeeperClientRelease extends ZooKeeperClient {
 		node.setModifiedTime(nodeStat.getMtime());
 		node.setVersion(nodeStat.getVersion());
 		if (nodeStat.getEphemeralOwner() > 0)
-			node.setType(ZNodeType.EPHERMAL);
+			node.setEphermeral(true);
 	}
 
 	/*
