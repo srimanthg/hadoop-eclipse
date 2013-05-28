@@ -82,6 +82,10 @@ public class ZNodePropertySource implements IPropertySource {
 	 * 
 	 */
 	private static final String PROP_EPHERMERAL_SESSION_ID = Activator.PLUGIN_ID + ".znode.ephermeral.sessionid";
+	/**
+	 * 
+	 */
+	private static final String PROP_PATH = Activator.PLUGIN_ID + ".znode.path";
 
 	private final ZNode zNode;
 
@@ -113,6 +117,7 @@ public class ZNodePropertySource implements IPropertySource {
 	public IPropertyDescriptor[] getPropertyDescriptors() {
 		if (zNode != null) {
 			List<IPropertyDescriptor> props = new ArrayList<IPropertyDescriptor>();
+			props.add(new PropertyDescriptor(PROP_PATH, "Path"));
 			// Versions
 			props.add(new PropertyDescriptor(PROP_VERSION, "Version (Node)"));
 			props.add(new PropertyDescriptor(PROP_VERSION_CHILDREN, "Version (Children)"));
@@ -128,7 +133,7 @@ public class ZNodePropertySource implements IPropertySource {
 			props.add(new PropertyDescriptor(PROP_CHILD_COUNT, "Children Count"));
 			props.add(new PropertyDescriptor(PROP_DATA_SIZE, "Data size"));
 			props.add(new PropertyDescriptor(PROP_EPHERMERAL, "Is Ephermeral Node"));
-			if(zNode.isEphermeral())
+			if (zNode.isEphermeral())
 				props.add(new PropertyDescriptor(PROP_EPHERMERAL_SESSION_ID, "Ephermeral Session Id"));
 			return props.toArray(new IPropertyDescriptor[props.size()]);
 		}
@@ -150,29 +155,31 @@ public class ZNodePropertySource implements IPropertySource {
 	 */
 	@Override
 	public Object getPropertyValue(Object id) {
-		if(PROP_CHILD_COUNT.equals(id))
+		if (PROP_PATH.equals(id))
+			return zNode.getPath();
+		if (PROP_CHILD_COUNT.equals(id))
 			return zNode.getChildrenCount();
-		if(PROP_DATA_SIZE.equals(id))
+		if (PROP_DATA_SIZE.equals(id))
 			return zNode.getDataLength();
-		if(PROP_TIME_CREATION.equals(id))
+		if (PROP_TIME_CREATION.equals(id))
 			return getTimeDisplay(zNode.getCreationTime());
-		if(PROP_TIME_MODIFICATION.equals(id))
+		if (PROP_TIME_MODIFICATION.equals(id))
 			return getTimeDisplay(zNode.getModifiedTime());
-		if(PROP_TIME_REFRESH.equals(id))
+		if (PROP_TIME_REFRESH.equals(id))
 			return getTimeDisplay(zNode.getLastRefresh());
-		if(PROP_ID_CREATION.equals(id))
+		if (PROP_ID_CREATION.equals(id))
 			return zNode.getCreationId();
-		if(PROP_ID_MODIFICATION.equals(id))
+		if (PROP_ID_MODIFICATION.equals(id))
 			return zNode.getModifiedId();
-		if(PROP_VERSION.equals(id))
+		if (PROP_VERSION.equals(id))
 			return zNode.getVersion();
-		if(PROP_VERSION_ACL.equals(id))
+		if (PROP_VERSION_ACL.equals(id))
 			return zNode.getAclVersion();
-		if(PROP_VERSION_CHILDREN.equals(id))
+		if (PROP_VERSION_CHILDREN.equals(id))
 			return zNode.getChildrenVersion();
-		if(PROP_EPHERMERAL.equals(id))
+		if (PROP_EPHERMERAL.equals(id))
 			return zNode.isEphermeral();
-		if(PROP_EPHERMERAL_SESSION_ID.equals(id))
+		if (PROP_EPHERMERAL_SESSION_ID.equals(id))
 			return zNode.getEphermalOwnerSessionId();
 		return null;
 	}

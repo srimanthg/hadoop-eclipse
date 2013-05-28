@@ -57,7 +57,7 @@ public class ZooKeeperLightweightLabelDecorator implements ILightweightLabelDeco
 		} else if (element instanceof ZNode) {
 			ZNode zkn = (ZNode) element;
 			if (zkn.getVersion() > -1) {
-				decoration.addSuffix("  [version=" + zkn.getVersion() + "]");
+				decoration.addSuffix("  [v=" + zkn.getVersion() + "]");
 			}
 			if (zkn.isEphermeral())
 				decoration.addOverlay(Activator.IMAGE_ZOOKEEPER_EPHERMERAL, IDecoration.BOTTOM_RIGHT);
