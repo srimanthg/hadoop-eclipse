@@ -79,6 +79,7 @@ public class NewHDFSWizard extends Wizard implements INewWizard {
 									: null, serverLocationWizardPage.isOverrideDefaultSecurity() ? serverLocationWizardPage.getGroupIds() : null);
 						} catch (CoreException e) {
 							logger.warn(e.getMessage(), e);
+							return e.getStatus();
 						} catch (URISyntaxException e) {
 							logger.warn(e.getMessage(), e);
 						}

@@ -150,6 +150,8 @@ public class HDFSManager {
 			} catch (URISyntaxException e) {
 			}
 		}
+		if (ResourcesPlugin.getWorkspace().getRoot().getProject(name).exists())
+			throw new CoreException(new Status(IStatus.ERROR, Activator.BUNDLE_ID, "Project with name '" + name + "' already exists"));
 		HDFSServer hdfsServer = HadoopFactory.eINSTANCE.createHDFSServer();
 		hdfsServer.setName(name);
 		hdfsServer.setUri(hdfsURI.toString());
@@ -254,6 +256,8 @@ public class HDFSManager {
 	 * @throws CoreException
 	 */
 	public HDFSClient getClient(String serverURI) throws CoreException {
+		if (logger.isDebugEnabled())
+			logger.debug("getClient(" + serverURI + "): Server=" + serverURI);
 		HDFSServer server = getServer(serverURI);
 		if (server != null && server.getStatusCode() == ServerStatus.DISCONNECTED_VALUE) {
 			if (logger.isDebugEnabled())
@@ -264,7 +268,7 @@ public class HDFSManager {
 			return hdfsClientsMap.get(serverURI);
 		else {
 			try {
-				java.net.URI sUri = new java.net.URI(serverURI);
+				java.net.URI sUri = serverURI == null ? new java.net.URI("hdfs://server") : new java.net.URI(serverURI);
 				IConfigurationElement[] elementsFor = Platform.getExtensionRegistry().getConfigurationElementsFor("org.apache.hadoop.eclipse.hdfsClient");
 				for (IConfigurationElement element : elementsFor) {
 					if (sUri.getScheme().equals(element.getAttribute("protocol"))) {

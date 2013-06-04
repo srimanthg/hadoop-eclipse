@@ -3,11 +3,13 @@ package org.apache.hadoop.eclipse.ui.internal.zookeeper;
 import org.apache.hadoop.eclipse.internal.model.ZNode;
 import org.apache.hadoop.eclipse.internal.model.ZooKeeperServer;
 import org.apache.hadoop.eclipse.ui.Activator;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.navigator.ICommonContentExtensionSite;
+import org.eclipse.ui.navigator.ICommonLabelProvider;
 
-public class ZooKeeperLabelProvider implements ILabelProvider {
+public class ZooKeeperLabelProvider implements ICommonLabelProvider {
 
 	@Override
 	public void addListener(ILabelProviderListener listener) {
@@ -44,6 +46,42 @@ public class ZooKeeperLabelProvider implements ILabelProvider {
 		if (element instanceof ZNode)
 			return ((ZNode) element).getNodeName();
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.navigator.IMementoAware#restoreState(org.eclipse.ui.IMemento)
+	 */
+	@Override
+	public void restoreState(IMemento aMemento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.navigator.IMementoAware#saveState(org.eclipse.ui.IMemento)
+	 */
+	@Override
+	public void saveState(IMemento aMemento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.navigator.IDescriptionProvider#getDescription(java.lang.Object)
+	 */
+	@Override
+	public String getDescription(Object anElement) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.navigator.ICommonLabelProvider#init(org.eclipse.ui.navigator.ICommonContentExtensionSite)
+	 */
+	@Override
+	public void init(ICommonContentExtensionSite aConfig) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

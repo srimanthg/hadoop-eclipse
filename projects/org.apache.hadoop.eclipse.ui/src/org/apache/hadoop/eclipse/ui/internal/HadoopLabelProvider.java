@@ -15,11 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.hadoop.eclipse.ui.internal.hdfs;
+package org.apache.hadoop.eclipse.ui.internal;
 
-import org.apache.hadoop.eclipse.internal.hdfs.HDFSFileSystem;
-import org.apache.hadoop.eclipse.ui.Activator;
-import org.eclipse.core.resources.IProject;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSLabelProvider;
+import org.apache.hadoop.eclipse.ui.internal.zookeeper.ZooKeeperLabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMemento;
@@ -30,12 +32,15 @@ import org.eclipse.ui.navigator.ICommonLabelProvider;
  * @author Srimanth Gunturi
  * 
  */
-public class HDFSLabelProvider implements ICommonLabelProvider {
+public class HadoopLabelProvider implements ICommonLabelProvider {
+	private List<ICommonLabelProvider> childProviders = new ArrayList<ICommonLabelProvider>();
 
 	/**
 	 * 
 	 */
-	public HDFSLabelProvider() {
+	public HadoopLabelProvider() {
+		childProviders.add(new HDFSLabelProvider());
+		childProviders.add(new ZooKeeperLabelProvider());
 	}
 
 	/*
@@ -45,11 +50,10 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof IProject) {
-			IProject project = (IProject) element;
-			if (HDFSFileSystem.SCHEME.equals(project.getLocationURI().getScheme())) {
-				return Activator.IMAGE_HDFS;
-			}
+		for (ICommonLabelProvider lp : childProviders) {
+			Image image = lp.getImage(element);
+			if (image != null)
+				return image;
 		}
 		return null;
 	}
@@ -61,6 +65,11 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public String getText(Object element) {
+		for (ICommonLabelProvider lp : childProviders) {
+			String text = lp.getText(element);
+			if (text != null)
+				return text;
+		}
 		return null;
 	}
 
@@ -73,6 +82,8 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public void addListener(ILabelProviderListener listener) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
@@ -82,6 +93,8 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public void dispose() {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
@@ -93,6 +106,7 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public boolean isLabelProperty(Object element, String property) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -105,6 +119,8 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public void removeListener(ILabelProviderListener listener) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
@@ -116,6 +132,8 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public void restoreState(IMemento aMemento) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
@@ -126,6 +144,8 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public void saveState(IMemento aMemento) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
@@ -137,6 +157,7 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public String getDescription(Object anElement) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -149,5 +170,8 @@ public class HDFSLabelProvider implements ICommonLabelProvider {
 	 */
 	@Override
 	public void init(ICommonContentExtensionSite aConfig) {
+		// TODO Auto-generated method stub
+
 	}
+
 }

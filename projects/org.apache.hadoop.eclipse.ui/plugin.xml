@@ -63,11 +63,8 @@
             viewerId="org.eclipse.ui.navigator.ProjectExplorer">
          <includes>
             <contentExtension
-                  pattern="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs">
-            </contentExtension>
-            <contentExtension
-                  isRoot="true"
-                  pattern="org.apache.hadoop.eclipse.ui.navigatorContent.zookeeper">
+                  isRoot="false"
+                  pattern="org.apache.hadoop.eclipse.ui.navigatorContent.hadoop">
             </contentExtension>
          </includes>
       </viewerContentBinding>
@@ -75,25 +72,11 @@
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent
-            contentProvider="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSCommonContentProvider"
-            icon="icons/hadoop-hdfs-16x16.gif"
-            id="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs"
-            labelProvider="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSLabelProvider"
-            name="Navigator HDFS Content Provider"
-            priority="higher">
-         <triggerPoints>
-            <instanceof
-                  value="org.eclipse.core.resources.IProject">
-            </instanceof>
-         </triggerPoints>
-      </navigatorContent>
-      <navigatorContent
-            activeByDefault="true"
-            contentProvider="org.apache.hadoop.eclipse.ui.internal.zookeeper.ZooKeeperCommonContentProvider"
-            icon="icons/hadoop-zookeeper-16x16.png"
-            id="org.apache.hadoop.eclipse.ui.navigatorContent.zookeeper"
-            labelProvider="org.apache.hadoop.eclipse.ui.internal.zookeeper.ZooKeeperLabelProvider"
-            name="Navigator ZooKeeper Content Provider"
+            contentProvider="org.apache.hadoop.eclipse.ui.internal.HadoopCommonContentProvider"
+            icon="icons/hadoop-logo-16x16.png"
+            id="org.apache.hadoop.eclipse.ui.navigatorContent.hadoop"
+            labelProvider="org.apache.hadoop.eclipse.ui.internal.HadoopLabelProvider"
+            name="Navigator Hadoop Content Provider"
             priority="higher">
          <triggerPoints>
             <instanceof

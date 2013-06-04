@@ -156,6 +156,8 @@ public class HDFSCommonContentProvider implements ICommonContentProvider {
 																	new Path(projectName + "/" + relativeURI.toString()));
 															if (file != null) {
 																viewer.refresh(file, true);
+																if (logger.isDebugEnabled())
+																	logger.debug("EMF listener: Refreshed [" + file.getFullPath() + "]");
 																IContainer parent = file.getParent();
 																while (parent != null) {
 																	viewer.refresh(parent, true);

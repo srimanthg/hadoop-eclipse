@@ -101,7 +101,7 @@ public class HDFSLightweightLabelDecorator implements ILightweightLabelDecorator
 		if (element instanceof IResource) {
 			IResource r = (IResource) element;
 			URI locationURI = r.getLocationURI();
-			if (HDFSURI.SCHEME.equals(locationURI.getScheme())) {
+			if (locationURI != null && HDFSURI.SCHEME.equals(locationURI.getScheme())) {
 				try {
 					if (r instanceof IProject) {
 						final HDFSManager hdfsManager = HDFSManager.INSTANCE;
