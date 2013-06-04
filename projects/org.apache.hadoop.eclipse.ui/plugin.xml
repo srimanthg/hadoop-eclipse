@@ -27,6 +27,45 @@
       </perspective>
    </extension>
    <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.apache.hadoop.eclipse.ui.perspective">
+         <view
+               id="org.apache.hadoop.eclipse.ui.view.servers"
+               minimized="false"
+               ratio="0.25"
+               relationship="left"
+               relative="org.eclipse.ui.editorss">
+         </view>
+         <view
+               id="org.eclipse.ui.navigator.ProjectExplorer"
+               minimized="false"
+               ratio="0.5"
+               relationship="bottom"
+               relative="org.apache.hadoop.eclipse.ui.view.servers">
+         </view>
+         <view
+               id="org.eclipse.ui.views.PropertySheet"
+               minimized="false"
+               ratio="0.66"
+               relationship="bottom"
+               relative="org.eclipse.ui.editorss">
+         </view>
+         <newWizardShortcut
+               id="org.apache.hadoop.eclipse.ui.wizard.newHdfsServer">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.apache.hadoop.eclipse.ui.wizard.newZooKeeperServer">
+         </newWizardShortcut>
+         <viewShortcut
+               id="org.eclipse.ui.views.ResourceNavigator">
+         </viewShortcut>
+         <actionSet
+               id="org.apache.hadoop.eclipse.ui.actionSet.newServers">
+         </actionSet>
+      </perspectiveExtension>
+   </extension>
+   <extension
          point="org.eclipse.ui.decorators">
       <decorator
             adaptable="true"
@@ -64,6 +103,15 @@
          <includes>
             <contentExtension
                   isRoot="false"
+                  pattern="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+      <viewerContentBinding
+            viewerId="org.apache.hadoop.eclipse.ui.view.servers">
+         <includes>
+            <contentExtension
+                  isRoot="true"
                   pattern="org.apache.hadoop.eclipse.ui.navigatorContent.hadoop">
             </contentExtension>
          </includes>
@@ -72,17 +120,28 @@
    <extension
          point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent
-            contentProvider="org.apache.hadoop.eclipse.ui.internal.HadoopCommonContentProvider"
+            contentProvider="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSCommonContentProvider"
             icon="icons/hadoop-logo-16x16.png"
-            id="org.apache.hadoop.eclipse.ui.navigatorContent.hadoop"
-            labelProvider="org.apache.hadoop.eclipse.ui.internal.HadoopLabelProvider"
-            name="Navigator Hadoop Content Provider"
+            id="org.apache.hadoop.eclipse.ui.navigatorContent.hdfs"
+            labelProvider="org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSLabelProvider"
+            name="Navigator HDFS Content Provider"
             priority="higher">
          <triggerPoints>
             <instanceof
                   value="org.eclipse.core.resources.IProject">
             </instanceof>
          </triggerPoints>
+      </navigatorContent>
+      <navigatorContent
+            contentProvider="org.apache.hadoop.eclipse.ui.internal.HadoopCommonContentProvider"
+            icon="icons/hadoop-logo-16x16.png"
+            id="org.apache.hadoop.eclipse.ui.navigatorContent.hadoop"
+            labelProvider="org.apache.hadoop.eclipse.ui.internal.HadoopLabelProvider"
+            name="Hadoop Content Provider">
+         <triggerPoints>
+            <instanceof
+                  value="org.apache.hadoop.eclipse.internal.model.ZooKeeperServer">
+            </instanceof></triggerPoints>
       </navigatorContent>
    </extension>
    <extension
@@ -91,7 +150,7 @@
             category="org.apache.hadoop.eclipse.ui.newWizards.category"
             class="org.apache.hadoop.eclipse.ui.internal.hdfs.NewHDFSWizard"
             finalPerspective="org.apache.hadoop.eclipse.ui.perspective"
-            icon="icons/hadoop-hdfs-16x16.gif"
+            icon="icons/hadoop-hdfs-new.png"
             id="org.apache.hadoop.eclipse.ui.wizard.newHdfsServer"
             name="New HDFS Server">
       </wizard>
@@ -103,7 +162,7 @@
             category="org.apache.hadoop.eclipse.ui.newWizards.category"
             class="org.apache.hadoop.eclipse.ui.internal.zookeeper.NewZooKeeperWizard"
             finalPerspective="org.apache.hadoop.eclipse.ui.perspective"
-            icon="icons/hadoop-zookeeper-16x16.png"
+            icon="icons/hadoop-zookeeper-new.png"
             id="org.apache.hadoop.eclipse.ui.wizard.newZooKeeperServer"
             name="New ZooKeeper Server">
       </wizard>
@@ -319,6 +378,47 @@
                type="org.eclipse.ui.views.properties.IPropertySource">
          </adapter>
       </factory>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            category="org.apache.hadoop.eclipse.ui.category"
+            class="org.eclipse.ui.navigator.CommonNavigator"
+            icon="icons/hadoop-logo-16x16.png"
+            id="org.apache.hadoop.eclipse.ui.view.servers"
+            name="Hadoop Servers"
+            restorable="true">
+      </view>
+      <category
+            id="org.apache.hadoop.eclipse.ui.category"
+            name="Hadoop">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.apache.hadoop.eclipse.ui.actionSet.newServers"
+            label="Hadoop New Servers Action Set">
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.zookeeper.NewZooKeeperServerAction"
+               icon="icons/hadoop-zookeeper-new.png"
+               id="org.apache.hadoop.eclipse.ui.action.new.hdfs"
+               label="New ZooKeeper Server"
+               style="push"
+               toolbarPath="new.group"
+               tooltip="New ZooKeeper Server">
+         </action>
+         <action
+               class="org.apache.hadoop.eclipse.ui.internal.hdfs.NewHDFSServerAction"
+               icon="icons/hadoop-hdfs-new.png"
+               id="org.apache.hadoop.eclipse.ui.action.new.hdfs"
+               label="New HDFS Server"
+               style="push"
+               toolbarPath="new.group"
+               tooltip="New HDFS Server">
+         </action>
+      </actionSet>
    </extension>
 
 </plugin>

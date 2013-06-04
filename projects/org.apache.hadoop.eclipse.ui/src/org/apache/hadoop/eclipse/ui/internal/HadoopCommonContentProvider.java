@@ -20,7 +20,7 @@ package org.apache.hadoop.eclipse.ui.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.hadoop.eclipse.ui.internal.hdfs.HDFSCommonContentProvider;
+import org.apache.hadoop.eclipse.ui.internal.zookeeper.ZooKeeperCommonContentProvider;
 import org.apache.log4j.Logger;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IMemento;
@@ -40,7 +40,7 @@ public class HadoopCommonContentProvider implements ICommonContentProvider {
 	 * 
 	 */
 	public HadoopCommonContentProvider() {
-		childProviders.add(new HDFSCommonContentProvider());
+		childProviders.add(new ZooKeeperCommonContentProvider());
 	}
 
 	/*

@@ -17,24 +17,13 @@
  */
 package org.apache.hadoop.eclipse.ui.internal;
 
-import org.eclipse.ui.IPageLayout;
-import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.navigator.CommonNavigator;
 
 /**
- * 
  * @author Srimanth Gunturi
+ * 
  */
-public class HadoopPerspectiveFactory implements IPerspectiveFactory {
+public class HadoopServersView extends CommonNavigator {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.ui.IPerspectiveFactory#createInitialLayout(org.eclipse.ui
-	 * .IPageLayout)
-	 */
-	@Override
-	public void createInitialLayout(IPageLayout layout) {
-	}
-
+	public static final String VIEW_ID = "org.apache.hadoop.eclipse.ui.view.servers";
 }
